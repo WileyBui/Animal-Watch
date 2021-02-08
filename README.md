@@ -11,7 +11,7 @@ CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/
 ### Students
 
 * First Last, x500@umn.edu
-* ...
+* Al Goins, goin0004@umn.edu
 
 
 ## Key Features
