@@ -4,7 +4,7 @@ CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/
 
 ## App Info:
 
-* Team Name: TODO
+* Team Name: Free Labor
 * App Name: TODO
 * App Link: <https://TODO.heroku.com/>
 
@@ -12,7 +12,7 @@ CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/
 
 * First Last, x500@umn.edu
 * Al Goins, goin0004@umn.edu
-
+* Jakob Speert, speer034@umn.edu
 
 ## Key Features
 
