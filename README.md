@@ -10,9 +10,11 @@ CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/
 
 ### Students
 
-* First Last, x500@umn.edu
+* Wiley Bui, buixx206@umn.edu
 * Al Goins, goin0004@umn.edu
+* Ray Lauffer, lauff007@umn.edu
 * Jakob Speert, speer034@umn.edu
+* Elise Tran, tran0592@umn.edu
 
 ## Key Features
 
