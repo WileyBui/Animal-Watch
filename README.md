@@ -2,6 +2,8 @@
 
 CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/217951/pages/project-1)
 
+NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class chance to make progress on the application. During class, the instructors will visit and expect a 2-3 minute demo of the current state of the project. Your demonstrated progress is part of your grade.
+
 ## App Info:
 
 * Team Name: Free Labor
