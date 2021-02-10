@@ -47,9 +47,13 @@ There are a few tools for mock-ups. Paper prototypes (low-tech, but effective an
 In this space please either provide images (max 4) showing your prototypes, OR, a link to an online hosted mock-up tool like moqups.com
 
 ![Welcome page](images/mock-up/welcome_page.png?raw=true "Welcome page")
+The "Welcome" Page introduces our site's visitors to the web site they have entered. If the user does not currently have an account, they should navigate to the sign-up page.
 ![Sign-up page](images/mock-up/sign_up.png?raw=true "Sign-up page")
+The "Sign-Up" Page collects user information that will allow them an identity when interacting with the site. Users should create an account with our application because it will allow them to make new posts/comments. 
 ![Add-an-animal](images/mock-up/add_an_animal.png?raw=true "Add-an-animal")
+The "Add-an-animal" Page allows users (that have already created an account and are currently signed in) to upload endangered animal encounters. If approved, the encounter (and, if applicable, user photo) will be listed with the animal's other information when selected from the "Animal-list" Page.
 ![Animal-list page](images/mock-up/animal_list.png?raw=true "Animal-list page")
+This page is the core of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, a new window comes into focus with more detailed information about the animal: These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
 
 ## External Dependencies
 
