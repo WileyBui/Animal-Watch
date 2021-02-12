@@ -59,8 +59,8 @@ The "Sign-Up" Page collects user information that will allow them an identity wh
 ![Add-an-animal](images/mock-up/add_an_animal.png?raw=true "Add-an-animal")
 The "Add-an-animal" Page allows users (that have already created an account and are currently signed in) to upload endangered animal encounters. If approved, the encounter (and, if applicable, user photo) will be listed with the animal's other information when selected from the "Animal-list" Page.
 
-**Aniaml-List Page**
-![Animal-list page](images/mock-up/animal_list_with_modals.png?raw=true "Animal-list page")
+**Animal-List Page**
+![Animal-List page](images/mock-up/animal_list_with_modals.png?raw=true "Animal-List page")
 This page is the core of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, a new window comes into focus with more detailed information about the animal. A user may "favorite" and comment the tile, if desired. These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
 
 ## External Dependencies

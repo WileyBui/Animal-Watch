@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
+  integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
+  <!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"> -->
+  <link rel="stylesheet" href="static/header.css">
+  
+  <link rel="stylesheet" href="static/main.css">
+  <script src="static/main.js"></script>
+  
+  <title>Welcome</title>
+</head>
+
+<body>
+  {% include "header.html" %}
+  <div class="splash">
+    <h2>Welcome to our Endangered Species Community!</h2>
+    <p class="splash-subhead">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </p>
+    <p>
+        <a href="http://purecss.io" class="button-secondary pure-button">Sign Up</a>
+    </p>
+</div>
+
+<!-- Pipenv shell
+FLASK_APP=server.py FLASK_ENV=development flask run
+
+
+Reuse header: http://jonathansoma.com/tutorials/webapps/layouts/ 
+Flask helper: https://www.tutorialspoint.com/flask  -->
+  
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</html>

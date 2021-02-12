@@ -1,0 +1,298 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Welcome</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
+    integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="static/header.css">
+  <link rel="stylesheet" href="static/feed.css">
+  <style>
+    img {
+      object-fit: cover;
+      float: center;
+      max-height: 30vh;
+    }
+
+    body {
+      padding-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  {% include "header.html" %}
+
+
+  <div class="album py-5">
+    <!-- <div class="container">
+      <form class="pure-form">
+        <input type="text" />
+        <button type="submit" class="pure-button">Search</button>
+      </form>
+    </div> -->
+
+    <div class="container">
+      <div class="input-group">
+        <input type="text" class="form-control" >
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button">Submit</button>
+          </span>
+     </div>
+    </div>
+
+
+    <div class="container">
+
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="cover"
+              src="https://abcbirds.org/wp-content/uploads/2018/08/Araripe-Manakin2_Ciro-Albano_U_PR.jpg" />
+
+            <div class="card-body">
+              <div>
+                <span class="badge bg-primary">needs identification</span>
+                <span class="badge bg-secondary">#endangered</span>
+                <span class="badge bg-secondary">#bird</span>
+              </div>
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src="https://thewhiskerchronicles.files.wordpress.com/2014/02/664px-eastern_indigo_snake.jpg" />
+
+            <div class="card-body">
+              <!-- <small style="text-align: center;">#endangered #bird</small> -->
+              <div>
+                <span class="badge bg-danger">poisonous animal</span>
+                <span class="badge bg-secondary">#endangered</span>
+                <span class="badge bg-secondary">#snake</span>
+              </div>
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fas fa-heart"
+                      style="color: red"></i> 16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg" />
+
+            <div class="card-body">
+              <div>
+                <span class="badge bg-success">cuteness alert</span>
+                <span class="badge bg-secondary">#orangutans</span>
+              </div>
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" />
+
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Wiley Bui | 9 hours ago</small>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+                    16</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="card" style="width: 17rem;">
+        <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Some bird name</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">#endangered</a>
+            <a href="#" class="card-link">#bird</a>
+        </div>
+    </div>
+    <div class="card" style="width: 17rem;">
+        <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvrc1TUmn85Q_TE0Kssmygjb4w9YMaG2EMhg&usqp=CAU" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Some bird name</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">#endangered</a>
+            <a href="#" class="card-link">#bird</a>
+        </div>
+    </div> -->
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+</script>
+<script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script>
+
+</html>
