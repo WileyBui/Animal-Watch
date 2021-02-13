@@ -61,7 +61,7 @@ The "Add-an-animal" Page allows users (that have already created an account and 
 
 **Animal-List Page**
 ![Animal-list page](images/mock-up/animal_list.png?raw=true "Animal-list page")
-This page is the core of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, the page redirects to a page with more detailed information about the animal. A user may "favorite" and comment the tile, if desired. These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
+This page is the core of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, the current page redirects to another page with more detailed information about the animal. A user may "favorite" and comment the tile, if desired. These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
 
 ## External Dependencies
 
