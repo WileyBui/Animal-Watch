@@ -1,0 +1,25 @@
+#ignore-header-nav {
+    padding-top: 8vh;
+}
+
+.carousel-item {
+    height: 60vh !important;
+}
+
+#big-container {
+    box-shadow: 0 0 3px #6783A9;
+    background: #F2F2F5;
+    padding: 2%;
+}
+
+#carouselIndicators {
+    background: #212529;
+}
+
+.favorite-btn {
+    width: 75px;
+}
+
+.modify-btn {
+    width: 100%;
+}
