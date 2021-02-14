@@ -23,3 +23,7 @@
 .modify-btn {
     width: 100%;
 }
+
+tr td:nth-child(2) {
+    font-size: .875em;
+}

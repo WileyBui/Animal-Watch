@@ -26,6 +26,7 @@
           {% include "helper_html/animal_look_up_carousel.html" %}
 
           <div class="container" style="padding: 45px 0">
+            <!-- <img src="../static/images/searching.svg" width="50%" /> -->
             <h4>Recent Sightings</h4>
             <img src="../static/images/recent_sightings.png" width="100%" />
 
@@ -36,6 +37,14 @@
         </div>
         <div class="col-md-7 order-md-2">
           {% include "helper_html/animal_look_up_info.html" %}
+          <div class="container">
+            <div style="text-align: center">
+              <img src="../static/images/QandA.svg" width="50%;" />
+              <h2>Comments</h2>
+            </div>
+            {% include "helper_html/animal_look_up_q_and_a.html" %}
+          </div>
+
         </div>
       </div>
     </div>
