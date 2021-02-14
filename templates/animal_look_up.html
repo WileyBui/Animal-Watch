@@ -9,42 +9,119 @@
 
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
     integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" /> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="static/header.css">
   <link rel="stylesheet" href="static/feed.css">
+
+  <style>
+    #ignore-header-nav {
+      padding-top: 14vh;
+    }
+
+    .carousel-item {
+      height: 60vh !important;
+    }
+
+    #big-container {
+      box-shadow: 0 0 3px #6783A9;
+      background: #F2F2F5;
+      padding: 2%;
+    }
+
+    #carouselIndicators {
+      background: #212529;
+    }
+  </style>
 </head>
 
 <body>
   {% include "header.html" %}
 
-  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div id="ignore-header-nav"></div>
+
+  <div class="container" id="big-container">
+    <div class="row">
+      <div class="col-md-5 order-md-1">
+        {% include "animal_look_up_carousel.html" %}
+      </div>
+      <div class="col-md-7 order-md-2">
+        <div class="container" style="padding: 10px 0px">
+          <div style="float: left">
+            <span class="badge bg-primary">needs identification</span>
+            <span class="badge bg-secondary">#endangered</span>
+            <span class="badge bg-secondary">#bird</span>
+          </div>
+          <div style="float:right">
+            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
+              16</button>
+          </div>
+          <br />
+          <small class="text-muted">Wiley Bui | 9 hours ago</small>
+        </div>
+        <div class="container">
+          
+          <!-- <h2>Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
+        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
+          layout would work with some actual real-world content in place.</p> -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="https://api.time.com/wp-content/uploads/2017/05/african-elephants-endangered-species.jpg" class="d-block w-100" alt="...">
+        <img src="https://abcbirds.org/wp-content/uploads/2018/08/Araripe-Manakin2_Ciro-Albano_U_PR.jpg" />
+
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1>Example headline.</h1>
+            <p>Some representative placeholder content for the first slide of the carousel.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+          </div>
+        </div>
       </div>
       <div class="carousel-item">
-        <img src="https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg" class="d-block w-100" alt="...">
+        <img src="https://abcbirds.org/wp-content/uploads/2018/08/Araripe-Manakin2_Ciro-Albano_U_PR.jpg" />
+
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Another example headline.</h1>
+            <p>Some representative placeholder content for the second slide of the carousel.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+          </div>
+        </div>
       </div>
       <div class="carousel-item">
-        <img src="https://api.time.com/wp-content/uploads/2017/05/african-elephants-endangered-species.jpg" class="d-block w-100" alt="...">
+        <img src="https://abcbirds.org/wp-content/uploads/2018/08/Araripe-Manakin2_Ciro-Albano_U_PR.jpg" />
+
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1>One more for good measure.</h1>
+            <p>Some representative placeholder content for the third slide of this carousel.</p>
+            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+          </div>
+        </div>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+  </div> -->
+
+
+
 
 </body>
 
