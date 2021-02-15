@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Sign up an Account </title>
+  </head>
+
+  <body>
+    <h1>Sign up an Account</h1>
+    <form name="signUpForm">
+      <p> Username*
+        <input type="text" id = "username" name="username" required maxlength="30" placeholder = "username" required>
+      </p>
+      <p> Password*
+        <input type="text" id = "password" name="password" required maxlength="30" placeholder = "password" required>
+      </p>
+      <p> I am interested in
+        <input type="text" id = "interest" name="interest" required maxlength="30" placeholder = "e.g. birds">
+      </p>
+      <p> Location
+        <input type="text" id = "location" name="location" required maxlength="30" placeholder = "e.g. Minneapolis, MN">
+      </p>
+      <input type = "submit" value = "signup" id = "submit" onclick="processSignup()" />
+      <!-- Still need to implement a signup check, in this case it would be called processSignup -->
+      </p>
+    </form>
+
+    <p id="loginError" style="display: none">Signup failed, try again</p> <!-- Set to display: block css if sign-up fails -->
+  </body>
+</html>
