@@ -1,3 +1,8 @@
+body {
+    background: linear-gradient(to bottom, #f8f9fa, #bef4f8);
+    background-attachment: fixed;
+}
+
 #ignore-header-nav {
     padding-top: 8vh;
 }
@@ -26,4 +31,16 @@
 
 tr td:nth-child(2) {
     font-size: .875em;
+}
+
+.center-contents {
+    text-align: center;
+}
+
+.padding-bottom {
+    padding-bottom: 3vh;
+}
+
+hr {
+    margin: 3.5em;
 }

@@ -21,31 +21,40 @@
   <div id="ignore-header-nav"></div>
   <div class="py-5">
     <div class="container" id="big-container">
+      <div class="padding-bottom">
+        <h1>Small Bird Thing</h1>
+      </div>
       <div class="row">
         <div class="col-md-5 order-md-1">
           {% include "helper_html/animal_look_up_carousel.html" %}
-
-          <div class="container" style="padding: 45px 0">
-            <!-- <img src="../static/images/searching.svg" width="50%" /> -->
-            <h4>Recent Sightings</h4>
-            <img src="../static/images/recent_sightings.png" width="100%" />
-
-            <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">add a
-                new sighting</button></div>
-
-          </div>
         </div>
         <div class="col-md-7 order-md-2">
           {% include "helper_html/animal_look_up_info.html" %}
-          <div class="container">
-            <div style="text-align: center">
-              <img src="../static/images/QandA.svg" width="50%;" />
-              <h2>Comments</h2>
-            </div>
-            {% include "helper_html/animal_look_up_q_and_a.html" %}
-          </div>
-
         </div>
+      </div>
+
+      <hr>
+
+      <div class="container">
+        <div class="center-contents">
+          <img src="../static/images/searching.svg" width="20%" />
+          <h3>Recent Sightings</h3>
+          <br />
+          <img src="../static/images/recent_sightings.png" width="50%" />
+
+          <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
+              new sighting</button></div>
+        </div>
+      </div>
+
+      <hr>
+      <div class="container">
+        <div class="center-contents">
+          <img src="../static/images/QandA.svg" width="25%;" />
+          <h3>Comments</h3>
+          <br />
+        </div>
+        {% include "helper_html/animal_look_up_q_and_a.html" %}
       </div>
     </div>
 </body>

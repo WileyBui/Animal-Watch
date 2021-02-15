@@ -1,10 +1,22 @@
 body {
+    background: linear-gradient(to bottom, #f8f9fa, #bef4f8);
+    background-attachment: fixed;
+}
+/* body {
+    background: url(images/camping.svg);
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
+    background-position: center bottom;
+} */
+
+/* body {
     background: url(images/background.png);
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     background-position: center top;
-}
+} */
 
 
 /* body {
@@ -47,4 +59,8 @@ body {
 
 .require-padding-top-5 {
     padding-top: 5%;
+}
+
+.splash {
+    /* background: red; */
 }
