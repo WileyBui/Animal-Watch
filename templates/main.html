@@ -50,3 +50,14 @@ FLASK_APP=server.py FLASK_ENV=development flask run
 
 Reuse header: http://jonathansoma.com/tutorials/webapps/layouts/ 
 Flask helper: https://www.tutorialspoint.com/flask  -->
+<!-- {% extends "parent.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Home</h1>       
+<form class="pure-form" action="{{ url_for("new_person") }}" method="POST">
+  <legend>Add a person</legend>
+  <label for="name">Person's Name</label>
+  <input type="text" id="name" name="name" placeholder="Name" required="required" >
+  <button type="submit" class="pure-button pure-button-primary">Submit</button>
+</form>
+{% endblock %} -->

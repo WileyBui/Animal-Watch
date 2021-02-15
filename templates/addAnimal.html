@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Add New Animal</title>
+  </head>
+
+  <body>
+    <h1>Add New Animal</h1>
+    <form name="addAnimalForm">
+      <p> Animal type/Species*
+        <input type="text" id = "species" name="species" required maxlength="30" placeholder = "e.g. canis lupis" required>
+      </p>
+      <p> Classification & Description
+        <input type="text" id = "classification" name="classification" required maxlength="30" placeholder = "e.g. endangered" required>
+      </p>
+      <p> Range/Location
+        <input type="text" id = "range" name="range" required maxlength="30" placeholder = "e.g. North America">
+      </p>
+      <p> Image
+        <input type="text" id = "image" name="image" required maxlength="30" placeholder = "<Select a file from your device>">
+      </p>
+      <input type = "submit" value = "Add Animal" id = "submit" onclick="processAddAnimal()" />
+      <!-- Still need to implement an add animal check, in this case it would be called processAddAnimal -->
+      </p>
+    </form>
+
+    <p id="addAnimalError" style="display: none">Adding animal failed, try again</p> <!-- Set to display: block css if adding fails -->
+  </body>
+</html>
