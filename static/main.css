@@ -61,6 +61,6 @@ body {
     padding-top: 5%;
 }
 
-.splash {
-    /* background: red; */
+.margin-top-header {
+    margin-top: 9vh;
 }

@@ -5,43 +5,32 @@
 <head>
   <meta charset="utf-8">
 
-
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
     integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
-  <!-- <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-  <link rel="stylesheet" href="static/header.css">
 
+  <link rel="stylesheet" href="static/header.css">
   <link rel="stylesheet" href="static/main.css">
   <script src="static/main.js"></script>
 
-  <title>Welcome</title>
+  <title>Welcome | Animal Watch</title>
 </head>
 
 <body>
   {% include "header.html" %}
-  <!-- <h2>Welcome to Animal Watch!</h2>
-    <p class="splash-subhead">
-      Animal Watch is placeholder text commonly used in the graphic, print, and publishing industries for previewing
-      layouts and visual mockups.
-    </p>
-    <p>
-      <a href="http://purecss.io" class="button-success pure-button">Sign Up</a>
-    </p> -->
-  <div style="margin-top: 9vh">
+
+  <div class="margin-top-header">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-7 order-md-1">
           <img src="../static/images/background_hiking.svg" width="100%" />
         </div>
         <div class="col-md-5 order-md-2 d-flex flex-column justify-content-center">
-          <!-- <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center"></div> -->
           <h1>Welcome to Animal Watch...</h1>
           <p>Animal Watch is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
-          <!-- <a href="http://purecss.io" class="button-success pure-button">Sign Up</a> -->
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-primary">Login</button>
             <button type="button" class="btn btn-sm btn-outline-primary">Sign Up</button>
@@ -49,17 +38,15 @@
       </div>
     </div>
   </div>
-
-  <!-- Pipenv shell
-FLASK_APP=server.py FLASK_ENV=development flask run
-
-
-Reuse header: http://jonathansoma.com/tutorials/webapps/layouts/ 
-Flask helper: https://www.tutorialspoint.com/flask  -->
-
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 </html>
+
+<!-- Pipenv shell
+FLASK_APP=server.py FLASK_ENV=development flask run
+
+Reuse header: http://jonathansoma.com/tutorials/webapps/layouts/ 
+Flask helper: https://www.tutorialspoint.com/flask  -->
