@@ -21,10 +21,10 @@ def page_lookup():
 def initialize():
     db.setup()
 
-# @app.route('/')
-# def home():
-#     user_name = request.args.get("userName", "unknown")
-#     return render_template('main.html', user=user_name)
+@app.route('/home')
+def home():
+    user_name = request.args.get("userName", "unknown")
+    return render_template('main.html', user=user_name)
 
 @app.route('/people', methods=['GET'])
 def people():
