@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>
-      Member Login Page
-    </title>
-    <meta charset="UTF-8" />
-    <link href="StyleSheet.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body id="loginBody">
-    <h1 id="loginTitle"><center> Login Page <center></h1>
-    <h3><center> Please enter your username and password. Both are case sensitive. </center></h3>
-      <div id = "formPage">
-        <p id="user">User:</p><br>
-				<input type = "text" name = "username" id = "username" required /><br>
-				<p id="passwordTag">Password:</p><br>
-				<input type = "password" name = "password" id = "password" required /><br>
-				<input type = "submit" value = "Log In" id = "submit" onclick="process()" />
-        <!-- Still need to implement a login check in this case it would be called process -->
-      </div>
-  </body>
-</html>
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+  <link href="StyleSheet.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block title %}Member Login Page{% endblock %}
+
+{% block contents %}
+  <h1 id="loginTitle"><center> Login Page <center></h1>
+  <h3><center> Please enter your username and password. Both are case sensitive. </center></h3>
+    <div id = "formPage">
+      <p id="user">User:</p><br>
+      <input type = "text" name = "username" id = "username" required /><br>
+      <p id="passwordTag">Password:</p><br>
+      <input type = "password" name = "password" id = "password" required /><br>
+      <input type = "submit" value = "Log In" id = "submit" onclick="process()" />
+      <!-- Still need to implement a login check in this case it would be called process -->
+    </div>
+  </h3>
+{% endblock %}

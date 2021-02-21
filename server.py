@@ -8,6 +8,18 @@ app = Flask(__name__)
 def page_landing():
     return render_template("main.html")
 
+@app.route('/signup')
+def page_signup():
+    return render_template("signup.html")
+
+@app.route('/login')
+def page_login():
+    return render_template("MemberLoginPage.html")
+
+@app.route('/add')
+def page_add_animal():
+    return render_template("addAnimal.html")
+
 @app.route('/feed')
 def page_feed():
     return render_template("feed.html")
@@ -15,6 +27,7 @@ def page_feed():
 @app.route('/lookup')
 def page_lookup():
     return render_template("animal_look_up.html")
+
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
