@@ -11,13 +11,15 @@ create table Users (
 
 create table Tags (
 	id SERIAL PRIMARY KEY,
-	tag varchar(255)
+	tag varchar(255),
+	hexcolor varchar(7)
 );
 
 create table Animals (
 	id SERIAL PRIMARY KEY,
 	name varchar(255),
 	endangerment_level int,
+	imageURL varchar(255),
 	category int,
 	tag_id int references Tags
 );
@@ -27,13 +29,17 @@ create table Posts (
 	user_id int references Users,
 	animal_id int references Aniimals,
 	text varchar(255),
+	location varchar(255),
+	imageURL varchar(255),
+	lat decimal(20,17),
+	long decimal(20,17),
 	timestamp time
 );
 
 create table Comments (
 	id SERIAL PRIMARY KEY,
 	user_id int references Users,
-	comment_id int references Comments,
+	post_id int references Post,
 	text varchar(255),
 	timestamp time
 );
