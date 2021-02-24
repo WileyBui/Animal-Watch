@@ -1,6 +1,8 @@
+function $(x) = { return document.getElementById(x) }
+
 window.addEventListener('DOMContentLoaded', (event) => {
-    let btn = document.querySelector("button#tester")
-    btn.addEventListener("click", (e) => {
-	console.log("what what?!");
+    let btn_login = $('LoginButton')
+    btn_login.addEventListener("click", (e) => {
+	    
     });
 });
