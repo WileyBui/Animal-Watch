@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\images",
+    "\\static",
+    "\\templates"
   ],
-  "SelectedNode": "\\db.py",
+  "SelectedNode": "\\server.py",
   "PreviewInSolutionExplorer": false
 }

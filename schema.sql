@@ -1,7 +1,7 @@
-drop table Users;
-drop table Tags;
-drop table Animals;
-drop table Posts;
+drop table Users CASCADE;
+drop table Tags CASCADE;
+drop table Animals CASCADE;
+drop table Posts CASCADE;
 drop table Comments;
 drop table MapContents;
 
@@ -28,7 +28,7 @@ create table Animals (
 create table Posts (
 	id SERIAL PRIMARY KEY,
 	user_id int references Users,
-	animal_id int references Aniimals,
+	animal_id int references Animals,
 	text varchar(255),
 	location varchar(255),
 	imageURL varchar(255),
@@ -40,7 +40,7 @@ create table Posts (
 create table Comments (
 	id SERIAL PRIMARY KEY,
 	user_id int references Users,
-	post_id int references Post,
+	post_id int references Posts,
 	text varchar(255),
 	timestamp time
 );
