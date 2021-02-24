@@ -3,6 +3,7 @@ drop table Tags;
 drop table Animals;
 drop table Posts;
 drop table Comments;
+drop table MapContents;
 
 create table Users (
 	id SERIAL PRIMARY KEY,
@@ -36,4 +37,12 @@ create table Comments (
 	comment_id int references Comments,
 	text varchar(255),
 	timestamp time
+);
+
+create table MapContents (
+	id SERIAL PRIMARY KEY,
+	-- user_id int references Users,
+	-- REFERENCING THE ANIMAL
+	latitude	Decimal(20,17),
+	longtitude	Decimal(19,17)
 );
