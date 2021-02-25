@@ -5,10 +5,10 @@
     <div class="card-body">
       <div>
         {% for i in range(post_tags.split("; ")|length) %}   
-            <span class="badge bg-{{ post_tags_color.split('; ')[i] }}">{{ post_tags.split("; ")[i] }}</span>
+          <span class="badge bg-{{ post_tags_color.split('; ')[i] }}">{{ post_tags.split("; ")[i] }}</span>
         {% endfor %}
       </div>
-      <p class="card-text">{{ post_text }}</p>
+      <p class="card-text text-truncate">{{ post_text }}</p>
       <div class="d-flex justify-content-between align-items-center">
         <small class="text-muted">{{ username }}</small>
         <div class="btn-group">
