@@ -23,8 +23,7 @@ create table Animals (
 	species varchar(255),
 	endangerment_level int,
 	imageURL varchar(255),
-	category int,
-	tag_id int references Tags
+	category int
 );
 
 create table HasTag (
