@@ -25,7 +25,12 @@
 
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
+        {% for n in dataList %}
+          {% with post_id=n[0], username=n[1], post_text=n[2], post_image=n[3], post_tags=n[4], post_tags_color=n[5]  %}
+            {% include "helper_html/animal_card.html" %}
+          {% endwith %}
+        {% endfor %}
+        <!-- <div class="col">
           <div class="card shadow-sm">
             <img class="cover"
               src="https://abcbirds.org/wp-content/uploads/2018/08/Araripe-Manakin2_Ciro-Albano_U_PR.jpg" />
@@ -98,20 +103,7 @@
               </div>
             </div>
           </div>
-        </div>
-
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
-        {% include "helper_html/animal_card.html" %}
+        </div> -->
 
       </div>
     </div>

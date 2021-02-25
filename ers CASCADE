@@ -1,0 +1,9 @@
+ id |     name     |                    text                     |                                                             imageurl                                                              |         tag          | tag_bootstrap_color 
+----+--------------+---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------+----------------------+---------------------
+  5 | Ray Lauffer  | Rays orangutan text description goes here.  | https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg                             | orangutan            | secondary
+  4 | Elise Tran   | Elises snake text description goes here.    | https://thewhiskerchronicles.files.wordpress.com/2014/02/664px-eastern_indigo_snake.jpg                                           | poisonous animal     | danger
+  3 | Jakob Speert | Jakobs elephant text description goes here. | https://assets.nrdc.org/sites/default/files/styles/full_content--retina/public/media-uploads/wlds43_654640_2400.jpg?itok=LbhnLIk9 | needs identification | primary
+  2 | Ally Goins   | Allys tiger text description goes here.     | https://images.theconversation.com/files/330851/original/file-20200427-145560-1nlgr5h.jpg                                         | dangerous animal     | danger
+  1 | Wiley Bui    | Wileys lion description goes here.          | https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUkwe-Ws_DAXRW-ApsE2ZrAZTSQEkGnSGhCg&usqp=CAU                               | dangerous animal     | danger
+(5 rows)
+
