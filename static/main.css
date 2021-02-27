@@ -64,3 +64,18 @@ body {
 .margin-top-header {
     margin-top: 9vh;
 }
+
+#loginForm{
+    display: block;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+#purePass{
+    display: block;
+    width: 100px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
