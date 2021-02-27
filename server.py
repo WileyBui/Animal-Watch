@@ -1,6 +1,6 @@
+import os, db
 from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort
-
-import db
+from queryResults import *
 
 app = Flask(__name__)
 
@@ -23,51 +23,18 @@ def page_add_animal():
 @app.route('/feed', methods=['GET'])
 def page_feed():
     with db.get_db_cursor(False) as cur:
-        cur.execute("""
-                    SELECT * FROM (
-                        SELECT
-                            Animals.id,
-                            Animals.species,
-                            Animals.imageURL,
-                            array_to_string(array_agg(distinct "tag"),'; ') AS tag,
-                            array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color
-                        FROM Animals, HasTag, Tags
-                        WHERE
-                            Animals.id = HasTag.animal_id
-                            AND HasTag.tag_id = Tags.id
-                        GROUP BY
-                            Animals.id,
-                            Animals.species,
-                            Animals.imageURL
-                    ) A
-                    ORDER BY A.id DESC;
-                    """)
-        
-        return render_template("feed.html", dataList=cur)
-    
+        return render_template("feed.html", dataList=getActivityFeed(cur))
+
 @app.route('/animal/<int:animal_id>', methods=['GET'])
 def page_lookup(animal_id):
     with db.get_db_cursor(False) as cur:
-        cur.execute("""
-                    SELECT
-                        Animals.species,
-                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
-                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-                        Animals.imageURL
-                    FROM Animals, HasTag, Tags
-                    WHERE
-                        Animals.id = %s
-                        AND Animals.id = HasTag.animal_id
-                        AND HasTag.tag_id = Tags.id
-                    GROUP BY
-                        Animals.species,
-                        Animals.imageURL;
-                    """, [animal_id])
-        
-        shared_data = [record for record in cur]
+        # shared contents
+        shared_data = getSharedContentsFromAnimalId(cur, animal_id)
         
         if (len(shared_data) == 1):
-            return render_template("animalSpecific.html", shared_contents=shared_data[0])
+            postList = getAllPostsFromAnimalId(cur, animal_id)
+            
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList)
         else:
             abort(404)
 
