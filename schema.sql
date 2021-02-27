@@ -24,7 +24,21 @@ create table Animals (
 	endangerment_level int,
 	imageURL varchar(255),
 	category int
+	-- range varchar(255),
+	-- classification varchar(255),
 );
+
+-- create table AnimalLikes (
+-- 	id SERIAL PRIMARY KEY,
+-- 	animal_id int references Animal,
+-- 	id_user int references Users
+-- )
+
+-- create table HasAnimalLike (
+-- 	id SERIAL PRIMARY KEY,
+-- 	animal_id int references Animals,
+-- 	tag_id int references Tags
+-- );
 
 create table HasTag (
 	id SERIAL PRIMARY KEY,

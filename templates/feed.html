@@ -26,7 +26,7 @@
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {% for n in dataList %}
-          {% with post_id=n[0], username=n[1], post_text=n[2], post_image=n[3], post_tags=n[4], post_tags_color=n[5]  %}
+          {% with animal_id=n[0], animal_species=n[1], animal_imageURL=n[2], post_tags=n[3], post_tags_color=n[4]  %}
             {% include "helper_html/animal_card.html" %}
           {% endwith %}
         {% endfor %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g, redirect, url_for, jsonify
+from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort
 
 import db
 
@@ -24,39 +24,52 @@ def page_add_animal():
 def page_feed():
     with db.get_db_cursor(False) as cur:
         cur.execute("""
-                    
-                SELECT * FROM (
-                    SELECT
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.imageURL,
-                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
-                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-                        Posts.post_time
-                    FROM Posts, Users, Animals, HasTag, Tags
-                    WHERE
-                        Posts.users_id = Users.id
-                        AND Posts.animal_id = Animals.id
-                        AND Animals.id = HasTag.animal_id
-                        AND HasTag.tag_id = Tags.id
-                    GROUP BY
-                        Posts.post_time,
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.imageURL,
-                        Posts.post_time
-                ) A
-                ORDER BY A.post_time DESC;
-                        
+                    SELECT * FROM (
+                        SELECT
+                            Animals.id,
+                            Animals.species,
+                            Animals.imageURL,
+                            array_to_string(array_agg(distinct "tag"),'; ') AS tag,
+                            array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color
+                        FROM Animals, HasTag, Tags
+                        WHERE
+                            Animals.id = HasTag.animal_id
+                            AND HasTag.tag_id = Tags.id
+                        GROUP BY
+                            Animals.id,
+                            Animals.species,
+                            Animals.imageURL
+                    ) A
+                    ORDER BY A.id DESC;
                     """)
         
         return render_template("feed.html", dataList=cur)
     
-@app.route('/post/<int:id>', methods=['GET'])
-def page_lookup(id):
-    return render_template("post_lookup.html")
+@app.route('/animal/<int:animal_id>', methods=['GET'])
+def page_lookup(animal_id):
+    with db.get_db_cursor(False) as cur:
+        cur.execute("""
+                    SELECT
+                        Animals.species,
+                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
+                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
+                        Animals.imageURL
+                    FROM Animals, HasTag, Tags
+                    WHERE
+                        Animals.id = %s
+                        AND Animals.id = HasTag.animal_id
+                        AND HasTag.tag_id = Tags.id
+                    GROUP BY
+                        Animals.species,
+                        Animals.imageURL;
+                    """, [animal_id])
+        
+        shared_data = [record for record in cur]
+        
+        if (len(shared_data) == 1):
+            return render_template("animalSpecific.html", shared_contents=shared_data[0])
+        else:
+            abort(404)
 
 
 # have the DB submodule set itself up before we get started. groovy.

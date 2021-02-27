@@ -1,21 +1,26 @@
 <div class="col">
   <div class="card shadow-sm">
-    <img src="{{ post_image }}" />
+    <img src="{{ animal_imageURL }}" />
 
     <div class="card-body">
-      <div>
+      
+      <h5 class="card-text text-truncate title-padding-top"><a href='/animal/{{ animal_id }}'>{{ animal_species }}</a></h5>
+      
+      <!-- <hr /> -->
+      <div class="animal-tags">
         {% for i in range(post_tags.split("; ")|length) %}   
           <span class="badge bg-{{ post_tags_color.split('; ')[i] }}">{{ post_tags.split("; ")[i] }}</span>
         {% endfor %}
       </div>
-      <p class="card-text text-truncate">{{ post_text }}</p>
-      <div class="d-flex justify-content-between align-items-center">
-        <small class="text-muted">{{ username }}</small>
-        <div class="btn-group">
+
+      <!-- <hr /> -->
+      <div class="d-flex justify-content-between align-items-center add-margin-top-08em">
+        <!-- <small class="text-muted">test</small> -->
+        <div class="btn-group use-full-width">
           <button type="button" class="btn btn-sm btn-outline-secondary"><i class="far fa-heart"></i>
             0</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = '/post/{{ post_id }}';">View</button>
-          <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="location.href = '/animal/{{ animal_id }}';">View</button>
+          <!-- <button tsype="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
         </div>
       </div>
     </div>
