@@ -20,13 +20,43 @@ def page_login():
 def page_add_animal():
     return render_template("addAnimal.html")
 
-@app.route('/feed')
+@app.route('/feed', methods=['GET'])
 def page_feed():
-    return render_template("feed.html")
-
-@app.route('/lookup')
-def page_lookup():
-    return render_template("animal_look_up.html")
+    with db.get_db_cursor(False) as cur:
+        cur.execute("""
+                    
+                SELECT * FROM (
+                    SELECT
+                        Posts.users_id,
+                        Users.users_name,
+                        Posts.post_text,
+                        Posts.imageURL,
+                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
+                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
+                        Posts.post_time
+                    FROM Posts, Users, Animals, HasTag, Tags
+                    WHERE
+                        Posts.users_id = Users.id
+                        AND Posts.animal_id = Animals.id
+                        AND Animals.id = HasTag.animal_id
+                        AND HasTag.tag_id = Tags.id
+                    GROUP BY
+                        Posts.post_time,
+                        Posts.users_id,
+                        Users.users_name,
+                        Posts.post_text,
+                        Posts.imageURL,
+                        Posts.post_time
+                ) A
+                ORDER BY A.post_time DESC;
+                        
+                    """)
+        
+        return render_template("feed.html", dataList=cur)
+    
+@app.route('/post/<int:id>', methods=['GET'])
+def page_lookup(id):
+    return render_template("post_lookup.html")
 
 
 # have the DB submodule set itself up before we get started. groovy.

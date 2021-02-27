@@ -13,7 +13,8 @@ body {
 
 #big-container {
     box-shadow: 0 0 3px #6783A9;
-    background: #F2F2F5;
+    background: white;
+    /* background: #F2F2F5; */
     padding: 2%;
 }
 

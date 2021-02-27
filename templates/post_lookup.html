@@ -1,0 +1,160 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link rel="stylesheet" href="../static/page_animal_look_up.css">
+<link rel="stylesheet" href="../static/header.css">
+
+<style type="text/css">
+  /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+  #map {
+    height: 100%;
+  }
+</style>
+
+<script>
+  // In the following example, markers appear when the user clicks on the map.
+  // Each marker is labeled with a single alphabetical character.
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let labelIndex = 0;
+
+  function initMap() {
+    const UofMN = {
+      lat: 44.97309439424677,
+      lng: -93.23537707328796
+    };
+    const burnsville = {
+      lat: 44.762058,
+      lng: -93.275772
+    };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 8,
+      center: UofMN,
+    });
+
+    addMarker(UofMN, map);
+
+    // This event listener calls addMarker() when the map is clicked.
+    google.maps.event.addListener(map, "click", (event) => {
+      // modals pop up & ask for confirmation
+      $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
+      $('#modalConfirmation').modal('show');
+      
+      // once save-btn is clicked, we hide it and display a Toast message 
+      // saying the new location is added to the database
+      $("#save-btn").on("click", function (e) {
+        $('#modalConfirmation').modal('hide');
+        $('#successToast').toast('show');
+        addMarker(event.latLng, map);
+      });
+
+    });
+    // Add a marker at the center of the map.
+    // addMarker(bangalore, map);
+    // addMarker(burnsville, map);
+  }
+
+  // Adds a marker to the map.
+  function addMarker(location, map) {
+    // Add the marker at the clicked location, and add the next-available label
+    // from the array of alphabetical characters.
+    new google.maps.Marker({
+      position: location,
+      label: labels[labelIndex++ % labels.length],
+      map: map,
+    });
+  }
+</script>
+{% endblock %}
+
+{% block title %}Lookup{% endblock %}
+
+{% block contents %}
+<div id="ignore-header-nav"></div>
+<div class="py-5">
+  <div class="container" id="big-container">
+    <div class="padding-bottom">
+      <h1>Small Bird Thing</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-5 order-md-1">
+        {% include "helper_html/animal_look_up_carousel.html" %}
+      </div>
+      <div class="col-md-7 order-md-2">
+        {% include "helper_html/animal_look_up_info.html" %}
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/searching.svg" width="20%" />
+        <h3>Recent Sightings</h3>
+        <br />
+        <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
+
+        <div style="width: 100%; height: 70vh">
+          <div id="map"></div>
+        </div>
+
+        <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
+            new sighting</button>
+        </div> -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalConfirmation">
+          Launch demo modal
+        </button> -->
+
+        <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmationLabel">Are you sure to add the new location?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="modal-message">
+                <!-- contents will be modified dynamically -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-btn">Yes, add new location</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- confirmation that the location has added to the database -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+      <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img src="/static/images/checkmark.png" class="rounded me-2" width="30px" height="30px">
+          <strong class="me-auto">Success</strong>
+          <small>now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Your new location is added! Thanks!</div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/QandA.svg" width="25%;" />
+        <h3>Comments</h3>
+        <br />
+      </div>
+      {% include "helper_html/animal_look_up_q_and_a.html" %}
+    </div>
+  </div>
+</div>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
+  async></script>
+{% endblock %}
+
+{% block bottom_js_contents %}
+<script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script>
+{% endblock %}
