@@ -56,14 +56,14 @@ def callback():
     return redirect('/test_auth')
 
 @app.route('/test_auth')
-@require_auth
+#@require_auth                #REMOVED FOR TESTING
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
 
 @app.route('/add')
-@require_auth
+#@require_auth                #REMOVED FOR TESTING
 def page_add_animal():
     return render_template("addAnimal.html")
 

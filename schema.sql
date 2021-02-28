@@ -44,6 +44,7 @@ create table Posts (
 	id SERIAL PRIMARY KEY,
 	users_id int references Users NOT NULL,
 	animal_id int references Animals NOT NULL,
+	endangerment_level int,
 	post_text varchar(255),
 	imageURL varchar(255),
 	post_time timestamp

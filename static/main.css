@@ -79,3 +79,10 @@ body {
     align-content: center;
     align-items: center;
 }
+
+#addAnimalForm{
+    display: block;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}

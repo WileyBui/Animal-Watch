@@ -52,6 +52,7 @@
     font-size: 100%;
 }
 
+/*  This was messing with the addAnimal.html radio buttons so we commented it out -Ray and Elise
 .pure-form input[type] {
     border: 2px solid #ddd;
     box-shadow: none;
@@ -59,6 +60,7 @@
     width: 100%;
     margin-bottom: 1em;
 }
+*/
 
 /*
  * -- PURE BUTTON STYLES --
