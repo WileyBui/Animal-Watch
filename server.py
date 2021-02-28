@@ -74,7 +74,7 @@ def processAddAnimal():
         users_id = session['profile']['user_id']
         animal_id = request.form.get("species")
         post_text = request.form.get("classification")
-        post_location = request.form.get("range")
+        post_location = request.form.get("range") #sup nerds
         #latitude =
         #longitude =
         # Get image from the form
