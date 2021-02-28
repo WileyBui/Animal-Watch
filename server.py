@@ -32,9 +32,12 @@ def page_lookup(animal_id):
         shared_data = getSharedContentsFromAnimalId(cur, animal_id)
         
         if (len(shared_data) == 1):
-            postList = getAllPostsFromAnimalId(cur, animal_id)
-            
-            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, animal_id=animal_id)
+            postList    = getAllPostsFromAnimalId(cur, animal_id)
+            locationList   = []
+            for i in range(len(postList)):
+                locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
+                
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, animal_id=animal_id, locations=locationList)
         else:
             abort(404)
 
@@ -60,10 +63,9 @@ def page_look_up_post(animal_id):
         imageURL    = file.read()
         if file and is_allowed_image_extention(file.filename):
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (1, animal_id, description, imageURL, latitude, longitude))
-            return "SUCCESS: IMAGE ALSO SAVED!"
         else:
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (1, animal_id, description, latitude, longitude))
-            return "SUCCESS: HOWEVER, NO IMAGE SAVED!"
+        return redirect(url_for('page_lookup', animal_id=animal_id))
         
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
