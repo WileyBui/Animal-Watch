@@ -106,6 +106,10 @@
               <th scope="row">Classification</th>
               <td>Endangered</td>
             </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>something something</td>
+            </tr>
           </tbody>
         </table>
 
@@ -134,16 +138,17 @@
         </thead>
         <tbody>
           {% for n in postList %}
-            {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
-              {% include "helper_html/animal_post.html" %}
-            {% endwith %}
+          {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
+          {% include "helper_html/animal_post.html" %}
+          {% endwith %}
           {% endfor %}
         </tbody>
       </table>
 
-      <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">Add a post to
-          this animal</button></div>
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+        data-bs-target="#exampleModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
 
+        {% include "helper_html/animal_add_a_post_modal.html" %}
 
     </div>
 
@@ -219,4 +224,5 @@
 
 {% block bottom_js_contents %}
 <script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script>
+<script src="/static/geoLocation.js"></script>
 {% endblock %}

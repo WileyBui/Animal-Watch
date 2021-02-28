@@ -9,7 +9,8 @@ drop table Likes;
 
 create table Users (
 	id SERIAL PRIMARY KEY,
-	users_name varchar(255)
+	users_name varchar(255),
+	profile_picture text
 );
 
 create table Tags (
@@ -23,9 +24,9 @@ create table Animals (
 	species varchar(255),
 	endangerment_level int,
 	imageURL varchar(255),
-	category int
-	-- range varchar(255),
-	-- classification varchar(255),
+	category int,
+	animal_range varchar(255),
+	classification varchar(255)
 );
 
 -- create table AnimalLikes (
@@ -56,19 +57,21 @@ create table Locations (
 
 create table Posts (
 	id SERIAL PRIMARY KEY,
-	users_id int references Users NOT NULL,
-	animal_id int references Animals NOT NULL,
-	post_text varchar(255),
-	imageURL varchar(255),
-	post_time timestamp
+	users_id 	INT REFERENCES Users NOT NULL,
+	animal_id 	INT REFERENCES Animals NOT NULL,
+	post_text 	TEXT NOT NULL,
+	imageURL 	TEXT,
+	latitude 	DECIMAL(20,17) NOT NULL,
+	longitude 	DECIMAL(20,17) NOT NULL,
+	post_time 	TIMESTAMP DEFAULT(NOW())
 );
 
 create table Comments (
 	id SERIAL PRIMARY KEY,
 	users_id int references Users NOT NULL,
 	post_id int references Posts NOT NULL,
-	comm_text varchar(255),
-	comm_time timestamp
+	comm_text text,
+	comm_time TIMESTAMP DEFAULT(NOW())
 );
 
 CREATE TYPE comm_post_t AS ENUM('comment','post');
@@ -119,10 +122,10 @@ INSERT INTO HasTag (animal_id, tag_id) VALUES (4, 4);
 INSERT INTO HasTag (animal_id, tag_id) VALUES (5, 5);
 INSERT INTO HasTag (animal_id, tag_id) VALUES (5, 1);
 
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (1, 1, 'Wileys lion text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUkwe-Ws_DAXRW-ApsE2ZrAZTSQEkGnSGhCg&usqp=CAU', now());
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (2, 2, 'Allys tiger text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ', 'https://images.theconversation.com/files/330851/original/file-20200427-145560-1nlgr5h.jpg', now());
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (3, 3, 'Jakobs elephant text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://assets.nrdc.org/sites/default/files/styles/full_content--retina/public/media-uploads/wlds43_654640_2400.jpg?itok=LbhnLIk9', now());
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (4, 4, 'Elises snake text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://thewhiskerchronicles.files.wordpress.com/2014/02/664px-eastern_indigo_snake.jpg', now());
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (5, 5, 'Rays orangutan text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg', now());
-INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time) VALUES (5, 2, 'Rays text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ', 'https://www.rd.com/wp-content/uploads/2019/04/shutterstock_1013848126.jpg', now());
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (1, 1, 'Wileys lion text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUkwe-Ws_DAXRW-ApsE2ZrAZTSQEkGnSGhCg&usqp=CAU', now(), 0, 0);
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (2, 2, 'Allys tiger text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ', 'https://images.theconversation.com/files/330851/original/file-20200427-145560-1nlgr5h.jpg', now(), 1, 1);
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (3, 3, 'Jakobs elephant text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://assets.nrdc.org/sites/default/files/styles/full_content--retina/public/media-uploads/wlds43_654640_2400.jpg?itok=LbhnLIk9', now(), 2, 2);
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (4, 4, 'Elises snake text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://thewhiskerchronicles.files.wordpress.com/2014/02/664px-eastern_indigo_snake.jpg', now(), 3, 3);
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (5, 5, 'Rays orangutan text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg', now(), 4, 4);
+INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (5, 2, 'Rays text - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ', 'https://www.rd.com/wp-content/uploads/2019/04/shutterstock_1013848126.jpg', now(), 5, 5);
 
