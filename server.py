@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, jsonify
 from urllib.parse import urlencode
 import os
 import db
-from auth0 import auth0_setup, require_auth, auth0
+# from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
 from queryResults import *
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.before_first_request
 def initialize():
     db.setup()
-    auth0_setup()
+    # auth0_setup()
 
 @app.route('/')
 def page_landing():
@@ -57,14 +57,14 @@ def callback():
     return redirect('/test_auth')
 
 @app.route('/test_auth')
-@require_auth
+# @require_auth
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
 
 @app.route('/add')
-@require_auth
+# @require_auth
 def page_add_animal():
     return render_template("addAnimal.html")
 
