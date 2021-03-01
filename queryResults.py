@@ -20,7 +20,7 @@ def getActivityFeed(cur):
     """)
     return cur
     
-def getSharedContentsFromAnimalId(cur, animal_id):
+def getSharedContentsByAnimalId(cur, animal_id):
     # shared contents
     cur.execute("""
         SELECT
@@ -39,7 +39,7 @@ def getSharedContentsFromAnimalId(cur, animal_id):
     """, [animal_id])
     return [record for record in cur]
         
-def getAllPostsFromAnimalId(cur, animal_id):
+def getAllPostsByAnimalId(cur, animal_id):
     # post contents
     cur.execute("""
         SELECT
@@ -62,3 +62,25 @@ def getAllPostsFromAnimalId(cur, animal_id):
     postList = (["", "No post made...", None, None] if (len(postList) == 0) else postList)
     
     return postList
+
+def getAllCommentsByAnimalId(cur, animal_id):
+    # post contents
+    cur.execute("""
+        SELECT
+            Users.users_name,
+            Comments.comm_text,
+            Comments.comm_time
+        FROM Animals, Comments, Users
+        WHERE
+            Animals.id = %s
+            AND Animals.id = Comments.animal_id
+            AND Comments.users_id = Users.id
+        ORDER BY Comments.comm_time ASC;
+    """, [animal_id])
+    
+    commentList = [record for record in cur]
+    
+    # No comments created if nothing's returned; otherwise, gets the first index's contents
+    commentList = (["", "No comments made...", None, None] if (len(commentList) == 0) else commentList)
+    
+    return commentList

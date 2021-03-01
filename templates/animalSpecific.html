@@ -23,7 +23,7 @@
   function initMap() {
     console.log("test")
 
-    var locations = {{locations|tojson}};
+    var locations = {{ locations | tojson }};
 
     console.log(locations)
     var origin = {
@@ -37,7 +37,7 @@
         lng: locations[0][2]
       }
     }
-    
+
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 8,
       center: origin
@@ -45,29 +45,33 @@
 
     for (let i = 0; i < locations.length; i++) {
       addMarker({
-                  lat: locations[i][1],
-                  lng: locations[i][2]
-                }, map);
+        lat: locations[i][1],
+        lng: locations[i][2]
+      }, map);
     }
 
     // This event listener calls addMarker() when the map is clicked.
     google.maps.event.addListener(map, "click", (event) => {
       // modals pop up & ask for confirmation
-      $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
-      $('#modalConfirmation').modal('show');
-
-      // once save-btn is clicked, we hide it and display a Toast message 
-      // saying the new location is added to the database
-      $("#save-btn").on("click", function (e) {
-        $('#modalConfirmation').modal('hide');
-        $('#successToast').toast('show');
-        addMarker(event.latLng, map);
-      });
-
+      $('#location-latitude').val(event.latLng.lat());
+      $('#location-longitude').val(event.latLng.lng());
+      $('#addNewLocationModal').modal('show')
     });
-    // Add a marker at the center of the map.
-    // addMarker(bangalore, map);
-    // addMarker(burnsville, map);
+
+    // google.maps.event.addListener(map, "click", (event) => {
+    //   // modals pop up & ask for confirmation
+    //   $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
+    //   $('#modalConfirmation').modal('show');
+
+    //   // once save-btn is clicked, we hide it and display a Toast message 
+    //   // saying the new location is added to the database
+    //   $("#save-btn").on("click", function (e) {
+    //     $('#modalConfirmation').modal('hide');
+    //     $('#instructionToast').toast('show');
+    //     addMarker(event.latLng, map);
+    //   });
+
+    // });
   }
 
   // Adds a marker to the map.
@@ -145,6 +149,7 @@
         <br />
       </div>
 
+      <!-- ANIMAL POSTS: people can view these posts; only authenticated users can post posts -->
       <table class="pure-table pure-table-horizontal" style="width: 100%">
         <thead>
           <tr>
@@ -154,17 +159,17 @@
         </thead>
         <tbody>
           {% for n in postList %}
-          {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
-          {% include "helper_html/animal_post.html" %}
-          {% endwith %}
+            {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
+              {% include "helper_html/animal_post.html" %}
+            {% endwith %}
           {% endfor %}
         </tbody>
       </table>
 
       <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
-        data-bs-target="#exampleModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
+        data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
 
-        {% include "helper_html/animal_add_a_post_modal.html" %}
+      {% include "helper_html/animal_add_a_post_modal.html" %}
 
     </div>
 
@@ -173,7 +178,7 @@
     <div class="container">
       <div class="center-contents">
         <img src="../static/images/searching.svg" width="20%" />
-        <h3>Recent Sightings</h3>
+        <h3 id="recent-sightings">Recent Sightings</h3>
         <br />
         <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
 
@@ -188,7 +193,7 @@
           Launch demo modal
         </button> -->
 
-        <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
+        <!-- <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -197,7 +202,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body" id="modal-message">
-                <!-- contents will be modified dynamically -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -205,20 +209,19 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
-    <!-- confirmation that the location has added to the database -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-      <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5" data-autohide="false">
+      <div id="instructionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
         <div class="toast-header">
-          <img src="/static/images/checkmark.png" class="rounded me-2" width="30px" height="30px">
-          <strong class="me-auto">Success</strong>
+          <img src="/static/images/instruction-icon.png" class="rounded me-2" width="30px" height="30px">
+          <strong class="me-auto">Add a location</strong>
           <small>now</small>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">Your new location is added! Thanks!</div>
+        <div class="toast-body">Click on the map to retrieve the latitude and longitude.</div>
       </div>
     </div>
 
@@ -229,16 +232,46 @@
         <h3>Questions / Comments / Concerns</h3>
         <br />
       </div>
-      {% include "helper_html/animal_look_up_q_and_a.html" %}
+      <table class="pure-table pure-table-horizontal" style="width: 100%">
+        <thead>
+            <tr>
+                <th width="20%">Username</th>
+                <th>Questions / Comments / Concerns</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for n in commentList %}
+            {% with username=n[0], user_text=n[1], comment_time=n[2] %}
+              {% include "helper_html/animal_look_up_q_and_a.html" %}
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+    
+      <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">Make a new question, comment, or concern</button></div> -->
+
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+      data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
+
+      {% include "helper_html/animal_add_a_comment_modal.html" %}
     </div>
   </div>
 </div>
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
-async></script>
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
+  async></script>
 {% endblock %}
 
 {% block bottom_js_contents %}
 <!-- <script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script> -->
 <script src="/static/geoLocation.js"></script>
+<script>
+  $("#retrieve-maps-btn").click(function(){
+    $("#addNewLocationModal").modal("toggle");
+    $('html, body').animate({
+      scrollTop: $("#recent-sightings").offset().top
+    }, 200);
+    $('#instructionToast').toast('show');
+});
+</script>
 {% endblock %}

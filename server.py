@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, g, redirect, url_for, jsonify
 from urllib.parse import urlencode
 import os
 import db
-from auth0 import auth0_setup, require_auth, auth0
+# from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
 from queryResults import *
 
@@ -13,7 +13,7 @@ app.secret_key = os.environ["FLASK_SECRET_KEY"]
 @app.before_first_request
 def initialize():
     db.setup()
-    auth0_setup()
+    # auth0_setup()
 
 @app.route('/')
 def page_landing():
@@ -57,14 +57,14 @@ def callback():
     return redirect('/test_auth')
 
 @app.route('/test_auth')
-@require_auth
+# @require_auth
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
 
 @app.route('/add')
-@require_auth
+# @require_auth
 def page_add_animal():
     return render_template("addAnimal.html")
 
@@ -75,7 +75,7 @@ def processAddAnimal():
         users_id = session['profile']['user_id']
         animal_id = request.form.get("species")
         post_text = request.form.get("classification")
-        post_location = request.form.get("range")
+        post_location = request.form.get("range") #sup nerds
         #latitude =
         #longitude =
         # Get image from the form
@@ -98,15 +98,17 @@ def page_feed():
 def page_lookup(animal_id):
     with db.get_db_cursor(False) as cur:
         # shared contents
-        shared_data = getSharedContentsFromAnimalId(cur, animal_id)
+        shared_data = getSharedContentsByAnimalId(cur, animal_id)
         
         if (len(shared_data) == 1):
-            postList    = getAllPostsFromAnimalId(cur, animal_id)
+            postList    = getAllPostsByAnimalId(cur, animal_id)
+            commentList = getAllCommentsByAnimalId(cur, animal_id)
             locationList   = []
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
                 
-            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, animal_id=animal_id, locations=locationList)
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, 
+                                   commentList=commentList, animal_id=animal_id, locations=locationList)
         else:
             abort(404)
 
