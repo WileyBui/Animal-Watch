@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [[source]]
 url = "https://pypi.python.org/simple"
 verify_ssl = true
@@ -20,25 +19,3 @@ oauth = "*"
 
 [requires]
 python_version = "3.7"
-=======
-[[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
-name = "pypi"
-
-[packages]
-gunicorn = "*"
-flask = "*"
-psycopg2 = "*"
-python-dotenv = "*"
-requests = "*"
-authlib = "*"
-six = "*"
-auth0-python = "*"
-flask-auth0 = "*"
-
-[dev-packages]
-
-[requires]
-python_version = "3.7"
->>>>>>> 4221fe57d05d013dc5c197756d8c98320d98b0aa
