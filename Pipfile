@@ -13,6 +13,7 @@ authlib = "*"
 six = "*"
 auth0-python = "*"
 flask-auth0 = "*"
+oauth = "*"
 
 [dev-packages]
 
