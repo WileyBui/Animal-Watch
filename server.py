@@ -8,6 +8,7 @@ from queryResults import *
 
 app = Flask(__name__)
 # app.secret_key = os.environ["FLASK_SECRET_KEY"]
+#change to push --ignore the comment
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
