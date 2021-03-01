@@ -98,15 +98,17 @@ def page_feed():
 def page_lookup(animal_id):
     with db.get_db_cursor(False) as cur:
         # shared contents
-        shared_data = getSharedContentsFromAnimalId(cur, animal_id)
+        shared_data = getSharedContentsByAnimalId(cur, animal_id)
         
         if (len(shared_data) == 1):
-            postList    = getAllPostsFromAnimalId(cur, animal_id)
+            postList    = getAllPostsByAnimalId(cur, animal_id)
+            commentList = getAllCommentsByAnimalId(cur, animal_id)
             locationList   = []
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
                 
-            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, animal_id=animal_id, locations=locationList)
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, 
+                                   commentList=commentList, animal_id=animal_id, locations=locationList)
         else:
             abort(404)
 

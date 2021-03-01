@@ -149,6 +149,7 @@
         <br />
       </div>
 
+      <!-- ANIMAL POSTS: people can view these posts; only authenticated users can post posts -->
       <table class="pure-table pure-table-horizontal" style="width: 100%">
         <thead>
           <tr>
@@ -158,9 +159,9 @@
         </thead>
         <tbody>
           {% for n in postList %}
-          {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
-          {% include "helper_html/animal_post.html" %}
-          {% endwith %}
+            {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
+              {% include "helper_html/animal_post.html" %}
+            {% endwith %}
           {% endfor %}
         </tbody>
       </table>
@@ -192,7 +193,7 @@
           Launch demo modal
         </button> -->
 
-        <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
+        <!-- <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -201,7 +202,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body" id="modal-message">
-                <!-- contents will be modified dynamically -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -209,12 +209,12 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5" data-autohide="false">
-      <div id="instructionToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div id="instructionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
         <div class="toast-header">
           <img src="/static/images/instruction-icon.png" class="rounded me-2" width="30px" height="30px">
           <strong class="me-auto">Add a location</strong>
@@ -232,7 +232,28 @@
         <h3>Questions / Comments / Concerns</h3>
         <br />
       </div>
-      {% include "helper_html/animal_look_up_q_and_a.html" %}
+      <table class="pure-table pure-table-horizontal" style="width: 100%">
+        <thead>
+            <tr>
+                <th width="20%">Username</th>
+                <th>Questions / Comments / Concerns</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for n in commentList %}
+            {% with username=n[0], user_text=n[1], comment_time=n[2] %}
+              {% include "helper_html/animal_look_up_q_and_a.html" %}
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+    
+      <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">Make a new question, comment, or concern</button></div> -->
+
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+      data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
+
+      {% include "helper_html/animal_add_a_comment_modal.html" %}
     </div>
   </div>
 </div>

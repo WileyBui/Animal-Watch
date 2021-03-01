@@ -4,7 +4,7 @@ drop table Animals CASCADE;
 drop table HasTag;
 drop table Locations;
 drop table Posts CASCADE;
-drop table Comments;
+drop table Comments CASCADE;
 drop table Likes;
 
 create table Users (
@@ -69,7 +69,7 @@ create table Posts (
 create table Comments (
 	id SERIAL PRIMARY KEY,
 	users_id int references Users NOT NULL,
-	post_id int references Posts NOT NULL,
+	animal_id int references Animals NOT NULL,
 	comm_text text,
 	comm_time TIMESTAMP DEFAULT(NOW())
 );
@@ -129,3 +129,20 @@ INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude
 INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (5, 5, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'https://static.scientificamerican.com/blogs/cache/file/65367319-B08B-4C77-8A2F42A5E05C8B53_source.jpg', now(), 44.322535559213236, -93.26558947563171);
 INSERT INTO Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) VALUES (5, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ', 'https://www.rd.com/wp-content/uploads/2019/04/shutterstock_1013848126.jpg', now(), 44.55002742744211, -95.12227892875671);
 
+
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (5, 1, 'I have a question: Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (4, 2, 'I have a question: Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (3, 3, 'I have a question: Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (2, 4, 'I have a question: Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (1, 5, 'I have a question: Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (2, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (3, 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (4, 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (5, 5, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (5, 1, 'Ok that makes sense, thank you!');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (4, 2, 'Ok that makes sense, thank you!');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (3, 3, 'Ok that makes sense, thank you!');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (2, 4, 'Ok that makes sense, thank you!');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (1, 5, 'Ok that makes sense, thank you!');
+INSERT INTO COMMENTS (users_id, animal_id, comm_text) VALUES (2, 5, 'Okay this is a test!');
