@@ -2,18 +2,18 @@ from flask import Flask, render_template, request, g, redirect, url_for, jsonify
 from urllib.parse import urlencode
 import os
 import db
-# from auth0 import auth0_setup, require_auth, auth0
+from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
 from queryResults import *
 
 app = Flask(__name__)
-# app.secret_key = os.environ["FLASK_SECRET_KEY"]
+app.secret_key = os.environ["FLASK_SECRET_KEY"]
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
 def initialize():
     db.setup()
-    # auth0_setup()
+    auth0_setup()
 
 @app.route('/')
 def page_landing():
@@ -27,14 +27,14 @@ def page_signup():
 @app.route('/login')
 def page_login():
     if 'profile' in session:
-        return redirect(url_for('test_auth'))
+        return redirect(url_for('logout'))
     else:
         return auth0().authorize_redirect(redirect_uri=url_for('callback', _external=True))
 
 @app.route('/logout')
 def logout():
     session.clear()
-    params = { 'returnTo': url_for('home', _external=True), 'client_id': os.environ['AUTH0_CLIENT_ID'] }
+    params = { 'returnTo': url_for('page_landing', _external=True), 'client_id': os.environ['AUTH0_CLIENT_ID'] }
     return redirect(auth0().api_base_url + '/v2/logout?' + urlencode(params))
 
 @app.route('/callback')
@@ -42,29 +42,33 @@ def callback():
     auth0().authorize_access_token()
     resp = auth0().get('userinfo')
     userinfo = resp.json()
-
     session['jwt_payload'] = userinfo
     session['profile'] = {
         'user_id': userinfo['sub'],
         'name': userinfo['name'],
         'picture': userinfo['picture']
     }
-
     with db.get_db_cursor(commit=True) as cur:
         users_id = session['profile']['user_id']
         users_name = session['profile']['name']
-        cur.execute("insert into Users (id, users_name) values (%s. %s)", (users_id, users_name))
+        cur.execute("Select COUNT(*) FROM Users WHERE id = '%s';" % users_id)
+        try:
+            for record in cur:
+                if record[0] == 0:
+                    cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+        except:
+            pass
     return redirect('/test_auth')
-
+    
 @app.route('/test_auth')
-# @require_auth
+@require_auth
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
 
 @app.route('/add')
-# @require_auth
+@require_auth
 def page_add_animal():
     return render_template("addAnimal.html")
 
@@ -72,7 +76,7 @@ def page_add_animal():
 @app.route('/add', methods=['POST'])
 def processAddAnimal():
     with db.get_db_cursor(commit=True) as cur:
-        #users_id = session['profile']['user_id'] #REMOVED FOR TESTING TESTING TESTING
+        users_id = session['profile']['user_id'] 
         #users_id = 1 #TESTING TESTING TESTING - DON'T DEPLOY THIS
         species = request.form.get("species")
         endangerment_level = request.form.get("classification")
@@ -89,6 +93,11 @@ def processAddAnimal():
         animal_description = request.form.get("description")
         #post_time = str(datetime.now()) #Removed-this is not part of animal page right now
         cur.execute("insert into Animals (species, endangerment_level, animal_range, imageURL, animal_description) values (%s, %s, %s, %s, %s);", (species, endangerment_level, animal_range, imageURL, animal_description))
+        
+        ###THE NEXT LINE IS HOT GARBAGE FOR TESTING PURPOSES
+        #cur.execute("insert into Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) values (%s, %s, %s, %s, %s, %s, %s);", (users_id, 11, animal_description, imageURL, post_time, 1, 1))
+        ###THE PREVIOUS LINE IS HOT GARBAGE FOR TESTING PURPOSES
+
         #cur.execute("insert into Locations (user_id, animal_id, lat, long) values (%s, %s, %s, %s);" (user_id, animal_id, lat, long))
         return redirect(url_for("page_feed"))
 
@@ -122,6 +131,7 @@ def is_allowed_image_extention(filename):
 @app.route('/animal/<int:animal_id>', methods=['POST'])
 def page_look_up_post(animal_id):
     with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
         latitude    = request.form.get("latitude", None)
         longitude   = request.form.get("longitude", None)
         description = request.form.get("description", None)
@@ -136,9 +146,9 @@ def page_look_up_post(animal_id):
         file        = request.files.get("image", None)
         imageURL    = file.read()
         if file and is_allowed_image_extention(file.filename):
-            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (1, animal_id, description, imageURL, latitude, longitude))
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (users_id, animal_id, description, imageURL, latitude, longitude))
         else:
-            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (1, animal_id, description, latitude, longitude))
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
         
 # have the DB submodule set itself up before we get started. groovy.
