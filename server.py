@@ -73,10 +73,11 @@ def page_add_animal():
 def processAddAnimal():
     with db.get_db_cursor(commit=True) as cur:
         #users_id = session['profile']['user_id'] #REMOVED FOR TESTING TESTING TESTING
-        users_id = 1 #TESTING TESTING TESTING
-        animal_id = request.form.get("species")
-        post_text = request.form.get("classification")
-        post_location = request.form.get("range") #sup nerds
+        #users_id = 1 #TESTING TESTING TESTING - DON'T DEPLOY THIS
+        species = request.form.get("species")
+        endangerment_level = request.form.get("classification")
+        
+        animal_range = request.form.get("range")
         #latitude =
         #longitude =
         # Get image from the form
@@ -84,11 +85,12 @@ def processAddAnimal():
             # Encode image data into a string
          #   post_image = base64.b64encode(image.read())
           #  console.logger.info(post_image)
-        post_image = request.form.get("image")
-        post_time = str(datetime.now())
-        cur.execute("insert into Posts (users_id, animal_id, post_text, imageURL, post_time) values (%s, %s, %s, %s, %s);", (users_id, animal_id, post_text, post_image, post_time))
+        imageURL = request.form.get("imageURL") #TODO: fix the image back-end
+        animal_description = request.form.get("description")
+        #post_time = str(datetime.now()) #Removed-this is not part of animal page right now
+        cur.execute("insert into Animals (species, endangerment_level, animal_range, imageURL, animal_description) values (%s, %s, %s, %s, %s);", (species, endangerment_level, animal_range, imageURL, animal_description))
         #cur.execute("insert into Locations (user_id, animal_id, lat, long) values (%s, %s, %s, %s);" (user_id, animal_id, lat, long))
-        return redirect(url_for("/feed"))
+        return redirect(url_for("page_feed"))
 
 @app.route('/feed', methods=['GET'])
 def page_feed():

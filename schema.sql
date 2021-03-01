@@ -26,7 +26,8 @@ create table Animals (
 	imageURL varchar(255),
 	category int,
 	animal_range varchar(255),
-	classification varchar(255)
+	classification varchar(255),
+	animal_description text
 );
 
 -- create table AnimalLikes (
