@@ -4,9 +4,10 @@ import os
 import db
 from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
+from queryResults import *
 
 app = Flask(__name__)
-app.secret_key = os.environ["FLASK_SECRET_KEY"]
+# app.secret_key = os.environ["FLASK_SECRET_KEY"]
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
@@ -91,40 +92,54 @@ def processAddAnimal():
 @app.route('/feed', methods=['GET'])
 def page_feed():
     with db.get_db_cursor(False) as cur:
-        cur.execute("""
-                    
-                SELECT * FROM (
-                    SELECT
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.imageURL,
-                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
-                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-                        Posts.post_time
-                    FROM Posts, Users, Animals, HasTag, Tags
-                    WHERE
-                        Posts.users_id = Users.id
-                        AND Posts.animal_id = Animals.id
-                        AND Animals.id = HasTag.animal_id
-                        AND HasTag.tag_id = Tags.id
-                    GROUP BY
-                        Posts.post_time,
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.imageURL,
-                        Posts.post_time
-                ) A
-                ORDER BY A.post_time DESC;
-                        
-                    """)
+        return render_template("feed.html", dataList=getActivityFeed(cur))
+
+@app.route('/animal/<int:animal_id>', methods=['GET'])
+def page_lookup(animal_id):
+    with db.get_db_cursor(False) as cur:
+        # shared contents
+        shared_data = getSharedContentsFromAnimalId(cur, animal_id)
         
-        return render_template("feed.html", dataList=cur)
-    
-@app.route('/post/<int:id>', methods=['GET'])
-def page_lookup(id):
-    return render_template("post_lookup.html")
+        if (len(shared_data) == 1):
+            postList    = getAllPostsFromAnimalId(cur, animal_id)
+            locationList   = []
+            for i in range(len(postList)):
+                locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
+                
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, animal_id=animal_id, locations=locationList)
+        else:
+            abort(404)
+
+def is_allowed_image_extention(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', "jpeg"]
+           
+@app.route('/animal/<int:animal_id>', methods=['POST'])
+def page_look_up_post(animal_id):
+    with db.get_db_cursor(True) as cur:
+        latitude    = request.form.get("latitude", None)
+        longitude   = request.form.get("longitude", None)
+        description = request.form.get("description", None)
+        
+        latitude    = None if latitude == "" else latitude
+        longitude   = None if longitude == "" else longitude
+        description = None if description == "" else description
+        
+        if (latitude == None or longitude == None or description == None):
+            return "Latitude, longitude, and/or description cannot be empty!"
+        
+        file        = request.files.get("image", None)
+        imageURL    = file.read()
+        if file and is_allowed_image_extention(file.filename):
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (1, animal_id, description, imageURL, latitude, longitude))
+        else:
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (1, animal_id, description, latitude, longitude))
+        return redirect(url_for('page_lookup', animal_id=animal_id))
+        
+# have the DB submodule set itself up before we get started. groovy.
+@app.before_first_request
+def initialize():
+    db.setup()
 
 @app.route('/home')
 def home():
