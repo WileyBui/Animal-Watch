@@ -1,21 +1,28 @@
 {% extends "parent.html" %}
 
 {% block css_and_js_contents %}
-  <link href="StyleSheet.css" rel="stylesheet" type="text/css" />
+  <link href="/static/main.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block title %}Member Login Page{% endblock %}
 
 {% block contents %}
-  <h1 id="loginTitle"><center> Login Page <center></h1>
-  <h3><center> Please enter your username and password. Both are case sensitive. </center></h3>
-    <div id = "formPage">
-      <p id="user">User:</p><br>
-      <input type = "text" name = "username" id = "username" required /><br>
-      <p id="passwordTag">Password:</p><br>
-      <input type = "password" name = "password" id = "password" required /><br>
-      <input type = "submit" value = "Log In" id = "submit" onclick="process()" />
-      <!-- Still need to implement a login check in this case it would be called process -->
-    </div>
-  </h3>
+  <div id="loginForm">
+    <br>
+    <br>
+    <br>
+    
+    <form class="pure-form pure-form-stacked" action = "login" method = "POST">
+      <fieldset>
+          <legend>Please enter your Username and Password</legend>
+          <label for="stacked-user">Username</label>
+          <input type="text" id="stacked-user" placeholder="Username" required />
+          <span class="pure-form-message">This are required fields.</span>
+          <label for="stacked-password" id = "purePass">Password</label>
+          <input type="password" id="stacked-password" placeholder="Password" required />
+          <button type="submit" class="pure-button pure-button-primary">Log in</button>
+      </fieldset>
+    </form>
+  </div>
+
 {% endblock %}
