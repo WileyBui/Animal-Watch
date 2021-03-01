@@ -99,15 +99,15 @@ def page_lookup(animal_id):
     with db.get_db_cursor(False) as cur:
         # shared contents
         shared_data = getSharedContentsByAnimalId(cur, animal_id)
-        
+
         if (len(shared_data) == 1):
             postList    = getAllPostsByAnimalId(cur, animal_id)
             commentList = getAllCommentsByAnimalId(cur, animal_id)
             locationList   = []
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
-                
-            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, 
+
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList,
                                    commentList=commentList, animal_id=animal_id, locations=locationList)
         else:
             abort(404)
@@ -115,21 +115,21 @@ def page_lookup(animal_id):
 def is_allowed_image_extention(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', "jpeg"]
-           
+
 @app.route('/animal/<int:animal_id>', methods=['POST'])
 def page_look_up_post(animal_id):
     with db.get_db_cursor(True) as cur:
         latitude    = request.form.get("latitude", None)
         longitude   = request.form.get("longitude", None)
         description = request.form.get("description", None)
-        
+
         latitude    = None if latitude == "" else latitude
         longitude   = None if longitude == "" else longitude
         description = None if description == "" else description
-        
+
         if (latitude == None or longitude == None or description == None):
             return "Latitude, longitude, and/or description cannot be empty!"
-        
+
         file        = request.files.get("image", None)
         imageURL    = file.read()
         if file and is_allowed_image_extention(file.filename):
@@ -137,7 +137,7 @@ def page_look_up_post(animal_id):
         else:
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (1, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
-        
+
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
 def initialize():
@@ -162,7 +162,7 @@ def new_person():
         name = request.form.get("name", "unnamed friend")
         app.logger.info("Adding person %s", name)
         cur.execute("INSERT INTO person (name) values (%s)", (name,))
-        
+
         return redirect(url_for('people'))
 
 @app.route('/api/foo')
