@@ -57,22 +57,14 @@ def callback():
     return redirect('/test_auth')
 
 @app.route('/test_auth')
-<<<<<<< HEAD
-#@require_auth                #REMOVED FOR TESTING
-=======
 # @require_auth
->>>>>>> c7d85e49d7bac9734fb3c4aa17758a5a53c341be
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
 
 @app.route('/add')
-<<<<<<< HEAD
-#@require_auth                #REMOVED FOR TESTING
-=======
 # @require_auth
->>>>>>> c7d85e49d7bac9734fb3c4aa17758a5a53c341be
 def page_add_animal():
     return render_template("addAnimal.html")
 
