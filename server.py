@@ -72,7 +72,8 @@ def page_add_animal():
 @app.route('/add', methods=['POST'])
 def processAddAnimal():
     with db.get_db_cursor(commit=True) as cur:
-        users_id = session['profile']['user_id']
+        #users_id = session['profile']['user_id'] #REMOVED FOR TESTING TESTING TESTING
+        users_id = 1 #TESTING TESTING TESTING
         animal_id = request.form.get("species")
         post_text = request.form.get("classification")
         post_location = request.form.get("range") #sup nerds
