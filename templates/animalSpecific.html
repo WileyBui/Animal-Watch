@@ -23,7 +23,7 @@
   function initMap() {
     console.log("test")
 
-    var locations = {{locations|tojson}};
+    var locations = {{ locations | tojson }};
 
     console.log(locations)
     var origin = {
@@ -37,7 +37,7 @@
         lng: locations[0][2]
       }
     }
-    
+
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 8,
       center: origin
@@ -45,29 +45,33 @@
 
     for (let i = 0; i < locations.length; i++) {
       addMarker({
-                  lat: locations[i][1],
-                  lng: locations[i][2]
-                }, map);
+        lat: locations[i][1],
+        lng: locations[i][2]
+      }, map);
     }
 
     // This event listener calls addMarker() when the map is clicked.
     google.maps.event.addListener(map, "click", (event) => {
       // modals pop up & ask for confirmation
-      $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
-      $('#modalConfirmation').modal('show');
-
-      // once save-btn is clicked, we hide it and display a Toast message 
-      // saying the new location is added to the database
-      $("#save-btn").on("click", function (e) {
-        $('#modalConfirmation').modal('hide');
-        $('#successToast').toast('show');
-        addMarker(event.latLng, map);
-      });
-
+      $('#location-latitude').val(event.latLng.lat());
+      $('#location-longitude').val(event.latLng.lng());
+      $('#addNewLocationModal').modal('show')
     });
-    // Add a marker at the center of the map.
-    // addMarker(bangalore, map);
-    // addMarker(burnsville, map);
+
+    // google.maps.event.addListener(map, "click", (event) => {
+    //   // modals pop up & ask for confirmation
+    //   $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
+    //   $('#modalConfirmation').modal('show');
+
+    //   // once save-btn is clicked, we hide it and display a Toast message 
+    //   // saying the new location is added to the database
+    //   $("#save-btn").on("click", function (e) {
+    //     $('#modalConfirmation').modal('hide');
+    //     $('#instructionToast').toast('show');
+    //     addMarker(event.latLng, map);
+    //   });
+
+    // });
   }
 
   // Adds a marker to the map.
@@ -162,9 +166,9 @@
       </table>
 
       <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
-        data-bs-target="#exampleModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
+        data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
 
-        {% include "helper_html/animal_add_a_post_modal.html" %}
+      {% include "helper_html/animal_add_a_post_modal.html" %}
 
     </div>
 
@@ -173,7 +177,7 @@
     <div class="container">
       <div class="center-contents">
         <img src="../static/images/searching.svg" width="20%" />
-        <h3>Recent Sightings</h3>
+        <h3 id="recent-sightings">Recent Sightings</h3>
         <br />
         <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
 
@@ -209,16 +213,15 @@
       </div>
     </div>
 
-    <!-- confirmation that the location has added to the database -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-      <div id="successToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5" data-autohide="false">
+      <div id="instructionToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-          <img src="/static/images/checkmark.png" class="rounded me-2" width="30px" height="30px">
-          <strong class="me-auto">Success</strong>
+          <img src="/static/images/instruction-icon.png" class="rounded me-2" width="30px" height="30px">
+          <strong class="me-auto">Add a location</strong>
           <small>now</small>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">Your new location is added! Thanks!</div>
+        <div class="toast-body">Click on the map to retrieve the latitude and longitude.</div>
       </div>
     </div>
 
@@ -234,11 +237,20 @@
   </div>
 </div>
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
-async></script>
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
+  async></script>
 {% endblock %}
 
 {% block bottom_js_contents %}
 <!-- <script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script> -->
 <script src="/static/geoLocation.js"></script>
+<script>
+  $("#retrieve-maps-btn").click(function(){
+    $("#addNewLocationModal").modal("toggle");
+    $('html, body').animate({
+      scrollTop: $("#recent-sightings").offset().top
+    }, 1);
+    $('#instructionToast').toast('show');
+});
+</script>
 {% endblock %}
