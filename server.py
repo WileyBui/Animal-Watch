@@ -151,11 +151,6 @@ def page_look_up_post(animal_id):
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
         
-# have the DB submodule set itself up before we get started. groovy.
-@app.before_first_request
-def initialize():
-    db.setup()
-
 @app.route('/home')
 def home():
     user_name = request.args.get("userName", "unknown")
@@ -173,7 +168,7 @@ def people():
 def new_person():
     with db.get_db_cursor(True) as cur:
         name = request.form.get("name", "unnamed friend")
-        app.logger.info("Adding person %s", name)
+        #app.logger.info("Adding person %s", name)
         cur.execute("INSERT INTO person (name) values (%s)", (name,))
         
         return redirect(url_for('people'))
