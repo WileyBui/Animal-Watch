@@ -1,15 +1,23 @@
+drop table Images CASCADE;
 drop table Users CASCADE;
 drop table Tags CASCADE;
 drop table Animals CASCADE;
 drop table HasTag;
 drop table Locations;
 drop table Posts CASCADE;
-drop table Comments;
+drop table Comments CASCADE;
 drop table Likes;
+
+create table Images (
+	id SERIAL PRIMARY KEY,
+	image_name text,
+	image_data bytea
+);
 
 create table Users (
 	id SERIAL PRIMARY KEY,
-	users_name varchar(255)
+	users_name varchar(255),
+	users_image int references Images
 );
 
 create table Tags (
@@ -22,7 +30,7 @@ create table Animals (
 	id SERIAL PRIMARY KEY,
 	species varchar(255),
 	endangerment_level int,
-	imageURL varchar(255),
+	image_id int references Images,
 	category int
 );
 
@@ -45,7 +53,7 @@ create table Posts (
 	users_id int references Users NOT NULL,
 	animal_id int references Animals NOT NULL,
 	post_text varchar(255),
-	imageURL varchar(255),
+	image_id int references Images,
 	post_time timestamp
 );
 
@@ -66,7 +74,6 @@ create table Likes (
 	comment_id int references Comments,
 	comm_post_type comm_post_t
 );
-
 
 INSERT INTO Users (users_name) VALUES ('Wiley Bui');
 INSERT INTO Users (users_name) VALUES ('Ally Goins');

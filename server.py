@@ -26,14 +26,14 @@ def page_signup():
 @app.route('/login')
 def page_login():
     if 'profile' in session:
-        return redirect(url_for('test_auth'))
+        return redirect(url_for('logout'))
     else:
         return auth0().authorize_redirect(redirect_uri=url_for('callback', _external=True))
 
 @app.route('/logout')
 def logout():
     session.clear()
-    params = { 'returnTo': url_for('home', _external=True), 'client_id': os.environ['AUTH0_CLIENT_ID'] }
+    params = { 'returnTo': url_for('page_landing', _external=True), 'client_id': os.environ['AUTH0_CLIENT_ID'] }
     return redirect(auth0().api_base_url + '/v2/logout?' + urlencode(params))
 
 @app.route('/callback')
@@ -52,8 +52,14 @@ def callback():
     with db.get_db_cursor(commit=True) as cur:
         users_id = session['profile']['user_id']
         users_name = session['profile']['name']
-        cur.execute("insert into Users (id, users_name) values (%s. %s)", (users_id, users_name))
-    return redirect('/test_auth')
+        cur.execute("Select COUNT(*) FROM Users WHERE id = '%s';" % users_id)
+        try:
+            for record in cur:
+                if record[0] == 0:
+                    cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+        except:
+            pass
+    return redirect('/test_auth') 
 
 @app.route('/test_auth')
 @require_auth
@@ -98,22 +104,23 @@ def page_feed():
                         Posts.users_id,
                         Users.users_name,
                         Posts.post_text,
-                        Posts.imageURL,
+                        Posts.image_id,
                         array_to_string(array_agg(distinct "tag"),'; ') AS tag,
                         array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
                         Posts.post_time
-                    FROM Posts, Users, Animals, HasTag, Tags
+                    FROM Posts, Users, Animals, HasTag, Tags, Images
                     WHERE
                         Posts.users_id = Users.id
                         AND Posts.animal_id = Animals.id
                         AND Animals.id = HasTag.animal_id
                         AND HasTag.tag_id = Tags.id
+						AND Posts.image_id = Images.id
                     GROUP BY
                         Posts.post_time,
                         Posts.users_id,
                         Users.users_name,
                         Posts.post_text,
-                        Posts.imageURL,
+                        Posts.image_id,
                         Posts.post_time
                 ) A
                 ORDER BY A.post_time DESC;
