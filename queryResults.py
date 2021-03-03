@@ -48,7 +48,8 @@ def getAllPostsByAnimalId(cur, animal_id):
             Posts.imageURL,
             Posts.post_time,
             Posts.latitude,
-            Posts.longitude
+            Posts.longitude,
+            Users.profile_picture
         FROM Posts, Animals, Users
         WHERE
             Animals.id = %s
@@ -69,7 +70,8 @@ def getAllCommentsByAnimalId(cur, animal_id):
         SELECT
             Users.users_name,
             Comments.comm_text,
-            Comments.comm_time
+            Comments.comm_time,
+            Users.profile_picture
         FROM Animals, Comments, Users
         WHERE
             Animals.id = %s

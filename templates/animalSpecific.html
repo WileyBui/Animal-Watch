@@ -3,6 +3,7 @@
 {% block css_and_js_contents %}
 <link rel="stylesheet" href="../static/page_animal_look_up.css">
 <link rel="stylesheet" href="../static/header.css">
+<link rel="stylesheet" href="../static/animalposts.css">
 
 <style type="text/css">
   /* Always set the map height explicitly to define the size of the div
@@ -141,37 +142,27 @@
     </div>
 
     <hr>
-
-    <div class="container">
-      <div class="center-contents">
+    <div class="container mt-5">
+      <div class="row d-flex justify-content-center">
+          <div class="col-md-8">
         <img src="../static/images/animal_post.svg" width="20%" />
         <h3>Animal Posts</h3>
-        <br />
+        <br>
+        <div class="headings d-flex justify-content-between align-items-center mb-3">
+          <h5>Animal sighting posts ({{postList|count}})</h5>
+          <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
+              <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
+            </span> </div>
+        </div>
+        {% for n in postList %}
+          {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3] %}
+            {% include "helper_html/animal_post.html" %}
+          {% endwith %}
+        {% endfor %}
       </div>
-
-      <!-- ANIMAL POSTS: people can view these posts; only authenticated users can post posts -->
-      <table class="pure-table pure-table-horizontal" style="width: 100%">
-        <thead>
-          <tr>
-            <th width="20%">Authors</th>
-            <th>Descriptions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for n in postList %}
-            {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
-              {% include "helper_html/animal_post.html" %}
-            {% endwith %}
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
-        data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
-
-      {% include "helper_html/animal_add_a_post_modal.html" %}
-
     </div>
+  </div>
+
 
     <hr>
 
@@ -226,33 +217,29 @@
     </div>
 
     <hr>
-    <div class="container">
-      <div class="center-contents">
-        <img src="../static/images/QandA.svg" width="25%;" />
-        <h3>Questions / Comments / Concerns</h3>
-        <br />
-      </div>
-      <table class="pure-table pure-table-horizontal" style="width: 100%">
-        <thead>
-            <tr>
-                <th width="20%">Username</th>
-                <th>Questions / Comments / Concerns</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% for n in commentList %}
-            {% with username=n[0], user_text=n[1], comment_time=n[2] %}
+    <div class="container mt-5">
+      <div class="row d-flex justify-content-center">
+          <div class="col-md-8">
+            <img src="../static/images/QandA.svg" width="25%;" />
+            <h3>Questions / Comments / Concerns</h3>
+            <br />
+        <div class="headings d-flex justify-content-between align-items-center mb-3">
+          <h5>Questions / Comments / Concerns ({{commentList|count}})</h5>
+          <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
+              <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
+            </span> </div>
+        </div>
+        {% for n in commentList %}
+            {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3] %}
               {% include "helper_html/animal_look_up_q_and_a.html" %}
             {% endwith %}
           {% endfor %}
-        </tbody>
-      </table>
-    
+      </div>
       <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">Make a new question, comment, or concern</button></div> -->
 
       <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
       data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
-
+      
       {% include "helper_html/animal_add_a_comment_modal.html" %}
     </div>
   </div>
