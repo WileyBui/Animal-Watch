@@ -84,7 +84,14 @@ body {
 
 #addAnimalForm{
     display: block;
-    text-align: center;
-    align-content: center;
-    align-items: center;
+    padding-left: 1em;
+}
+
+#aligned-desc{
+  height: 8em;
+  width: 20em;
+}
+
+#aligned-tags{
+  width: 20em;
 }

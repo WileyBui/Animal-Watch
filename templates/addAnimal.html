@@ -16,51 +16,52 @@
 
   <div id="addAnimalForm">
     <br>
-    <br>
-    <br>
-    
+
     <form class="pure-form" id="addAnimalForm" method = "POST" enctype="multipart/form-data">
       <fieldset>
           <legend>Add a new animal.</legend>
-          <label for="aligned-tags">Optional: Animal tags (separate with commas)</label>
-            <input type="text" id="aligned-tags" name="tags" placeholder="e.g. snake, poisonous, reptile"/>
-          <br>
-          <label for="aligned-species">Animal/species</label>
+          <label for="aligned-species">*Animal/species:</label>
             <input type="text" id="aligned-species" name = "species" placeholder="e.g. canis lupis" required />
           <br>
-          <label for="aligned-range">Animal range</label>
-            <input type="text" id="aligned-range" name = "range" placeholder="e.g. North America" />
+          <label for="aligned-range">*Animal range:</label>
+            <input type="text" id="aligned-range" name = "range" placeholder="e.g. North America" required/>
+          <br>
+          <label for="aligned-tags">Animal tags (separate with commas):</label>
+            <input type="text" id="aligned-tags" name="tags" placeholder="e.g. snake, poisonous, reptile, ..."/>
           <br>
           <div>
+            <br>
             <h3>How threatened is this species?</h3> <!--  https://en.wikipedia.org/wiki/Conservation_status  -->
             <label for="checkbox-radio-option-one" class="pure-radio">
               <input type="radio" id="checkbox-radio-option-one" name="classification" value="0"  /> This species is currently stable</label>
-            
+
             <label for="checkbox-radio-option-two" class="pure-radio">
               <input type="radio" id="checkbox-radio-option-two" name="classification" value="1"  /> This species is threatened</label>
-            
+
             <label for="checkbox-radio-option-three" class="pure-radio">
               <input type="radio" id="checkbox-radio-option-three" name="classification" value="2"  /> This species is endangered</label>
-            
+
             <label for="checkbox-radio-option-four" class="pure-radio">
               <input type="radio" id="checkbox-radio-option-four" name="classification" value="3" /> This species is critically endangered</label>
-            
+
             <label for="checkbox-radio-option-five" class="pure-radio">
               <input type="radio" id="checkbox-radio-option-five" name="classification" value="-1" checked=""/> I do not know</label>
           </div>
-          
-          <label for="aligned-desc">Describe this animal</label>
+          <br>
+
+          <h3>Describe this animal:</h3>
             <textarea id="aligned-desc" name = "description" required placeholder="e.g. Wolves are ancestors of the modern dog"></textarea>
-          <br>       
-          <div>
+          <br>
+          <br>
+          <div id="image_input">
               <h3>Image Upload</h3>
-              <label for="image-upload-option-1" class="pure-radio">URL</label>
-                <input type="radio" id="image-upload-option-1" name="imageType" value="URL" />
-              <label for="image-upload-option-2" class="pure-radio">File Upload</label>
-                <input type="radio" id="image-upload-option-2" name="imageType" value="File" />
-                <br />
+              <label for="image-upload-option-1" class="pure-radio">
+                <input type="radio" id="image-upload-option-1" name="imageType" value="URL" /> URL</label>
                 <input type="text" id="aligned-image-URL" name="imageURL" placeholder="www.cuteturtlething.com/myTurtle" style="visibility:hidden" />
-                <input type="file" id="aligned-image-file" name="imageFile" style="visibility:hidden" />
+              <label for="image-upload-option-2" class="pure-radio">
+                <input type="radio" id="image-upload-option-2" name="imageType" value="File" checked=""/> File Upload</label>
+                <input type="file" id="aligned-image-file" name="imageFile" /><br>
+                <br>
           </div>
           <!--
           <p> Image
