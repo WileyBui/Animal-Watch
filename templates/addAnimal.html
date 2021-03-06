@@ -2,7 +2,7 @@
 
 {% block css_and_js_contents %}
 <link href="/static/main.css" rel="stylesheet" type="text/css" />
-<script src="static/add_animal.js"></script>
+<script src="static/add_animal.js" defer></script>
 {% endblock %}
 
 {% block title %}Add New Animal{% endblock %}
@@ -19,11 +19,11 @@
     <br>
     <br>
     
-    <form class="pure-form" action = "add" method = "POST">
+    <form class="pure-form" id="addAnimalForm" method = "POST" enctype="multipart/form-data">
       <fieldset>
           <legend>Add a new animal.</legend>
           <label for="aligned-tags">Optional: Animal tags (separate with commas)</label>
-            <input type="text" id="aligned-tags" placeholder="e.g. snake, poisonous, reptile"/>
+            <input type="text" id="aligned-tags" name="tags" placeholder="e.g. snake, poisonous, reptile"/>
           <br>
           <label for="aligned-species">Animal/species</label>
             <input type="text" id="aligned-species" name = "species" placeholder="e.g. canis lupis" required />
@@ -51,10 +51,17 @@
           
           <label for="aligned-desc">Describe this animal</label>
             <textarea id="aligned-desc" name = "description" required placeholder="e.g. Wolves are ancestors of the modern dog"></textarea>
-          <br>
-          <label for="aligned-image">Image URL</label>
-            <input type="text" id="aligned-image" name = "imageURL" placeholder="www.cuteturtlething.com/myTurtle"/>
-          
+          <br>       
+          <div>
+              <h3>Image Upload</h3>
+              <label for="image-upload-option-1" class="pure-radio">URL</label>
+                <input type="radio" id="image-upload-option-1" name="imageType" value="URL" />
+              <label for="image-upload-option-2" class="pure-radio">File Upload</label>
+                <input type="radio" id="image-upload-option-2" name="imageType" value="File" />
+                <br />
+                <input type="text" id="aligned-image-URL" name="imageURL" placeholder="www.cuteturtlething.com/myTurtle" style="visibility:hidden" />
+                <input type="file" id="aligned-image-file" name="imageFile" style="visibility:hidden" />
+          </div>
           <!--
           <p> Image
             <input type="file" id = "image" name="image" placeholder = "Select a file from your device">

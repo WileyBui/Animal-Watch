@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 
@@ -30,8 +30,11 @@
     <!-- right side of header -->
     <ul class="pure-menu-list">
       <li class="pure-menu-item link"><a href="{{ url_for("page_feed") }}" class="pure-menu-link">Animal List</a></li>
-      <li class="pure-menu-item link"><a href="{{ url_for("page_signup") }}" class="pure-menu-link">Sign Up</a></li>
-      <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">Login</a></li>
+      {% if session['profile'] %}
+        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">LogOut</a></li>
+      {% else %}
+        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">LogIn</a></li>
+      {% endif %}
     </ul>
   </div>
 

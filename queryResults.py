@@ -4,7 +4,7 @@ def getActivityFeed(cur):
             SELECT
                 Animals.id,
                 Animals.species,
-                Animals.imageURL,
+                Animals.image_id,
                 array_to_string(array_agg(distinct "tag"),'; ') AS tag,
                 array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color
             FROM Animals, HasTag, Tags
@@ -14,9 +14,9 @@ def getActivityFeed(cur):
             GROUP BY
                 Animals.id,
                 Animals.species,
-                Animals.imageURL
+				Animals.image_id
         ) A
-        ORDER BY A.id DESC;
+        ORDER BY A.ID DESC;
     """)
     return cur
     
@@ -27,7 +27,10 @@ def getSharedContentsByAnimalId(cur, animal_id):
             Animals.species,
             array_to_string(array_agg(distinct "tag"),'; ') AS tag,
             array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-            Animals.imageURL
+            Animals.image_id,
+			Animals.endangerment_level,
+			Animals.animal_range,
+			Animals.animal_description
         FROM Animals, HasTag, Tags
         WHERE
             Animals.id = %s
@@ -35,7 +38,10 @@ def getSharedContentsByAnimalId(cur, animal_id):
             AND HasTag.tag_id = Tags.id
         GROUP BY
             Animals.species,
-            Animals.imageURL;
+            Animals.image_id,
+			Animals.endangerment_level,
+			Animals.animal_range,
+			Animals.animal_description;
     """, [animal_id])
     return [record for record in cur]
         
@@ -45,7 +51,7 @@ def getAllPostsByAnimalId(cur, animal_id):
         SELECT
             Users.users_name,
             Posts.post_text,
-            Posts.imageURL,
+            Posts.image_id,
             Posts.post_time,
             Posts.latitude,
             Posts.longitude
@@ -59,7 +65,7 @@ def getAllPostsByAnimalId(cur, animal_id):
     postList = [record for record in cur]
     
     # No posts created if nothing's returned; otherwise, gets the first index's contents
-    postList = (["", "No post made...", None, None] if (len(postList) == 0) else postList)
+    #postList = (["", "No post made...", None, None] if (len(postList) == 0) else postList)
     
     return postList
 
@@ -81,6 +87,17 @@ def getAllCommentsByAnimalId(cur, animal_id):
     commentList = [record for record in cur]
     
     # No comments created if nothing's returned; otherwise, gets the first index's contents
-    commentList = (["", "No comments made...", None, None] if (len(commentList) == 0) else commentList)
+    #commentList = (["", "No comments made...", None, None] if (len(commentList) == 0) else commentList)
     
     return commentList
+
+def addTags(cur, animal_id, tagList):
+    for tag in tagList:
+        cur.execute("SELECT * FROM Tags WHERE Tags.tag = %s;", (tag,))
+        tagExists = cur.fetchone()
+        if tagExists:
+            tag_id = tagExists[0]
+        else:
+            cur.execute("insert into Tags (tag, tag_bootstrap_color) values (%s, %s) RETURNING id;", (tag, 1))
+            tag_id = cur.fetchone()[0]
+        cur.execute("insert into HasTag (animal_id, tag_id) values (%s, %s);", (animal_id, tag_id))
