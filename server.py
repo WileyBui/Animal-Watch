@@ -140,6 +140,7 @@ def page_look_up_post(animal_id):
         longitude   = None if longitude == "" else longitude
         description = None if description == "" else description
         
+        
         if (latitude == None or longitude == None or description == None):
             return "Latitude, longitude, and/or description cannot be empty!"
         
@@ -151,6 +152,17 @@ def page_look_up_post(animal_id):
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
         
+@app.route('/scratch/<int:animal_id>', methods=['POST'])
+def post_comment(animal_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+        description = request.form.get("description", None)
+
+        cur.execute("INSERT INTO Comments (users_id, animal_id, comm_text) values (%s, %s, %s)", (users_id, animal_id, description))
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+
 @app.route('/home')
 def home():
     user_name = request.args.get("userName", "unknown")

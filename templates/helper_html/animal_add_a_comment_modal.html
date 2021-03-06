@@ -6,7 +6,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{ url_for('page_look_up_post', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
+          <form role="form" action="{{ url_for('post_comment', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Description</label>
               <textarea class="form-control" id="message-text" required name="description"></textarea>
