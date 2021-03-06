@@ -1,11 +1,21 @@
 <link rel="stylesheet" href="../static/animalposts.css">
+<script src="/static/comments.js"></script>
 
 <div class="card p-3 mt-2">
 	<div class="d-flex justify-content-between align-items-center">
 		<div class="user d-flex flex-row align-items-center"> <img src="{{user_avatar}}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">{{username}}</small> <small class="font-weight-bold">{{user_text}} </small></span> </div> <small>{{comment_time|humanize}}</small>
 	</div>
 	<div class="action d-flex justify-content-between mt-2 align-items-center">
-		<div class="reply px-4"> <a href="/delete/{{animal_id}}/{{comment_id}}"><small>Remove</small> </a><span class="dots"></span> <a href="/reply/{{animal_id}}/{{comment_id}}"><small>Reply</small></a> <span class="dots"></span> <a href="/edit/{{comment_id}}"><small>Edit</small></a> <span class="dots"></span> <a href="/report/{{comment_id}}"><small>Report</small></a></div>
+		<div class="reply px-4"> 
+			{% if comment_user == users_id %}
+			<a href="/delete/{{animal_id}}/{{comment_id}}"><small>Remove</small> </a><span class="dots"></span> 
+			{% endif %}
+			<a href="/reply/{{animal_id}}/{{comment_id}}"><small>Reply</small></a> <span class="dots"></span> 
+			{% if comment_user == users_id %}
+			<a href="/edit/{{comment_id}}"><small>Edit</small></a> <span class="dots"></span>
+			{% endif %}
+			<a href="/report/{{comment_id}}"><small>Report</small></a>
+		</div>
 		<div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i> </div>
 	</div>
 </div>

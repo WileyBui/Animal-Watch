@@ -230,7 +230,7 @@
             </span> </div>
         </div>
         {% for n in commentList %}
-            {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4] %}
+            {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4], comment_user=n[5], users_id=users_id %}
               {% include "helper_html/animal_look_up_q_and_a.html" %}
             {% endwith %}
           {% endfor %}

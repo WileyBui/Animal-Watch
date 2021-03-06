@@ -115,12 +115,13 @@ def page_lookup(animal_id):
         if (len(shared_data) == 1):
             postList    = getAllPostsByAnimalId(cur, animal_id)
             commentList = getAllCommentsByAnimalId(cur, animal_id)
+            users_id = session['profile']['user_id']
             locationList   = []
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
                 
             return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, 
-                                   commentList=commentList, animal_id=animal_id, locations=locationList)
+                                   commentList=commentList, animal_id=animal_id, locations=locationList, users_id=users_id)
         else:
             abort(404)
 
