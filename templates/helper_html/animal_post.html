@@ -1,0 +1,97 @@
+
+<style>
+    #comments {
+    box-shadow: 0 -1px 6px 1px rgba(0,0,0,0.1);
+	background-color:#FFFFFF;
+}
+
+#comments form {
+	margin-bottom:30px;
+}
+
+#comments .btn {
+	margin-top:7px;
+}
+
+#comments form fieldset {
+	clear:both;
+}
+
+#comments form textarea {
+	height:100px;
+}
+
+#comments .media {
+	border-top:1px dashed #DDDDDD;
+	padding:20px 0;
+	margin:0;
+}
+
+#comments .media > .pull-left {
+    margin-right:20px;
+}
+
+#comments .media img {
+	max-width:100px;
+}
+
+#comments .media h4 {
+	margin:0 0 10px;
+}
+
+#comments .media h4 span {
+	font-size:14px;
+	float:right;
+	color:#999999;
+}
+
+#comments .media p {
+	margin-bottom:15px;
+	text-align:justify;
+}
+
+#comments .media-detail {
+	margin:0;
+}
+
+#comments .media-detail li {
+	color:#AAAAAA;
+	font-size:12px;
+	padding-right: 10px;
+	font-weight:600;
+}
+
+#comments .media-detail a:hover {
+	text-decoration:underline;
+}
+
+#comments .media-detail li:last-child {
+	padding-right:0;
+}
+
+#comments .media-detail li i {
+	color:#666666;
+	font-size:15px;
+	margin-right:10px;
+}
+
+Similar snippets
+</style> 
+<div class="media">
+    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a>
+    <div class="media-body">
+        <h4 class="media-heading">{{ username }}</h4>
+        <p>{{ user_description }}</p>
+        <ul class="list-unstyled list-inline media-detail pull-left">
+            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+            <li><i class="fa fa-thumbs-up"></i>13</li>
+        </ul>
+        <ul class="list-unstyled list-inline media-detail pull-right">
+            <li class=""><a href="">Like</a></li>
+            <li class=""><a href="">Reply</a></li>
+            <!-- check if user is correct -->
+            <li class=""><a href="">Edit</a></li>
+            <li class=""><a href="">Delete</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,277 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link rel="stylesheet" href="../static/page_animal_look_up.css">
+<link rel="stylesheet" href="../static/header.css">
+
+<style type="text/css">
+  /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+  #map {
+    height: 100%;
+  }
+</style>
+
+<script>
+  // In the following example, markers appear when the user clicks on the map.
+  // Each marker is labeled with a single alphabetical character.
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let labelIndex = 0;
+
+  var locations = [];
+
+  function initMap() {
+    console.log("test")
+
+    var locations = {{ locations | tojson }};
+
+    console.log(locations)
+    var origin = {
+      lat: 44.97309439424677,
+      lng: -93.23537707328796
+    };
+
+    if (locations.length != 0) {
+      origin = {
+        lat: locations[0][1],
+        lng: locations[0][2]
+      }
+    }
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 8,
+      center: origin
+    });
+
+    for (let i = 0; i < locations.length; i++) {
+      addMarker({
+        lat: locations[i][1],
+        lng: locations[i][2]
+      }, map);
+    }
+
+    // This event listener calls addMarker() when the map is clicked.
+    google.maps.event.addListener(map, "click", (event) => {
+      // modals pop up & ask for confirmation
+      $('#location-latitude').val(event.latLng.lat());
+      $('#location-longitude').val(event.latLng.lng());
+      $('#addNewLocationModal').modal('show')
+    });
+
+    // google.maps.event.addListener(map, "click", (event) => {
+    //   // modals pop up & ask for confirmation
+    //   $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
+    //   $('#modalConfirmation').modal('show');
+
+    //   // once save-btn is clicked, we hide it and display a Toast message 
+    //   // saying the new location is added to the database
+    //   $("#save-btn").on("click", function (e) {
+    //     $('#modalConfirmation').modal('hide');
+    //     $('#instructionToast').toast('show');
+    //     addMarker(event.latLng, map);
+    //   });
+
+    // });
+  }
+
+  // Adds a marker to the map.
+  function addMarker(location, map) {
+    // Add the marker at the clicked location, and add the next-available label
+    // from the array of alphabetical characters.
+    new google.maps.Marker({
+      position: location,
+      label: labels[labelIndex++ % labels.length],
+      map: map
+    });
+  }
+</script>
+{% endblock %}
+
+{% block title %}{{ shared_contents[0] }}{% endblock %}
+
+{% block contents %}
+<div id="ignore-header-nav"></div>
+<div class="py-5">
+  <div class="container" id="big-container">
+    <div class="padding-bottom">
+      <h1>{{ shared_contents[0] }}</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-5 order-md-1">
+        {% with image=shared_contents[3] %}
+        {% include "helper_html/animal_look_up_carousel.html" %}
+        {% endwith %}
+      </div>
+      <div class="col-md-7 order-md-2 d-flex flex-column justify-content-center align-items-center">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <th scope="row">Tags</th>
+              <td>
+                {% for i in range(shared_contents[1].split("; ")|length) %}
+                <span
+                  class="badge bg-{{ shared_contents[2].split('; ')[i] }}">{{ shared_contents[1].split("; ")[i] }}</span>
+                {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Species</th>
+              <td>{{ shared_contents[0] }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Range</th>
+              <td>North America</td>
+            </tr>
+            <tr>
+              <th scope="row">Classification</th>
+              <td>Endangered</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>something something</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- <div class="btn-group modify-btn">
+          <button type="button" class="btn btn-sm btn-outline-primary modify-btn">Edit</button>
+          <button type="button" class="btn btn-sm btn-outline-primary modify-btn" data-toggle="modal" data-target="#exampleModalCenter">Delete</button>
+        </div> -->
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/animal_post.svg" width="20%" />
+        <h3>Animal Posts</h3>
+        <br />
+      </div>
+
+      <!-- ANIMAL POSTS: people can view these posts; only authenticated users can post posts -->
+      <table class="pure-table pure-table-horizontal" style="width: 100%">
+        <thead>
+          <tr>
+            <th width="20%">Authors</th>
+            <th>Descriptions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for n in postList %}
+            {% with username=n[0], user_description=n[1], user_avatar=n[2], post_time=n[3] %}
+              {% include "helper_html/animal_post.html" %}
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+        data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
+
+      {% include "helper_html/animal_add_a_post_modal.html" %}
+
+    </div>
+
+    <hr>
+
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/searching.svg" width="20%" />
+        <h3 id="recent-sightings">Recent Sightings</h3>
+        <br />
+        <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
+
+        <div style="width: 100%; height: 70vh">
+          <div id="map"></div>
+        </div>
+
+        <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
+            new sighting</button>
+        </div> -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalConfirmation">
+          Launch demo modal
+        </button> -->
+
+        <!-- <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmationLabel">Are you sure to add the new location?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="modal-message">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save-btn">Yes, add new location</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5" data-autohide="false">
+      <div id="instructionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <img src="/static/images/instruction-icon.png" class="rounded me-2" width="30px" height="30px">
+          <strong class="me-auto">Add a location</strong>
+          <small>now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Click on the map to retrieve the latitude and longitude.</div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/QandA.svg" width="25%;" />
+        <h3>Questions / Comments / Concerns</h3>
+        <br />
+      </div>
+      <table class="pure-table pure-table-horizontal" style="width: 100%">
+        <thead>
+            <tr>
+                <th width="20%">Username</th>
+                <th>Questions / Comments / Concerns</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for n in commentList %}
+            {% with username=n[0], user_text=n[1], comment_time=n[2] %}
+              {% include "helper_html/animal_look_up_q_and_a.html" %}
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+    
+      <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 100%">Make a new question, comment, or concern</button></div> -->
+
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+      data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
+
+      {% include "helper_html/animal_add_a_comment_modal.html" %}
+    </div>
+  </div>
+</div>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
+  async></script>
+{% endblock %}
+
+{% block bottom_js_contents %}
+<!-- <script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script> -->
+<script src="/static/geoLocation.js"></script>
+<script>
+  $("#retrieve-maps-btn").click(function(){
+    $("#addNewLocationModal").modal("toggle");
+    $('html, body').animate({
+      scrollTop: $("#recent-sightings").offset().top
+    }, 200);
+    $('#instructionToast').toast('show');
+});
+</script>
+{% endblock %}

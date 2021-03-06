@@ -32,6 +32,6 @@ def require_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if 'profile' not in session:
-            return redirect(url_for('login'))
+            return redirect(url_for('page_login'))
         return f(*args, **kwargs)
     return decorated

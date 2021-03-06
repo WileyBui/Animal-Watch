@@ -1,30 +1,74 @@
 {% extends "parent.html" %}
 
 {% block css_and_js_contents %}
-<
+<link href="/static/main.css" rel="stylesheet" type="text/css" />
+<script src="static/add_animal.js" defer></script>
 {% endblock %}
-<script src="static/add_animal.js"></script>
+
 {% block title %}Add New Animal{% endblock %}
 
 {% block contents %}
-  <h1>Add New Animal</h1>
-  <form name="addAnimalForm" id="addAnimalForm" method="POST">
-    <p> Animal type/Species*
-      <input type="text" id = "species" name="species" required maxlength="30" placeholder = "e.g. canis lupis" required>
-    </p>
-    <p> Classification & Description
-      <input type="text" id = "classification" name="classification" required maxlength="30" placeholder = "e.g. endangered" required>
-    </p>
-    <p> Range/Location
-      <input type="text" id = "range" name="range" required maxlength="30" placeholder = "e.g. North America">
-    </p>
-    <p> Image
-      <input type="file" id = "image" name="image" placeholder = "<Select a file from your device>">
-    </p>
-    <input type = "submit" value = "Add Animal" id = "submit" />
-    <!-- Still need to implement an add animal check, in this case it would be called processAddAnimal -->
-    </p>
-  </form>
+  <br>
+  <br>
+  <br>
 
   <p id="addAnimalError" style="display: none">Adding animal failed, try again</p> <!-- Set to display: block css if adding fails -->
-{% endblock %}
+
+  <div id="addAnimalForm">
+    <br>
+    <br>
+    <br>
+    
+    <form class="pure-form" id="addAnimalForm" method = "POST" enctype="multipart/form-data">
+      <fieldset>
+          <legend>Add a new animal.</legend>
+          <label for="aligned-tags">Optional: Animal tags (separate with commas)</label>
+            <input type="text" id="aligned-tags" name="tags" placeholder="e.g. snake, poisonous, reptile"/>
+          <br>
+          <label for="aligned-species">Animal/species</label>
+            <input type="text" id="aligned-species" name = "species" placeholder="e.g. canis lupis" required />
+          <br>
+          <label for="aligned-range">Animal range</label>
+            <input type="text" id="aligned-range" name = "range" placeholder="e.g. North America" />
+          <br>
+          <div>
+            <h3>How threatened is this species?</h3> <!--  https://en.wikipedia.org/wiki/Conservation_status  -->
+            <label for="checkbox-radio-option-one" class="pure-radio">
+              <input type="radio" id="checkbox-radio-option-one" name="classification" value="0"  /> This species is currently stable</label>
+            
+            <label for="checkbox-radio-option-two" class="pure-radio">
+              <input type="radio" id="checkbox-radio-option-two" name="classification" value="1"  /> This species is threatened</label>
+            
+            <label for="checkbox-radio-option-three" class="pure-radio">
+              <input type="radio" id="checkbox-radio-option-three" name="classification" value="2"  /> This species is endangered</label>
+            
+            <label for="checkbox-radio-option-four" class="pure-radio">
+              <input type="radio" id="checkbox-radio-option-four" name="classification" value="3" /> This species is critically endangered</label>
+            
+            <label for="checkbox-radio-option-five" class="pure-radio">
+              <input type="radio" id="checkbox-radio-option-five" name="classification" value="-1" checked=""/> I do not know</label>
+          </div>
+          
+          <label for="aligned-desc">Describe this animal</label>
+            <textarea id="aligned-desc" name = "description" required placeholder="e.g. Wolves are ancestors of the modern dog"></textarea>
+          <br>       
+          <div>
+              <h3>Image Upload</h3>
+              <label for="image-upload-option-1" class="pure-radio">URL</label>
+                <input type="radio" id="image-upload-option-1" name="imageType" value="URL" />
+              <label for="image-upload-option-2" class="pure-radio">File Upload</label>
+                <input type="radio" id="image-upload-option-2" name="imageType" value="File" />
+                <br />
+                <input type="text" id="aligned-image-URL" name="imageURL" placeholder="www.cuteturtlething.com/myTurtle" style="visibility:hidden" />
+                <input type="file" id="aligned-image-file" name="imageFile" style="visibility:hidden" />
+          </div>
+          <!--
+          <p> Image
+            <input type="file" id = "image" name="image" placeholder = "Select a file from your device">
+          </p>
+          -->
+          <button type="submit" class="pure-button pure-button-primary">Submit animal</button>
+      </fieldset>
+    </form>
+  </div>
+  {% endblock %}

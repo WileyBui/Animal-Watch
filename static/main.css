@@ -9,6 +9,8 @@ body {
     background-attachment: fixed;
     background-position: center bottom;
 } */
+/*
+*/
 
 /* body {
     background: url(images/background.png);
@@ -63,4 +65,26 @@ body {
 
 .margin-top-header {
     margin-top: 9vh;
+}
+
+#loginForm{
+    display: block;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+#purePass{
+    display: block;
+    width: 100px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+#addAnimalForm{
+    display: block;
+    text-align: center;
+    align-content: center;
+    align-items: center;
 }

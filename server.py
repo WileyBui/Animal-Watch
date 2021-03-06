@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session
+from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session, send_file
+from werkzeug.utils import secure_filename
 from urllib.parse import urlencode
+import requests
+from PIL import Image
+from io import BytesIO
 import os
-import db
+import db, io
 from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
+from queryResults import *
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
@@ -41,14 +46,12 @@ def callback():
     auth0().authorize_access_token()
     resp = auth0().get('userinfo')
     userinfo = resp.json()
-
     session['jwt_payload'] = userinfo
     session['profile'] = {
         'user_id': userinfo['sub'],
         'name': userinfo['name'],
         'picture': userinfo['picture']
     }
-
     with db.get_db_cursor(commit=True) as cur:
         users_id = session['profile']['user_id']
         users_name = session['profile']['name']
@@ -58,29 +61,49 @@ def callback():
                 if record[0] == 0:
                     cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
         except:
-            pass
-    return redirect('/test_auth') 
-
+            cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+    return redirect('/test_auth')
+    
 @app.route('/test_auth')
 @require_auth
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
 
+### IMAGES
+@app.route('/image/<int:img_id>')
+def view_image(img_id):
+    app.logger.info(img_id)
+    with db.get_db_cursor() as cur:
+        cur.execute("SELECT * FROM Images where Images.id=%s", (img_id,))
+        image_row = cur.fetchone() # just another way to interact with cursors
+         
+        # in memory pyhton IO stream
+        stream = io.BytesIO(image_row["image_data"])
+         
+        # use special "send_file" function
+        return send_file(stream, attachment_filename=image_row["image_name"])
 
-@app.route('/add')
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', "gif"]
+
+
+@app.route('/addAnimal')
 @require_auth
 def page_add_animal():
     return render_template("addAnimal.html")
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/addAnimal', methods=['POST'])
 def processAddAnimal():
     with db.get_db_cursor(commit=True) as cur:
-        users_id = session['profile']['user_id']
-        animal_id = request.form.get("species")
-        post_text = request.form.get("classification")
-        post_location = request.form.get("range")
+        users_id = session['profile']['user_id'] 
+        #users_id = 1 #TESTING TESTING TESTING - DON'T DEPLOY THIS
+        species = request.form.get("species")
+        endangerment_level = request.form.get("classification")
+        
+        animal_range = request.form.get("range")
         #latitude =
         #longitude =
         # Get image from the form
@@ -88,50 +111,81 @@ def processAddAnimal():
             # Encode image data into a string
          #   post_image = base64.b64encode(image.read())
           #  console.logger.info(post_image)
-        post_image = request.form.get("image")
-        post_time = str(datetime.now())
-        cur.execute("insert into Posts (users_id, animal_id, post_text, imageURL, post_time) values (%s, %s, %s, %s, %s);", (users_id, animal_id, post_text, post_image, post_time))
+        imageURL = request.form.get("imageURL") #TODO: fix the image back-end
+        imageFile = request.files["imageFile"]
+        if imageURL != '':
+            resp = requests.get(imageURL)
+            image = BytesIO(resp.content).read()
+            #print(image)
+            #app.logger.info(image)
+            cur.execute('insert into Images (image_name, image_data) values (%s, %s) RETURNING id;', (str(imageURL),image))
+            imageID = cur.fetchone()[0]
+        elif imageFile and allowed_file(imageFile.filename):
+            filename = secure_filename(imageFile.filename)
+            cur.execute("insert into Images (image_name, image_data) values (%s, %s) RETURNING id;", (filename, imageFile.read()))
+            imageID = cur.fetchone()[0]
+          
+        animal_description = request.form.get("description")
+        #post_time = str(datetime.now()) #Removed-this is not part of animal page right now
+        cur.execute('insert into Animals (species, endangerment_level, animal_range, image_id, animal_description) values (%s, %s, %s, %s, %s) RETURNING id;', (species, endangerment_level, animal_range, imageID, animal_description))
+        tags = request.form.get("tags")
+        tagList = tags.split(', ')
+        app.logger.info(tagList)
+        addTags(cur, cur.fetchone()[0], tagList)
+		###THE NEXT LINE IS HOT GARBAGE FOR TESTING PURPOSES
+        #cur.execute("insert into Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) values (%s, %s, %s, %s, %s, %s, %s);", (users_id, 11, animal_description, imageURL, post_time, 1, 1))
+        ###THE PREVIOUS LINE IS HOT GARBAGE FOR TESTING PURPOSES
         #cur.execute("insert into Locations (user_id, animal_id, lat, long) values (%s, %s, %s, %s);" (user_id, animal_id, lat, long))
-        return redirect(url_for("/feed"))
+        return redirect(url_for("page_feed"))
 
 @app.route('/feed', methods=['GET'])
 def page_feed():
     with db.get_db_cursor(False) as cur:
-        cur.execute("""
-                    
-                SELECT * FROM (
-                    SELECT
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.image_id,
-                        array_to_string(array_agg(distinct "tag"),'; ') AS tag,
-                        array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-                        Posts.post_time
-                    FROM Posts, Users, Animals, HasTag, Tags, Images
-                    WHERE
-                        Posts.users_id = Users.id
-                        AND Posts.animal_id = Animals.id
-                        AND Animals.id = HasTag.animal_id
-                        AND HasTag.tag_id = Tags.id
-						AND Posts.image_id = Images.id
-                    GROUP BY
-                        Posts.post_time,
-                        Posts.users_id,
-                        Users.users_name,
-                        Posts.post_text,
-                        Posts.image_id,
-                        Posts.post_time
-                ) A
-                ORDER BY A.post_time DESC;
-                        
-                    """)
+        records = getActivityFeed(cur)
+        app.logger.info(records.fetchone())
+        return render_template("feed.html", dataList=getActivityFeed(cur))
+
+@app.route('/animal/<int:animal_id>', methods=['GET'])
+def page_lookup(animal_id):
+    with db.get_db_cursor(False) as cur:
+        # shared contents
+        shared_data = getSharedContentsByAnimalId(cur, animal_id)
         
-        return render_template("feed.html", dataList=cur)
-    
-@app.route('/post/<int:id>', methods=['GET'])
-def page_lookup(id):
-    return render_template("post_lookup.html")
+        if (len(shared_data) == 1):
+            postList    = getAllPostsByAnimalId(cur, animal_id)
+            commentList = getAllCommentsByAnimalId(cur, animal_id)
+            locationList   = []
+            app.logger.info(len(postList))
+            for i in range(len(postList)):
+                locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
+                
+            return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList, 
+                                   commentList=commentList, animal_id=animal_id, locations=locationList)
+        else:
+            abort(404)
+           
+@app.route('/animal/<int:animal_id>', methods=['POST'])
+def page_look_up_post(animal_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+        latitude    = request.form.get("latitude", None)
+        longitude   = request.form.get("longitude", None)
+        description = request.form.get("description", None)
+        
+        latitude    = None if latitude == "" else latitude
+        longitude   = None if longitude == "" else longitude
+        description = None if description == "" else description
+        
+        if (latitude == None or longitude == None or description == None):
+            return "Latitude, longitude, and/or description cannot be empty!"
+        
+        file        = request.files.get("image", None)
+        imageURL    = file.read()
+        if file and is_allowed_image_extention(file.filename):
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (users_id, animal_id, description, imageURL, latitude, longitude))
+        else:
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
+        return redirect(url_for('page_lookup', animal_id=animal_id))
 
 @app.route('/home')
 def home():

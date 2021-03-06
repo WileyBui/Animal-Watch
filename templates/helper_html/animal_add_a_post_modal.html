@@ -1,0 +1,46 @@
+<div class="modal fade" id="addNewLocationModal" tabindex="-1" aria-labelledby="addNewLocationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addNewLocationModalLabel">Add a New Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form role="form" action="{{ url_for('page_look_up_post', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
+          <div class="mb-3 row g-2">
+            <div class="col-md">
+              <button id="find-me" type="button" class="btn btn-info text-white w-100">Retrieve current location</button>
+              <p id="status"></p>
+            </div>
+            <div class="col-md">
+              <button id="retrieve-maps-btn" type="button" class="btn btn-info text-white w-100">Retrieve location by Google Maps</button>
+              <p id="status"></p>
+            </div>
+          </div>
+          <div class="mb-3 row g-2">
+            <div class="col-md">
+              <label for="location-latitude" class="col-form-label">Latitude</label>
+              <input type="text" class="form-control" id="location-latitude" name="latitude">
+            </div>
+            <div class="col-md">
+              <label for="location-longitude" class="col-form-label">Longitude</label>
+              <input type="text" class="form-control" id="location-longitude" name="longitude">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="formFileSm" class="form-label">Image</label>
+            <input class="form-control" id="formFileSm" type="file" name="image" accept="image/jpeg,image/png,image/jpg">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Description</label>
+            <textarea class="form-control" id="message-text" required name="description"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

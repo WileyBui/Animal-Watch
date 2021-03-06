@@ -25,3 +25,25 @@ body {
 .search-btn-padding {
     padding: 11px 0;
 }
+
+.use-full-width {
+    width: 100%;
+}
+
+hr {
+    margin-top: 0em;
+    margin-bottom: 0.3em;
+}
+
+a, a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.animal-tags {
+    margin-bottom: 0.5em;
+}
+
+.add-margin-top-08em {
+    margin-top: 0.8em;
+}
