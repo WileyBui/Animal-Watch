@@ -61,7 +61,7 @@ def callback():
                 if record[0] == 0:
                     cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
         except:
-            cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+            pass
     return redirect('/test_auth')
     
 @app.route('/test_auth')
@@ -120,7 +120,7 @@ def processAddAnimal():
           
         animal_description = request.form.get("description")
         #post_time = str(datetime.now()) #Removed-this is not part of animal page right now
-        cur.execute('insert into Animals (species, endangerment_level, animal_range, image_id, animal_description) values (%s, %s, %s, %s, %s) RETURNING id;', (species, endangerment_level, animal_range, imageID, animal_description))
+        cur.execute('insert into Animals (species, endangerment_level, animal_range, image_id, animal_description, users_id) values (%s, %s, %s, %s, %s, %s) RETURNING id;', (species, endangerment_level, animal_range, imageID, animal_description, users_id))
         tags = request.form.get("tags")
         tagList = tags.split(', ')
         app.logger.info(tagList)

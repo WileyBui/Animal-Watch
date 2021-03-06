@@ -32,7 +32,8 @@ create table Animals (
 	endangerment_level int,
 	image_id int references Images,
 	animal_range varchar(255),
-	animal_description text
+	animal_description text,
+	users_id text references Users
 );
 
 -- create table AnimalLikes (

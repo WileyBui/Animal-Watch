@@ -27,7 +27,10 @@ def getSharedContentsByAnimalId(cur, animal_id):
             Animals.species,
             array_to_string(array_agg(distinct "tag"),'; ') AS tag,
             array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color,
-            Animals.image_id
+            Animals.image_id,
+			Animals.endangerment_level,
+			Animals.animal_range,
+			Animals.animal_description
         FROM Animals, HasTag, Tags
         WHERE
             Animals.id = %s
@@ -35,7 +38,10 @@ def getSharedContentsByAnimalId(cur, animal_id):
             AND HasTag.tag_id = Tags.id
         GROUP BY
             Animals.species,
-            Animals.image_id;
+            Animals.image_id,
+			Animals.endangerment_level,
+			Animals.animal_range,
+			Animals.animal_description;
     """, [animal_id])
     return [record for record in cur]
         
