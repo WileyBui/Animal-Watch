@@ -152,7 +152,7 @@ def page_look_up_post(animal_id):
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
         
-@app.route('/scratch/<int:animal_id>', methods=['POST'])
+@app.route('/comment/<int:animal_id>', methods=['POST'])
 def post_comment(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
@@ -162,6 +162,40 @@ def post_comment(animal_id):
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
+@app.route('/delete/<int:animal_id>/<int:comment_id>')
+def delete_comment(animal_id, comment_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+
+        ##app.logger.info("users_id from session %s", users_id)
+        ##app.logger.info("comment_id from session %s", comment_id)
+
+        cur.execute("select users_id from Comments where id = '%s'", [comment_id]) 
+        record = cur.fetchone()
+        if record[0] == users_id:
+            ##app.logger.info("record: %s", record[0])
+            cur.execute("delete from comments where id = '%s'", [comment_id])
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/edit/<int:animal_id>/<int:comment_id>')
+def edit_comment(animal_id, comment_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+        description = request.form.get("description", None)
+
+        cur.execute("INSERT INTO Comments (users_id, animal_id, comm_text) values (%s, %s, %s)", (users_id, animal_id, description))
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/report/<int:animal_id>/<int:comment_id>')
+def report_comment(animal_id, comment_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+        description = request.form.get("description", None)
+
+        cur.execute("INSERT INTO Comments (users_id, animal_id, comm_text) values (%s, %s, %s)", (users_id, animal_id, description))
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
 
 @app.route('/home')
 def home():

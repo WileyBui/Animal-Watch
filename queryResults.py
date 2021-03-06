@@ -71,7 +71,8 @@ def getAllCommentsByAnimalId(cur, animal_id):
             Users.users_name,
             Comments.comm_text,
             Comments.comm_time,
-            Users.profile_picture
+            Users.profile_picture,
+            Comments.id  --This is need for comment deletion.
         FROM Animals, Comments, Users
         WHERE
             Animals.id = %s
