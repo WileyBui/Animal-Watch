@@ -69,7 +69,6 @@ def callback():
 def test_auth():
     return render_template("main.html", profile=session['profile'])
 
-
 ### IMAGES
 @app.route('/image/<int:img_id>')
 def view_image(img_id):

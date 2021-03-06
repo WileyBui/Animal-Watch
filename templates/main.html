@@ -15,13 +15,19 @@
           <img src="../static/images/background_hiking.svg" width="100%" />
         </div>
         <div class="col-md-5 order-md-2 d-flex flex-column justify-content-center">
-          <h1>Welcome to Animal Watch...</h1>
+          {% if session['profile'] %}
+            <h1>Welcome to Animal Watch, {{ session['profile']['name'] }}</h1>
+          {% else %}
+            <h1>Welcome to Animal Watch...</h1>
+          {% endif %}
+          
           <p>Animal Watch is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-          <div class="btn-group">
-            <button type="button" id="loginButton" class="btn btn-sm btn-outline-primary" onclick="location.href = '{{ url_for("page_login") }}';">Login</button>
-            <button type="button" id="SignUpButton" class="btn btn-sm btn-outline-primary" onclick="location.href = '{{ url_for("page_signup") }}';">Sign Up</button>
-          </div>
+          
+          {% if not session['profile'] %}
+            <div class="btn-group">
+                <button type="button" id="loginButton" class="btn btn-sm btn-outline-primary" onclick="location.href = '{{ url_for("page_login") }}';">Login</button>
+            </div>
+          {% endif %}
       </div>
     </div>
   </div>
