@@ -101,16 +101,9 @@ def processAddAnimal():
         users_id = session['profile']['user_id'] 
         #users_id = 1 #TESTING TESTING TESTING - DON'T DEPLOY THIS
         species = request.form.get("species")
-        endangerment_level = request.form.get("classification")
-        
+        endangerment_level = request.form.get("classification")       
         animal_range = request.form.get("range")
-        #latitude =
-        #longitude =
-        # Get image from the form
-        #with open(request.form.get("image"), "rb") as image:
-            # Encode image data into a string
-         #   post_image = base64.b64encode(image.read())
-          #  console.logger.info(post_image)
+
         imageURL = request.form.get("imageURL") #TODO: fix the image back-end
         imageFile = request.files["imageFile"]
         if imageURL != '':
@@ -132,10 +125,7 @@ def processAddAnimal():
         tagList = tags.split(', ')
         app.logger.info(tagList)
         addTags(cur, cur.fetchone()[0], tagList)
-		###THE NEXT LINE IS HOT GARBAGE FOR TESTING PURPOSES
-        #cur.execute("insert into Posts (users_id, animal_id, post_text, imageURL, post_time, latitude, longitude) values (%s, %s, %s, %s, %s, %s, %s);", (users_id, 11, animal_description, imageURL, post_time, 1, 1))
-        ###THE PREVIOUS LINE IS HOT GARBAGE FOR TESTING PURPOSES
-        #cur.execute("insert into Locations (user_id, animal_id, lat, long) values (%s, %s, %s, %s);" (user_id, animal_id, lat, long))
+
         return redirect(url_for("page_feed"))
 
 @app.route('/feed', methods=['GET'])
@@ -179,10 +169,12 @@ def page_look_up_post(animal_id):
         if (latitude == None or longitude == None or description == None):
             return "Latitude, longitude, and/or description cannot be empty!"
         
-        file        = request.files.get("image", None)
-        imageURL    = file.read()
-        if file and is_allowed_image_extention(file.filename):
-            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, imageURL, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (users_id, animal_id, description, imageURL, latitude, longitude))
+        imageFile        = request.files["image"]
+        if imageFile and allowed_file(imageFile.filename):
+            filename = secure_filename(imageFile.filename)
+            cur.execute("insert into Images (image_name, image_data) values (%s, %s) RETURNING id;", (filename, imageFile.read()))
+            imageID = cur.fetchone()[0]
+            cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, image_id, latitude, longitude) values (%s, %s, %s, %s, %s, %s)", (users_id, animal_id, description, imageID, latitude, longitude))
         else:
             cur.execute("INSERT INTO Posts (users_id, animal_id, post_text, latitude, longitude) values (%s, %s, %s, %s, %s)", (users_id, animal_id, description, latitude, longitude))
         return redirect(url_for('page_lookup', animal_id=animal_id))
