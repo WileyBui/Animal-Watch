@@ -30,10 +30,21 @@
     <!-- right side of header -->
     <ul class="pure-menu-list">
       <li class="pure-menu-item link"><a href="{{ url_for("page_feed") }}" class="pure-menu-link">Animal List</a></li>
+
       {% if session['profile'] %}
-        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">LogOut</a></li>
+        <li class="pure-menu-item dropdown">
+          <button class="btn dropdown-toggle btn-sm" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+            <img src="{{ session['profile']['picture'] }}" width="25px" height="25px" /> 
+            {{ session['profile']['name'] }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="{{ url_for("logout") }}">Logout</a></li>
+          </ul>
+        </li>
       {% else %}
-        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">LogIn</a></li>
+        <li class="pure-menu-item link"><a href="{{ url_for("page_signup") }}" class="pure-menu-link">Sign Up</a></li>
+        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">Login</a></li>
       {% endif %}
     </ul>
   </div>
