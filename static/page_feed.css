@@ -47,3 +47,7 @@ a, a:hover {
 .add-margin-top-08em {
     margin-top: 0.8em;
 }
+
+#addAnimalLink {
+  padding-left: 7em;
+}

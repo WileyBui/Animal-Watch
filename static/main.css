@@ -67,14 +67,14 @@ body {
     margin-top: 9vh;
 }
 
-#loginForm{
+#loginForm {
     display: block;
     text-align: center;
     align-content: center;
     align-items: center;
 }
 
-#purePass{
+#purePass {
     display: block;
     width: 100px;
     text-align: center;
@@ -82,16 +82,20 @@ body {
     align-items: center;
 }
 
-#addAnimalForm{
+#addAnimalForm {
     display: block;
     padding-left: 1em;
 }
 
-#aligned-desc{
+#aligned-desc {
   height: 8em;
   width: 20em;
 }
 
-#aligned-tags{
+#aligned-tags {
   width: 20em;
+}
+
+#classification {
+  height: 2.5em;
 }
