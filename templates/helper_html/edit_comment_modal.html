@@ -1,16 +1,16 @@
 <script></script>
-<div class="modal fade" id="replyCommentModal" tabindex="-1" aria-labelledby="replyCommentModalLabel" aria-hidden="true">
+<div class="modal fade" id="editCommentModal" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="replyCommentModalLabel">Reply To Comment</h5>
+          <h5 class="modal-title" id="editCommentModalLabel">Edit To Comment</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form role="form" action="{{ url_for('reply_comment', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
+          <form role="form" action="{{ url_for('edit_comment', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-              <label for="reply-message-text" class="col-form-label">Description</label>
-              <textarea class="form-control" id="reply-message-text" required name="description" value="{{user_text}}"></textarea>
+              <label for="edit-message-text" class="col-form-label">Description</label>
+              <textarea class="form-control" id="edit-message-text" required name="description" value="{{user_text}}"></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

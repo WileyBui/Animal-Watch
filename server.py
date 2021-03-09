@@ -182,14 +182,28 @@ def delete_comment(animal_id, comment_id):
 def edit_comment(animal_id, comment_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
+
+        cur.execute("select users_id from Comments where id = '%s'", [comment_id]) 
+        record = cur.fetchone()
+        if record[0] == users_id:
+            
+            ##FIX SQL
+            cur.execute("UPDATE Comments set (comm_text) values (%s) where id = '%s'", (description, comment_id))
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/report/<int:animal_id>/<int:comment_id>')
+def report_comment(animal_id, comment_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
         description = request.form.get("description", None)
 
         cur.execute("INSERT INTO Comments (users_id, animal_id, comm_text) values (%s, %s, %s)", (users_id, animal_id, description))
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/report/<int:animal_id>/<int:comment_id>')
-def report_comment(animal_id, comment_id):
+@app.route('/reply/<int:animal_id>')
+def reply_comment(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
         description = request.form.get("description", None)
