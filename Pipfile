@@ -14,11 +14,8 @@ six = "*"
 auth0-python = "*"
 flask-auth0 = "*"
 oauth = "*"
-<<<<<<< HEAD
 pillow = "*"
-=======
 flask-mail = "*"
->>>>>>> ally-dev
 
 [dev-packages]
 
