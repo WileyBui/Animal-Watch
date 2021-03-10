@@ -54,7 +54,8 @@ def getAllPostsByAnimalId(cur, animal_id):
             Posts.image_id,
             Posts.post_time,
             Posts.latitude,
-            Posts.longitude
+            Posts.longitude,
+            Users.profile_picture
         FROM Posts, Animals, Users
         WHERE
             Animals.id = %s
@@ -75,7 +76,11 @@ def getAllCommentsByAnimalId(cur, animal_id):
         SELECT
             Users.users_name,
             Comments.comm_text,
-            Comments.comm_time
+            Comments.comm_time,
+            Users.profile_picture,
+            Comments.id,  --This is needed for edit/reply/report/delete
+            Comments.users_id,   --This is needed for edit/report/delete
+            Users.id    --This is needed for edit/report/delete
         FROM Animals, Comments, Users
         WHERE
             Animals.id = %s

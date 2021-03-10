@@ -15,7 +15,7 @@ NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class c
 ### Students
 
 * Wiley Bui, buixx206@umn.edu
-* Al Goins, goin0004@umn.edu
+* Ally Goins, goin0004@umn.edu
 * Ray Lauffer, lauff007@umn.edu
 * Jakob Speert, speer034@umn.edu
 * Elise Tran, tran0592@umn.edu
@@ -28,6 +28,11 @@ NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class c
 * ...
 
 ## Testing Notes
+
+THE ADMIN EMAIL FOR OUR SITE IS animalwatch2021@gmail.com
+You will need to add this line to your .env:
+MAIL_PASSWORD="xxxxxxxxxxxxx"
+Ask Ally for password
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
