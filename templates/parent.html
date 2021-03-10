@@ -30,7 +30,7 @@
     <!-- right side of header -->
     <ul class="pure-menu-list">
       <li class="pure-menu-item link"><a href="{{ url_for("page_feed") }}" class="pure-menu-link">Animal List</a></li>
-
+      <li class="pure-menu-item link"><a href="{{ url_for("page_add_animal") }}" class="pure-menu-link">Add a New Animal</a></li>
       {% if session['profile'] %}
         <li class="pure-menu-item dropdown">
           <button class="btn dropdown-toggle btn-sm" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">

@@ -101,7 +101,11 @@ def allowed_file(filename):
 @app.route('/addAnimal')
 @require_auth
 def page_add_animal():
-    return render_template("addAnimal.html")
+    status = request.args.get("status", "")
+    if status:
+        return render_template("addAnimal.html", stat=status)
+    else:
+        return render_template("addAnimal.html")
 
 
 @app.route('/addAnimal', methods=['POST'])
@@ -126,7 +130,8 @@ def processAddAnimal():
             filename = secure_filename(imageFile.filename)
             cur.execute("insert into Images (image_name, image_data) values (%s, %s) RETURNING id;", (filename, imageFile.read()))
             imageID = cur.fetchone()[0]
-
+        else:
+            return redirect(url_for("page_add_animal", status="Image Upload Failed"))
         animal_description = request.form.get("description")
         #post_time = str(datetime.now()) #Removed-this is not part of animal page right now
         cur.execute('insert into Animals (species, endangerment_level, animal_range, image_id, animal_description, users_id) values (%s, %s, %s, %s, %s, %s) RETURNING id;', (species, endangerment_level, animal_range, imageID, animal_description, users_id))

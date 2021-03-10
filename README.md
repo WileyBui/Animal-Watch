@@ -7,8 +7,8 @@ NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class c
 ## App Info:
 
 * Team Name: Free Labor
-* App Name: TODO
-* App Link: <https://TODO.heroku.com/>
+* App Name: Animal Watch
+* App Link: https://warm-mountain-24771.herokuapp.com/
 
 ***** USING PYTHON 3.7+ unless there are strong objections/reasons to change ******
 
@@ -33,7 +33,9 @@ THE ADMIN EMAIL FOR OUR SITE IS animalwatch2021@gmail.com
 You will need to add this line to your .env:
 MAIL_PASSWORD="xxxxxxxxxxxxx"
 Ask Ally for password
-
+************************
+Run pipenv install after a pull from main!!!!!!!!!!!************
+************************
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
 * ...

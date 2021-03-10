@@ -13,7 +13,7 @@
   <br>
 
   <p id="addAnimalError" style="display: none">Adding animal failed, try again</p> <!-- Set to display: block css if adding fails -->
-
+  <script>alert("{{ stat }}");</script>
   <div id="addAnimalForm">
     <br>
 
@@ -61,7 +61,7 @@
             <input type="file" id = "image" name="image" placeholder = "Select a file from your device">
           </p>
           -->
-          <button type="submit" class="pure-button pure-button-primary">Submit animal</button>
+          <button id="SubmitButton" type="submit" class="pure-button pure-button-primary">Submit animal</button>
       </fieldset>
     </form>
   </div>
