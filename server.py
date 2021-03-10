@@ -5,9 +5,19 @@ import db
 from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
 from queryResults import *
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'animalwatch2021@gmail.com'
+app.config['MAIL_PASSWORD'] = os.environ["MAIL_PASSWORD"] # must be added to .env file
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
@@ -178,31 +188,34 @@ def delete_comment(animal_id, comment_id):
             cur.execute("delete from comments where id = '%s'", [comment_id])
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/edit/<int:animal_id>/<int:comment_id>')
+@app.route('/edit/<int:animal_id>/<int:comment_id>', methods=['POST'])
 def edit_comment(animal_id, comment_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
+        description = request.form.get("description", None)
 
         cur.execute("select users_id from Comments where id = '%s'", [comment_id]) 
         record = cur.fetchone()
         if record[0] == users_id:
             
             ##FIX SQL
-            cur.execute("UPDATE Comments set (comm_text) values (%s) where id = '%s'", (description, comment_id))
+            cur.execute("UPDATE Comments set comm_text = %s where id = '%s'", (description, comment_id))
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/report/<int:animal_id>/<int:comment_id>')
+@app.route('/report/<int:animal_id>/<int:comment_id>', methods=['POST'])
 def report_comment(animal_id, comment_id):
-    with db.get_db_cursor(True) as cur:
-        users_id = session['profile']['user_id']
-        description = request.form.get("description", None)
-
-        cur.execute("INSERT INTO Comments (users_id, animal_id, comm_text) values (%s, %s, %s)", (users_id, animal_id, description))
+    users_id = session['profile']['user_id']
+    description = request.form.get("description", None)
+    message_text = f'User {users_id} reported comment {comment_id} ------ '
+    #app.logger.info('message_text: %s', message_text) 
+    msg = Message(message_text, sender=app.config['MAIL_USERNAME'], recipients=[app.config['MAIL_USERNAME']] )
+    msg.body=message_text + description
+    mail.send(msg)
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/reply/<int:animal_id>')
+@app.route('/reply/<int:animal_id>', methods=['POST'])
 def reply_comment(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
