@@ -79,8 +79,8 @@
         <div class="modal-body">
           <form role="form" action="{{ url_for('report_comment', animal_id=animal_id, comment_id=comment_id) }}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-              <label for="edit-message-text" class="col-form-label">Description</label>
-              <textarea class="form-control" id="edit-message-text" required name="description"></textarea>
+              <label for="report-message-text" class="col-form-label">Description</label>
+              <textarea class="form-control" id="report-message-text" required name="description"></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
