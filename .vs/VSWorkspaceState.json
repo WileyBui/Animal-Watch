@@ -3,8 +3,9 @@
     "",
     "\\images",
     "\\static",
-    "\\templates"
+    "\\templates",
+    "\\templates\\helper_html"
   ],
-  "SelectedNode": "\\Pipfile",
+  "SelectedNode": "\\templates\\main.html",
   "PreviewInSolutionExplorer": false
 }
