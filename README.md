@@ -34,6 +34,8 @@ You will need to add this line to your .env:
 MAIL_PASSWORD="xxxxxxxxxxxxx"
 Ask Ally for password
 
+pipenv install flask_mail
+
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
 * ...
