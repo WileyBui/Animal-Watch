@@ -161,6 +161,12 @@
         {% endfor %}
       </div>
     </div>
+
+    <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+        data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
+
+      {% include "helper_html/animal_add_a_post_modal.html" %}
+      
   </div>
 
 
@@ -177,26 +183,26 @@
           <div id="map"></div>
         </div>
 
-        <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
+      <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
             new sighting</button>
-        </div> -->
-        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalConfirmation">
+        </div>
+       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalConfirmation">
           Launch demo modal
-        </button> -->
+        </button>
 
-        <!-- <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
+       <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
           aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
                 <h5 class="modal-title" id="modalConfirmationLabel">Are you sure to add the new location?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" id="modal-message">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save-btn">Yes, add new location</button>
+            </div>
+            <div class="modal-body" id="modal-message">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="save-btn">Yes, add new location</button>
               </div>
             </div>
           </div>
