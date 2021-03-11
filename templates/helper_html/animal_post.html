@@ -1,11 +1,68 @@
-<link rel="stylesheet" href="../static/animalposts.css">
-
 <div class="card p-3 mt-2">
 	<div class="d-flex justify-content-between align-items-center">
 		<div class="user d-flex flex-row align-items-center"> <img src="{{user_avatar}}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">{{username}}</small> <small class="font-weight-bold">{{user_description}} </small></span> </div> <small>{{post_time|humanize}}</small>
 	</div>
 	<div class="action d-flex justify-content-between mt-2 align-items-center">
-		<div class="reply px-4"> <a href=""> <small>Remove</small> </a> <span class="dots"></span> <a href=""> <small>Reply</small></a> <span class="dots"></span> <a href=""> <small>Edit</small></a> <span class="dots"></span> <a href=""> <small>Report</small></a></div>
+		<div class="reply px-4"> 
+			{% if post_user == users_id %}
+			<a href="/delete_post/{{animal_id}}/{{post_id}}"><small>Remove</small></a> <span class="dots"></span> 
+			{% endif %}
+			{% if post_user == users_id %}
+			<a data-bs-target="#editPostModal{{post_id}}" href="#editPostModal{{post_id}}" data-bs-toggle="modal"><small>Edit</small></a>
+			{% endif %}
+
+			<!-- <span class="dots"></span> <a data-bs-target="#reportPostModal{{post_id}}" href="#reportPostModal{{post_id}}" data-bs-toggle="modal"><small>Report</small></a> -->
+
+      		{% if post_user != users_id %}
+      		<span class="dots"></span> <a data-bs-target="#reportPostModal{{post_id}}" href="#reportPostModal{{post_id}}" data-bs-toggle="modal"><small>Report</small></a>
+      		{% endif %}
+		</div>
 		<div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon text-primary"></i> </div>
 	</div>
 </div>
+
+  <div class="modal fade" id="editPostModal{{post_id}}" tabindex="-1" aria-labelledby="editPostModal{{post_id}}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editPostModal{{post_id}}Label">Edit To Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="{{ url_for('edit_post', animal_id=animal_id, post_id=post_id) }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="edit-message-text" class="col-form-label">Description</label>
+              <textarea class="form-control" id="edit-message-text" required name="description">{{user_description}}</textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="reportPostModal{{post_id}}" tabindex="-1" aria-labelledby="reportPostModal{{post_id}}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportPostModal{{post_id}}Label">Please explain why you are reporting this post:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="{{ url_for('report_post', animal_id=animal_id, post_id=post_id) }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="report-message-text" class="col-form-label">Description</label>
+              <textarea class="form-control" id="report-message-text" required name="description"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

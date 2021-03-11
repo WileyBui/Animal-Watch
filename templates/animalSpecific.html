@@ -155,7 +155,7 @@
             </span> </div>
         </div>
         {% for n in postList %}
-          {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3] %}
+          {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3], post_id=n[7], post_user=n[8], users_id=users_id %}
             {% include "helper_html/animal_post.html" %}
           {% endwith %}
         {% endfor %}
@@ -166,7 +166,7 @@
         data-bs-target="#addNewLocationModal" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
 
       {% include "helper_html/animal_add_a_post_modal.html" %}
-      
+
   </div>
 
 

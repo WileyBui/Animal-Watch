@@ -205,7 +205,7 @@ def post_comment(animal_id):
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/delete/<int:animal_id>/<int:comment_id>')
+@app.route('/delete_comment/<int:animal_id>/<int:comment_id>')
 def delete_comment(animal_id, comment_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
@@ -220,7 +220,22 @@ def delete_comment(animal_id, comment_id):
             cur.execute("delete from comments where id = '%s'", [comment_id])
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/edit/<int:animal_id>/<int:comment_id>', methods=['POST'])
+@app.route('/delete_post/<int:animal_id>/<int:post_id>')
+def delete_post(animal_id, post_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+
+        ##app.logger.info("users_id from session %s", users_id)
+        ##app.logger.info("post_id from session %s", post_id)
+
+        cur.execute("select users_id from Posts where id = '%s'", [post_id]) 
+        record = cur.fetchone()
+        if record[0] == users_id:
+            ##app.logger.info("record: %s", record[0])
+            cur.execute("delete from Posts where id = '%s'", [post_id])
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/edit_comment/<int:animal_id>/<int:comment_id>', methods=['POST'])
 def edit_comment(animal_id, comment_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
@@ -235,11 +250,38 @@ def edit_comment(animal_id, comment_id):
 
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
-@app.route('/report/<int:animal_id>/<int:comment_id>', methods=['POST'])
+@app.route('/edit_post/<int:animal_id>/<int:post_id>', methods=['POST'])
+def edit_post(animal_id, post_id):
+    with db.get_db_cursor(True) as cur:
+        users_id = session['profile']['user_id']
+        description = request.form.get("description", None)
+
+        cur.execute("select users_id from Posts where id = '%s'", [post_id]) 
+        record = cur.fetchone()
+        if record[0] == users_id:
+            
+            ##FIX SQL
+            cur.execute("UPDATE Posts set post_text = %s where id = '%s'", (description, post_id))
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/report_comment/<int:animal_id>/<int:comment_id>', methods=['POST'])
 def report_comment(animal_id, comment_id):
     users_id = session['profile']['user_id']
     description = request.form.get("description", None)
     message_text = f'User {users_id} reported comment {comment_id} ------ '
+    #app.logger.info('message_text: %s', message_text) 
+    msg = Message(message_text, sender=app.config['MAIL_USERNAME'], recipients=[app.config['MAIL_USERNAME']] )
+    msg.body=message_text + description
+    mail.send(msg)
+
+    return redirect(url_for('page_lookup', animal_id=animal_id))
+
+@app.route('/report_post/<int:animal_id>/<int:post_id>', methods=['POST'])
+def report_post(animal_id, post_id):
+    users_id = session['profile']['user_id']
+    description = request.form.get("description", None)
+    message_text = f'User {users_id} reported post {post_id} ------ '
     #app.logger.info('message_text: %s', message_text) 
     msg = Message(message_text, sender=app.config['MAIL_USERNAME'], recipients=[app.config['MAIL_USERNAME']] )
     msg.body=message_text + description

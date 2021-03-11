@@ -55,7 +55,10 @@ def getAllPostsByAnimalId(cur, animal_id):
             Posts.post_time,
             Posts.latitude,
             Posts.longitude,
-            Users.profile_picture
+            Users.profile_picture,
+            Posts.id,
+            Posts.users_id,
+            Users.id
         FROM Posts, Animals, Users
         WHERE
             Animals.id = %s
