@@ -308,3 +308,9 @@ a.pure-button-primary {
 	-webkit-transform: scaleX(1);
 	transform: scaleX(1);
 }
+
+/* I added a field to account for the color of the tags */
+#tags_color {
+  color: black;
+  background-color: #ced7d9;
+}
