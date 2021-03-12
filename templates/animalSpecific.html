@@ -64,7 +64,7 @@
     //   $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
     //   $('#modalConfirmation').modal('show');
 
-    //   // once save-btn is clicked, we hide it and display a Toast message 
+    //   // once save-btn is clicked, we hide it and display a Toast message
     //   // saying the new location is added to the database
     //   $("#save-btn").on("click", function (e) {
     //     $('#modalConfirmation').modal('hide');
@@ -111,7 +111,7 @@
               <td>
                 {% for i in range(shared_contents[1].split("; ")|length) %}
                 <span
-                  class="badge bg-{{ shared_contents[2].split('; ')[i] }}">{{ shared_contents[1].split("; ")[i] }}</span>
+                  class="badge bg-{{ shared_contents[2].split('; ')[i] }}" id="tags_color">{{ shared_contents[1].split("; ")[i] }}</span>
                 {% endfor %}
               </td>
             </tr>
@@ -241,10 +241,10 @@
             {% endwith %}
           {% endfor %}
       </div>
-      
+
       <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
       data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
-      
+
       <div class="modal fade" id="addNewCommentModal" tabindex="-1" aria-labelledby="addNewCommentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
