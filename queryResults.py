@@ -64,6 +64,7 @@ def getAllPostsByAnimalId(cur, animal_id):
             Animals.id = %s
             AND Animals.id = Posts.animal_id
             AND Posts.users_id = Users.id;
+
     """, [animal_id])
     
     postList = [record for record in cur]

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session, send_file
+from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session, send_file, make_response, render_template_string
 from werkzeug.utils import secure_filename
 from urllib.parse import urlencode
 import requests
@@ -65,11 +65,20 @@ def callback():
     with db.get_db_cursor(commit=True) as cur:
         users_id = session['profile']['user_id']
         users_name = session['profile']['name']
+        users_avatar = session['profile']['picture']
         cur.execute("Select COUNT(*) FROM Users WHERE id = '%s';" % users_id)
         try:
             for record in cur:
                 if record[0] == 0:
-                    cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+                    if (users_avatar):
+                        app.logger.info("users_avatar has a value %s", users_avatar)
+                        #cur.execute("insert into Images (image_name, image_data) values (%s, %s) returning id;", (users_id, users_avatar))
+                        #imageID = cur.fetchone()[0]
+                        #app.logger.info("imageID has a value %s", imageID)
+                        cur.execute("insert into Users (id, users_name, profile_picture) values (%s, %s, %s);", (users_id, users_name, users_avatar))
+                    else:
+                        app.logger.info("users_avatar has no value")
+                        cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
         except:
             pass
     return redirect('/test_auth')
@@ -92,6 +101,17 @@ def view_image(img_id):
 
         # use special "send_file" function
         return send_file(stream, attachment_filename=image_row["image_name"])
+
+@app.route('/avatar/<string:users_id>')
+def view_avatar(users_id):
+    app.logger.info(users_id)
+    with db.get_db_cursor() as cur:
+        users_id.replace('%7C', '|')
+        cur.execute("SELECT profile_picture FROM Users where id=%s", (users_id,))
+        users_avatar = cur.fetchone()[0] # just another way to interact with cursors
+        app.logger.info("users_avatar has a value %s", users_avatar)
+
+        return redirect(users_avatar)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -159,6 +179,7 @@ def page_lookup(animal_id):
             postList    = getAllPostsByAnimalId(cur, animal_id)
             commentList = getAllCommentsByAnimalId(cur, animal_id)
             users_id = session['profile']['user_id']
+
             locationList   = []
             app.logger.info(len(postList))
             for i in range(len(postList)):
@@ -173,9 +194,11 @@ def page_lookup(animal_id):
 def page_look_up_post(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
+        users_avatar = session['profile']['picture']
         latitude    = request.form.get("latitude", None)
         longitude   = request.form.get("longitude", None)
         description = request.form.get("description", None)
+        
 
         latitude    = None if latitude == "" else latitude
         longitude   = None if longitude == "" else longitude
