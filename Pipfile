@@ -16,6 +16,7 @@ flask-auth0 = "*"
 oauth = "*"
 pillow = "*"
 flask-mail = "*"
+flask-moment = "*"
 
 [dev-packages]
 
