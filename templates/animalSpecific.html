@@ -14,11 +14,8 @@
   var locations = [];
 
   function initMap() {
-    console.log("test")
-
     var locations = {{ locations | tojson }};
 
-    console.log(locations)
     var origin = {
       lat: 44.97309439424677,
       lng: -93.23537707328796
@@ -50,21 +47,6 @@
       $('#location-longitude').val(event.latLng.lng());
       $('#addNewLocationModal').modal('show')
     });
-
-    // google.maps.event.addListener(map, "click", (event) => {
-    //   // modals pop up & ask for confirmation
-    //   $('#modal-message').text("Add " + event.latLng.lat() + " (lat), " + event.latLng.lng() + " (long)?");
-    //   $('#modalConfirmation').modal('show');
-
-    //   // once save-btn is clicked, we hide it and display a Toast message
-    //   // saying the new location is added to the database
-    //   $("#save-btn").on("click", function (e) {
-    //     $('#modalConfirmation').modal('hide');
-    //     $('#instructionToast').toast('show');
-    //     addMarker(event.latLng, map);
-    //   });
-
-    // });
   }
 
   // Adds a marker to the map.
@@ -92,7 +74,7 @@
     <div class="row">
       <div class="col-md-5 order-md-1">
         {% with image=shared_contents[3] %}
-        {% include "helper_html/animal_look_up_carousel.html" %}
+          {% include "helper_html/animal_look_up_carousel.html" %}
         {% endwith %}
       </div>
       <div class="col-md-7 order-md-2 d-flex flex-column justify-content-center align-items-center">
@@ -138,31 +120,26 @@
 
     <hr>
     <div class="container mt-5">
-      <div class="row d-flex justify-content-center">
-          <div class="col-md-8">
+      <div class="center-contents">
         <img src="../static/images/animal_post.svg" width="20%" />
-        <h3>Animal Posts</h3>
-        <br>
-        <div class="headings d-flex justify-content-between align-items-center mb-3">
-          <h5>Animal sighting posts ({{postList|count}})</h5>
-          <!-- <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
-              <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
-            </span> </div> -->
-        </div>
-        {% for n in postList %}
-          {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3], post_id=n[7], post_user=n[8], users_id=users_id %}
-            {% include "helper_html/animal_post.html" %}
-          {% endwith %}
-        {% endfor %}
+        <h3 id="recent-sightings">Animal Sighting Posts ({{postList|count}})</h3>
       </div>
-    </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+          {% for n in postList %}
+            {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3], post_id=n[7], post_user=n[8], users_id=users_id %}
+              {% include "helper_html/animal_post.html" %}
+            {% endwith %}
+          {% endfor %}
+        </div>
+      </div>
 
     <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
         data-bs-target="#addNewLocationModal" id = "addAPostButton" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
 
       {% include "helper_html/animal_add_a_post_modal.html" %}
 
-  </div>
+    </div>
 
 
     <hr>
@@ -170,38 +147,13 @@
     <div class="container">
       <div class="center-contents">
         <img src="../static/images/searching.svg" width="20%" />
-        <h3 id="recent-sightings">Recent Sightings</h3>
+        <h3 id="recent-sightings">Recent Sightings ({{locations|count}})</h3>
         <br />
         <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
 
         <div style="width: 100%; height: 70vh">
           <div id="map"></div>
         </div>
-
-      <!-- <div style="padding-top: 15px;"><button class="pure-button pure-button-primary" style="width: 50%">Add a
-            new sighting</button>
-        </div>
-       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalConfirmation">
-          Launch demo modal
-        </button>
-
-       <div class="modal fade" id="modalConfirmation" tabindex="-1" aria-labelledby="modalConfirmationLabel"
-          aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalConfirmationLabel">Are you sure to add the new location?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modal-message">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="save-btn">Yes, add new location</button>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -219,22 +171,18 @@
 
     <hr>
     <div class="container mt-5">
+      <div class="center-contents">
+        <img src="../static/images/searching.svg" width="25%" />
+        <h3 id="recent-sightings">Questions / Comments / Concerns ({{commentList|count}})</h3>
+      </div>
       <div class="row d-flex justify-content-center">
           <div class="col-md-8">
-            <img src="../static/images/QandA.svg" width="25%;" />
-            <h3>Questions / Comments / Concerns</h3>
-            <br />
-        <div class="headings d-flex justify-content-between align-items-center mb-3">
-          <h5>Questions / Comments / Concerns ({{commentList|count}})</h5>
-          <!-- <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
-              <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
-            </span> </div> -->
-        </div>
-        {% for n in commentList %}
-            {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4], comment_user=n[5], users_id=users_id %}
-              {% include "helper_html/animal_look_up_q_and_a.html" %}
-            {% endwith %}
-          {% endfor %}
+            {% for n in commentList %}
+              {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4], comment_user=n[5], users_id=users_id %}
+                {% include "helper_html/animal_look_up_q_and_a.html" %}
+              {% endwith %}
+            {% endfor %}
+          </div>
       </div>
 
       <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
