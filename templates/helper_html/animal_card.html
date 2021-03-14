@@ -9,7 +9,7 @@
       <!-- <hr /> -->
       <div class="animal-tags">
         {% for i in range(post_tags.split("; ")|length) %}   
-          <span class="badge bg-{{ post_tags_color.split('; ')[i] }}">{{ post_tags.split("; ")[i] }}</span>
+          <span class="badge bg-primary">{{ post_tags.split("; ")[i] }}</span>
         {% endfor %}
       </div>
 

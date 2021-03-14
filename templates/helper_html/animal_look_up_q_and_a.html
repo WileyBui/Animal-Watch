@@ -32,7 +32,7 @@
           <form role="form" action="{{ url_for('reply_comment', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="reply-message-text" class="col-form-label">Description</label>
-              <textarea class="form-control" id="reply-message-text" required name="description">{{username}} said: "{{user_text}}"
+              <textarea class="form-control" id="reply-message-text" required name="description" rows="7">{{username}} said: "{{user_text}}"
               </textarea>
             </div>
             <div class="modal-footer">
