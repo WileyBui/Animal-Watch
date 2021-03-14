@@ -99,3 +99,7 @@ body {
 #classification {
   height: 2.5em;
 }
+
+#aligned-image-URL {
+    visibility:hidden;
+}
