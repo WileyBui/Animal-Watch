@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session, send_file
+from flask import Flask, render_template, request, g, redirect, url_for, jsonify, abort, session, send_file, make_response, render_template_string
 from werkzeug.utils import secure_filename
 from urllib.parse import urlencode
 import requests
@@ -10,6 +10,7 @@ from auth0 import auth0_setup, require_auth, auth0
 from datetime import datetime
 from queryResults import *
 from flask_mail import Mail, Message
+from flask_moment import Moment
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
@@ -22,6 +23,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
+moment = Moment(app)
 
 # have the DB submodule set itself up before we get started. groovy.
 @app.before_first_request
@@ -65,11 +67,20 @@ def callback():
     with db.get_db_cursor(commit=True) as cur:
         users_id = session['profile']['user_id']
         users_name = session['profile']['name']
+        users_avatar = session['profile']['picture']
         cur.execute("Select COUNT(*) FROM Users WHERE id = '%s';" % users_id)
         try:
             for record in cur:
                 if record[0] == 0:
-                    cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
+                    if (users_avatar):
+                        app.logger.info("users_avatar has a value %s", users_avatar)
+                        #cur.execute("insert into Images (image_name, image_data) values (%s, %s) returning id;", (users_id, users_avatar))
+                        #imageID = cur.fetchone()[0]
+                        #app.logger.info("imageID has a value %s", imageID)
+                        cur.execute("insert into Users (id, users_name, profile_picture) values (%s, %s, %s);", (users_id, users_name, users_avatar))
+                    else:
+                        app.logger.info("users_avatar has no value")
+                        cur.execute("insert into Users (id, users_name) values (%s, %s);", (users_id, users_name))
         except:
             pass
     return redirect('/test_auth')
@@ -92,6 +103,17 @@ def view_image(img_id):
 
         # use special "send_file" function
         return send_file(stream, attachment_filename=image_row["image_name"])
+
+@app.route('/avatar/<string:users_id>')
+def view_avatar(users_id):
+    app.logger.info(users_id)
+    with db.get_db_cursor() as cur:
+        users_id.replace('%7C', '|')
+        cur.execute("SELECT profile_picture FROM Users where id=%s", (users_id,))
+        users_avatar = cur.fetchone()[0] # just another way to interact with cursors
+        app.logger.info("users_avatar has a value %s", users_avatar)
+
+        return redirect(users_avatar)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -159,6 +181,7 @@ def page_lookup(animal_id):
             postList    = getAllPostsByAnimalId(cur, animal_id)
             commentList = getAllCommentsByAnimalId(cur, animal_id)
             users_id = session['profile']['user_id']
+
             locationList   = []
             app.logger.info(len(postList))
             for i in range(len(postList)):
@@ -173,9 +196,11 @@ def page_lookup(animal_id):
 def page_look_up_post(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
+        users_avatar = session['profile']['picture']
         latitude    = request.form.get("latitude", None)
         longitude   = request.form.get("longitude", None)
         description = request.form.get("description", None)
+        
 
         latitude    = None if latitude == "" else latitude
         longitude   = None if longitude == "" else longitude
@@ -331,44 +356,3 @@ def api_foo():
         }
     }
     return jsonify(data)
-
-def humanize_ts(timestamp=False):
-    """ taken from https://shubhamjain.co/til/how-to-render-human-readable-time-in-jinja/ """
-    """
-    Get a datetime object or a int() Epoch timestamp and return a
-    pretty string like 'an hour ago', 'Yesterday', '3 months ago',
-    'just now', etc
-    """
-    now = datetime.now()
-    diff = now - timestamp
-    second_diff = diff.seconds
-    day_diff = diff.days
-
-    if day_diff < 0:
-        return ''
-
-    if day_diff == 0:
-        if second_diff < 10:
-            return "just now"
-        if second_diff < 60:
-            return str(int(second_diff)) + " seconds ago"
-        if second_diff < 120:
-            return "a minute ago"
-        if second_diff < 3600:
-            return str(int(second_diff / 60)) + " minutes ago"
-        if second_diff < 7200:
-            return "an hour ago"
-        if second_diff < 86400:
-            return str(int(second_diff / 3600)) + " hours ago"
-    if day_diff == 1:
-        return "Yesterday"
-    if day_diff < 7:
-        return str(day_diff) + " days ago"
-    if day_diff < 31:
-        return str(int(day_diff / 7)) + " weeks ago"
-    if day_diff < 365:
-        return str(int(day_diff / 30)) + " months ago"
-    return str(int(day_diff / 365)) + " years ago"
-
-app.jinja_env.filters['humanize'] = humanize_ts
-

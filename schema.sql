@@ -17,7 +17,7 @@ create table Images (
 create table Users (
 	id text PRIMARY KEY,
 	users_name varchar(255),
-	profile_picture int references Images
+	profile_picture varchar(1000)
 );
 
 create table Tags (

@@ -150,9 +150,9 @@
         <br>
         <div class="headings d-flex justify-content-between align-items-center mb-3">
           <h5>Animal sighting posts ({{postList|count}})</h5>
-          <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
+          <!-- <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
               <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
-            </span> </div>
+            </span> </div> -->
         </div>
         {% for n in postList %}
           {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3], post_id=n[7], post_user=n[8], users_id=users_id %}
@@ -231,9 +231,9 @@
             <br />
         <div class="headings d-flex justify-content-between align-items-center mb-3">
           <h5>Questions / Comments / Concerns ({{commentList|count}})</h5>
-          <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
+          <!-- <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
               <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
-            </span> </div>
+            </span> </div> -->
         </div>
         {% for n in commentList %}
             {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4], comment_user=n[5], users_id=users_id %}
