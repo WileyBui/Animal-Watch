@@ -177,8 +177,8 @@ def processAddAnimal():
         imageFile = request.files["imageFile"]
         if imageURL != '':
             resp = requests.get(imageURL)
-            imagebytes = BytesIO(resp.content).read()
-            image = Image.frombytes(imagebytes,'raw',)
+            image = BytesIO(resp.content).read()
+            #image = Image.frombytes(imagebytes,'raw',)
             #print(image)
             ##app.logger.info(image)
             cur.execute('insert into Images (image_name, image_data) values (%s, %s) RETURNING id;', (str(imageURL),image))
