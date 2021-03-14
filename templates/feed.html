@@ -25,6 +25,11 @@
 <br>
 <br>
 <br>
+<div id="addAnimalLink">
+  <form class="pure-form"  action="{{ url_for("page_add_animal") }}">
+    <input type="submit" class="pure-button pure-button-primary" value="Add a New Animal"/><br>
+  </form>
+</div>
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {% for n in dataList %}
@@ -111,11 +116,6 @@
     </div>
     <br>
     <br>
-    <div id="addAnimalLink">
-      <form class="pure-form"  action="{{ url_for("page_add_animal") }}">
-        <input type="submit" class="pure-button pure-button-primary" value="Add a New Animal"/><br>
-      </form>
-    </div>
   </div>
 {% endblock %}
 
