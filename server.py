@@ -186,11 +186,33 @@ def page_lookup(animal_id):
             app.logger.info(len(postList))
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
-
+            
+            
+            # RAY ADDED dispClassification TO FIX CLASSIFICATION SHOWING UP AS A NUMBER
+            # Converts endangerment number from database to the level of endangerment that user specified when addingAnimal
+            dispClassification = get_classification(shared_data[0][4])
+            
             return render_template("animalSpecific.html", shared_contents=shared_data[0], postList=postList,
-                                   commentList=commentList, animal_id=animal_id, locations=locationList, users_id=users_id)
+                                   commentList=commentList, animal_id=animal_id, locations=locationList, users_id=users_id, dClassification = dispClassification)
         else:
             abort(404)
+
+# RAY ADDED get_classification TO FIX CLASSIFICATION SHOWING UP AS A NUMBER
+def get_classification(classificationNum): #https://www.geeksforgeeks.org/switch-case-in-python-replacement/
+    switcher = { 
+        -1: "Unknown",
+        0: "Not Evaluated (NE)",
+        1: "Data deficient (DD)", 
+        2: "Least concern (LC)", 
+        3: "Conservation Dependent (CD)",
+        4: "Near threatened (NT)",
+        5: "Vulnerable (VU)",
+        6: "Endangered (EN)",
+        7: "Critically endangered (CR)",
+        8: "Extinct in the wild (EW)",
+        9: "Extinct (EX)"
+    }
+    return switcher.get(classificationNum, "Unspecified") 
 
 @app.route('/animal/<int:animal_id>', methods=['POST'])
 def page_look_up_post(animal_id):
