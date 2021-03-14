@@ -310,10 +310,16 @@ a.pure-button-primary {
 }
 
 /* I added a field to account for the color of the tags */
-#tags_color {
+.tags_color {
   color: black;
   background-color: #ced7d9;
 }
+
+.tags_color {
+    color: white;
+    background-color: #0d6efd;
+}
+
 
 #dropdownMenu{
     color: white;
