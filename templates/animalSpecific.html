@@ -85,7 +85,7 @@
               <td>
                 {% for i in range(shared_contents[1].split("; ")|length) %}
                 <span
-                  class="badge bg-{{ shared_contents[2].split('; ')[i] }}" id="tags_color">{{ shared_contents[1].split("; ")[i] }}</span>
+                  class="badge bg-primary text-white" style="padding-left: 9px !important">{{ shared_contents[1].split("; ")[i] }}</span>
                 {% endfor %}
               </td>
             </tr>
