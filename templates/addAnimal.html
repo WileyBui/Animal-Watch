@@ -12,8 +12,10 @@
   <br>
   <br>
 
-  <p id="addAnimalError" style="display: none">Adding animal failed, try again</p> <!-- Set to display: block css if adding fails -->
-  <script>alert("{{ stat }}");</script>
+  
+  {% if stat %}
+    <script>alert("{{ stat }}");</script>
+  {% endif %}
   <div id="addAnimalForm">
     <br>
 
