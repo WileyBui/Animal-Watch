@@ -45,3 +45,7 @@ tr td:nth-child(2) {
 hr {
     margin: 3.5em 0;
 }
+
+#map {
+    height: 100%;
+}
