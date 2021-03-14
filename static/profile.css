@@ -1,0 +1,29 @@
+body {
+    background: linear-gradient(to bottom, #f8f9fa, #bef4f8);
+    background-attachment: fixed;
+    padding-top: 50px;
+}
+
+.big-container {
+    box-shadow: 0 0 3px #6783A9;
+    background: white;
+    /* background: #F2F2F5; */
+    padding: 2%;
+}
+
+.row {
+    margin: 0%;
+}
+
+.card {
+    margin-bottom: 6%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.card-images {
+    object-fit: cover;
+    max-height: 30vh;
+}

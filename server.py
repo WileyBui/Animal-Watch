@@ -43,10 +43,36 @@ def page_signup():
 def page_profile():
     with db.get_db_cursor(commit=False) as cur:
         users_id = session['profile']['user_id']
-        users_name = session['profile']['name']
-        cur.execute("SELECT   COUNT(*) FROM Users WHERE id = '%s';" % users_id)
+        # Animal Postings
+        cur.execute(""" SELECT Animals.id, Animals.species, Animals.animal_description, Images.id
+                        FROM Animals, Images
+                        WHERE
+                            Animals.users_id = %s
+                            AND Animals.image_id = Images.id
+                        ORDER BY Animals.id DESC;
+                    """, [users_id])
+        animal_postings = [record for record in cur]
         
-    return render_template("profile.html")
+        cur.execute(""" SELECT Animals.id, Animals.species, Posts.post_text, Images.id
+                        FROM Animals, Posts, Images
+                        WHERE
+                            Posts.users_id = %s
+                            AND Posts.animal_id = Animals.id
+                            AND Posts.image_id = Images.id
+                        ORDER BY Posts.id DESC;
+                    """, [users_id])
+        postings_on_existing_animals = [record for record in cur]
+        
+        cur.execute(""" SELECT Animals.id, Animals.species, Comments.comm_text
+                        FROM Animals, Comments
+                        WHERE
+                            Comments.users_id = %s
+                            AND Animals.id = Comments.animal_id
+                        ORDER BY Comments.id DESC;
+                    """, [users_id])
+        comments_on_existing_animals = [record for record in cur]
+        
+        return render_template("profile.html", animal_postings=animal_postings, postings_on_existing_animals=postings_on_existing_animals, comments_on_existing_animals=comments_on_existing_animals)
 
 ### AUTH0:
 @app.route('/login')
