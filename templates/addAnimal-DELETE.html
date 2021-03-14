@@ -1,0 +1,76 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link href="/static/main.css" rel="stylesheet" type="text/css" />
+<script src="static/add_animal.js" defer></script>
+{% endblock %}
+
+{% block title %}Add New Animal{% endblock %}
+
+{% block contents %}
+  <br>
+  <br>
+  <br>
+
+  
+  {% if stat %}
+    <script>alert("{{ stat }}");</script>
+  {% endif %}
+  <div id="addAnimalForm">
+    <br>
+
+    <form class="pure-form" id="addAnimalForm" method = "POST" enctype="multipart/form-data">
+      <fieldset>
+          <legend>Add a new animal</legend>
+          <label for="aligned-species">*Animal/species:</label>
+            <input type="text" id="aligned-species" name = "species" placeholder="e.g. canis lupis" required />
+          <br>
+          <label for="aligned-range">*Animal range:</label>
+            <input type="text" id="aligned-range" name = "range" placeholder="e.g. North America" required/>
+          <br>
+          <label for="aligned-tags">Animal tags (separate with commas):</label>
+            <input type="text" id="aligned-tags" name="tags" placeholder="e.g. snake, poisonous, reptile, ..."/>
+          <br>
+          <div>
+            <br>
+            <h3>How threatened is this species?</h3> <!--  https://en.wikipedia.org/wiki/Conservation_status  -->
+            <select name="classification" id="classification">
+              <option value="0">Not Evaluated (NE)</option>
+              <option value="1">Data deficient (DD) </option>
+              <option value="2">Least concern (LC)</option>
+              <option value="3">Conservation Dependent (CD) </option>
+              <option value="4">Near threatened (NT) </option>
+              <option value="5">Vulnerable (VU)  </option>
+              <option value="6">Endangered (EN) </option>
+              <option value="7">Critically endangered (CR) </option>
+              <option value="8">Extinct in the wild (EW)  </option>
+              <option value="9">Extinct (EX) </option>
+              <option value="-1">I do no know.</option>
+            </select>
+          </div>
+          <br>
+
+          <h3>Describe this animal:</h3>
+            <textarea id="aligned-desc" name = "description" required placeholder="e.g. Wolves are ancestors of the modern dog"></textarea>
+          <br>
+          <br>
+          <div id="image_input">
+              <h3>Image Upload</h3>
+              <label for="image-upload-option-1" class="pure-radio">
+                <input type="radio" id="image-upload-option-1" name="imageType" value="URL" /> URL</label>
+                <input type="text" id="aligned-image-URL" name="imageURL" placeholder="www.cuteturtlething.com/myTurtle"/>
+              <label for="image-upload-option-2" class="pure-radio">
+                <input type="radio" id="image-upload-option-2" name="imageType" value="File" checked=""/> File Upload</label>
+                <input type="file" id="aligned-image-file" name="imageFile" /><br>
+                <br>
+          </div>
+          <!--
+          <p> Image
+            <input type="file" id = "image" name="image" placeholder = "Select a file from your device">
+          </p>
+          -->
+          <button id="SubmitButton" type="submit" class="pure-button pure-button-primary">Submit animal</button>
+      </fieldset>
+    </form>
+  </div>
+  {% endblock %}
