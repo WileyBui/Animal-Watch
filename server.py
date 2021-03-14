@@ -37,6 +37,15 @@ def page_landing():
 def page_signup():
     return render_template("signup.html")
 
+@app.route('/profile')
+def page_profile():
+    with db.get_db_cursor(commit=False) as cur:
+        users_id = session['profile']['user_id']
+        users_name = session['profile']['name']
+        cur.execute("SELECT   COUNT(*) FROM Users WHERE id = '%s';" % users_id)
+        
+    return render_template("profile.html")
+
 ### AUTH0:
 @app.route('/login')
 def page_login():
