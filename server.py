@@ -217,7 +217,7 @@ def page_lookup(animal_id):
             users_id = session['profile']['user_id']
 
             locationList   = []
-            app.logger.info(len(postList))
+            #app.logger.info(len(postList))
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
             
