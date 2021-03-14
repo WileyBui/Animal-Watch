@@ -73,7 +73,7 @@ def test_auth():
 ### IMAGES
 @app.route('/image/<int:img_id>')
 def view_image(img_id):
-    app.logger.info(img_id)
+    #app.logger.info(img_id)
     with db.get_db_cursor() as cur:
         cur.execute("SELECT * FROM Images where Images.id=%s", (img_id,))
         image_row = cur.fetchone() # just another way to interact with cursors
@@ -110,7 +110,7 @@ def processAddAnimal():
             resp = requests.get(imageURL)
             image = BytesIO(resp.content).read()
             #print(image)
-            #app.logger.info(image)
+            ##app.logger.info(image)
             cur.execute('insert into Images (image_name, image_data) values (%s, %s) RETURNING id;', (str(imageURL),image))
             imageID = cur.fetchone()[0]
         elif imageFile and allowed_file(imageFile.filename):
@@ -123,7 +123,7 @@ def processAddAnimal():
         cur.execute('insert into Animals (species, endangerment_level, animal_range, image_id, animal_description, users_id) values (%s, %s, %s, %s, %s, %s) RETURNING id;', (species, endangerment_level, animal_range, imageID, animal_description, users_id))
         tags = request.form.get("tags")
         tagList = tags.split(', ')
-        app.logger.info(tagList)
+        #app.logger.info(tagList)
         addTags(cur, cur.fetchone()[0], tagList)
 
         return redirect(url_for("page_feed"))
@@ -132,7 +132,7 @@ def processAddAnimal():
 def page_feed():
     with db.get_db_cursor(False) as cur:
         records = getActivityFeed(cur)
-        app.logger.info(records.fetchone())
+        #app.logger.info(records.fetchone())
         return render_template("feed.html", dataList=getActivityFeed(cur))
 
 @app.route('/animal/<int:animal_id>', methods=['GET'])
@@ -145,7 +145,7 @@ def page_lookup(animal_id):
             postList    = getAllPostsByAnimalId(cur, animal_id)
             commentList = getAllCommentsByAnimalId(cur, animal_id)
             locationList   = []
-            app.logger.info(len(postList))
+            #app.logger.info(len(postList))
             for i in range(len(postList)):
                 locationList.append([postList[i][0], float(postList[i][4]), float(postList[i][5])])
 
@@ -196,7 +196,7 @@ def people():
 def new_person():
     with db.get_db_cursor(True) as cur:
         name = request.form.get("name", "unnamed friend")
-        app.logger.info("Adding person %s", name)
+        #app.logger.info("Adding person %s", name)
         cur.execute("INSERT INTO person (name) values (%s)", (name,))
 
         return redirect(url_for('people'))
@@ -393,13 +393,13 @@ def delete_comment(animal_id, comment_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
 
-        ##app.logger.info("users_id from session %s", users_id)
-        ##app.logger.info("comment_id from session %s", comment_id)
+        ###app.logger.info("users_id from session %s", users_id)
+        ###app.logger.info("comment_id from session %s", comment_id)
 
         cur.execute("select users_id from Comments where id = '%s'", [comment_id]) 
         record = cur.fetchone()
         if record[0] == users_id:
-            ##app.logger.info("record: %s", record[0])
+            ###app.logger.info("record: %s", record[0])
             cur.execute("delete from comments where id = '%s'", [comment_id])
     return redirect(url_for('page_lookup', animal_id=animal_id))
 
@@ -423,7 +423,7 @@ def report_comment(animal_id, comment_id):
     users_id = session['profile']['user_id']
     description = request.form.get("description", None)
     message_text = f'User {users_id} reported comment {comment_id} ------ '
-    #app.logger.info('message_text: %s', message_text) 
+    ##app.logger.info('message_text: %s', message_text) 
     msg = Message(message_text, sender=app.config['MAIL_USERNAME'], recipients=[app.config['MAIL_USERNAME']] )
     msg.body=message_text + description
     mail.send(msg)
@@ -457,7 +457,7 @@ def people():
 def new_person():
     with db.get_db_cursor(True) as cur:
         name = request.form.get("name", "unnamed friend")
-        #app.logger.info("Adding person %s", name)
+        ##app.logger.info("Adding person %s", name)
         cur.execute("INSERT INTO person (name) values (%s)", (name,))
         
         return redirect(url_for('people'))

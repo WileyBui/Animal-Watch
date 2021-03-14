@@ -22,7 +22,7 @@ def auth0_setup():
             'scope': 'openid profile email'
         },
     )
-    current_app.logger.info("Configuring auth0")
+    # current_#app.logger.info("Configuring auth0")
     return auth0Api
 
 def auth0():
