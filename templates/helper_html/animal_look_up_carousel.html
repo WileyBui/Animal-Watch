@@ -5,7 +5,7 @@
         {% for n in postList %}
             {% if n[2] is not none %}
                 <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ count.value }}"></button>
-                {% set count = count.value + 1 %}
+                {% set count.value = count.value + 1 %}
             {% endif %}
         {% endfor %}
     </div>
