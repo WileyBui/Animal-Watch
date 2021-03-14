@@ -153,15 +153,11 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', "gif"]
 
-
+    
 @app.route('/addAnimal')
 @require_auth
 def page_add_animal():
-    status = request.args.get("status", "")
-    if status:
-        return render_template("addAnimal.html", stat=status)
-    else:
-        return render_template("addAnimal.html")
+    return render_template("addAnimal.html")
 
 
 @app.route('/addAnimal', methods=['POST'])

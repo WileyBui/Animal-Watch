@@ -82,24 +82,6 @@ body {
     align-items: center;
 }
 
-#addAnimalForm {
-    display: block;
-    padding-left: 1em;
-}
-
-#aligned-desc {
-  height: 8em;
-  width: 20em;
-}
-
-#aligned-tags {
-  width: 20em;
-}
-
-#classification {
-  height: 2.5em;
-}
-
 #aligned-image-URL {
     visibility:hidden;
 }
