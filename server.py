@@ -53,12 +53,11 @@ def page_profile():
                     """, [users_id])
         animal_postings = [record for record in cur]
         
-        cur.execute(""" SELECT Animals.id, Animals.species, Posts.post_text, Images.id
-                        FROM Animals, Posts, Images
+        cur.execute(""" SELECT Animals.id, Animals.species, Posts.post_text
+                        FROM Animals, Posts
                         WHERE
                             Posts.users_id = %s
                             AND Posts.animal_id = Animals.id
-                            AND Posts.image_id = Images.id
                         ORDER BY Posts.id DESC;
                     """, [users_id])
         postings_on_existing_animals = [record for record in cur]
