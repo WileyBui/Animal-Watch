@@ -203,6 +203,7 @@ def page_feed():
         return render_template("feed.html", dataList=getActivityFeed(cur))
 
 @app.route('/animal/<int:animal_id>', methods=['GET'])
+@require_auth
 def page_lookup(animal_id):
     with db.get_db_cursor(False) as cur:
         # shared contents
@@ -246,6 +247,7 @@ def get_classification(classificationNum): #https://www.geeksforgeeks.org/switch
     return switcher.get(classificationNum, "Unspecified") 
 
 @app.route('/animal/<int:animal_id>', methods=['POST'])
+@require_auth
 def page_look_up_post(animal_id):
     with db.get_db_cursor(True) as cur:
         users_id = session['profile']['user_id']
