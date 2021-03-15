@@ -1,16 +1,14 @@
-# Module 2 Group Assignment
+# Free Labor Group - Animal Watch
 
 CSCI 5117, Spring 2021, [assignment description](https://canvas.umn.edu/courses/217951/pages/project-1)
 
-NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class chance to make progress on the application. During class, the instructors will visit and expect a 2-3 minute demo of the current state of the project. Your demonstrated progress is part of your grade.
 
 ## App Info:
 
 * Team Name: Free Labor
 * App Name: Animal Watch
 * App Link: https://warm-mountain-24771.herokuapp.com/
-
-***** USING PYTHON 3.7+ unless there are strong objections/reasons to change ******
+* ****** USING **PYTHON 3.7+** unless there are strong objections/reasons to change ******
 
 ### Students
 
@@ -25,14 +23,19 @@ NEXT MILESTONE: Project Check-in: (Monday March 1st) There will be an in-class c
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* ...
+* Authorized users may choose to add a post to an existing animal post where they may able to retrieve the location by either their current location or somewhere else from Google Maps API.
+* Users may choose to click on a tag of an animal post to filter all animals that have the same tag.
+* Authorized user may add, edit, and remove their own post contents or question/answer contents as well as reply and report other people's contents.
+* Reporting other people's contents will email the administrator.
 
 ## Testing Notes
 
 THE ADMIN EMAIL FOR OUR SITE IS animalwatch2021@gmail.com
+
 You will need to add this line to your .env:
-MAIL_PASSWORD="xxxxxxxxxxxxx"
-Ask Ally for password
+`MAIL_PASSWORD="xxxxxxxxxxxxx"`
+
+Ask [Ally](goin0004@umn.edu) for password
 ************************
 Run pipenv install after a pull from main!!!!!!!!!!!************
 ************************
