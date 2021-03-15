@@ -198,9 +198,15 @@ def processAddAnimal():
 @app.route('/feed', methods=['GET'])
 def page_feed():
     with db.get_db_cursor(False) as cur:
-        records = getActivityFeed(cur)
+        query = request.args.get("query", None)
+        
+        if query:
+            records = getActivityFeedByQuery(cur, query)
+        else:
+            records = getActivityFeed(cur)
+            
         #app.logger.info(records.fetchone())
-        return render_template("feed.html", dataList=getActivityFeed(cur))
+        return render_template("feed.html", dataList=records)
 
 @app.route('/animal/<int:animal_id>', methods=['GET'])
 @require_auth

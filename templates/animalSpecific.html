@@ -84,8 +84,12 @@
               <th scope="row">Tags</th>
               <td>
                 {% for i in range(shared_contents[1].split("; ")|length) %}
-                <span
-                  class="badge bg-primary text-white" style="padding-left: 9px !important">{{ shared_contents[1].split("; ")[i] }}</span>
+                <!-- <span
+                  class="badge bg-primary text-white" style="padding-left: 9px !important">{{ shared_contents[1].split("; ")[i] }}</span> -->
+
+                  <button type="button" class="btn btn-sm badge bg-primary text-white" onclick="location.href = '{{ url_for("page_feed", query=shared_contents[1].split("; ")[i]) }}';" style="padding-left: 9px !important">
+                    {{ shared_contents[1].split("; ")[i] }}
+                  </button>
                 {% endfor %}
               </td>
             </tr>

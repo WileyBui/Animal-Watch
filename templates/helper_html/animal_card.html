@@ -6,14 +6,16 @@
       
       <h5 class="card-text text-truncate title-padding-top"><a href='/animal/{{ animal_id }}'>{{ animal_species }}</a></h5>
       
-      <!-- <hr /> -->
       <div class="animal-tags">
         {% for i in range(post_tags.split("; ")|length) %}   
-          <span class="badge bg-primary">{{ post_tags.split("; ")[i] }}</span>
+          <!-- <span class="badge bg-primary">{{ post_tags.split("; ")[i] }}</span> -->
+          <button type="button" class="btn btn-sm badge bg-primary text-white"
+                onclick="location.href = '{{ url_for("page_feed", query=post_tags.split("; ")[i]) }}';">
+            {{ post_tags.split("; ")[i] }}
+          </button>
         {% endfor %}
       </div>
 
-      <!-- <hr /> -->
       <div class="d-flex justify-content-between align-items-center add-margin-top-08em">
         <!-- <small class="text-muted">test</small> -->
         <div class="btn-group use-full-width">

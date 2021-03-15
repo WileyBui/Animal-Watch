@@ -7,41 +7,18 @@
 {% endblock %}
 
 {% block contents %}
-  <!-- <div class="py-4">
-    <div class="container">
-
-      <form class="pure-form">
-        <div class="row g-2">
-          <div class="col-md-6"></div>
-          <div class="col-md-4">
-            <input type="text" class="form-height" placeholder="#animal, animal, location" />
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="pure-button form-height search-btn-padding">Search</button>
-          </div>
-        </div>
-      </form>
-    </div> -->
 <br>
-<br>
-<br>
-<!-- <div id="addAnimalLink">
-  <form class="pure-form"  action="{{ url_for("page_add_animal") }}">
-    <input type="submit" class="pure-button pure-button-primary" value="Add a New Animal"/><br>
-  </form>
-</div> -->
-    <div class="container">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for n in dataList %}
-          {% with animal_id=n[0], animal_species=n[1], animal_imageid=n[2], post_tags=n[3], post_tags_color=n[4]  %}
-            {% include "helper_html/animal_card.html" %}
-          {% endwith %}
-        {% endfor %}
-      </div>
-    </div>
-    <br>
-    <br>
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for n in dataList %}
+      {% with animal_id=n[0], animal_species=n[1], animal_imageid=n[2], post_tags=n[3], post_tags_color=n[4]  %}
+        {% include "helper_html/animal_card.html" %}
+      {% endwith %}
+    {% endfor %}
   </div>
+</div>
+<br>
+<br>
 {% endblock %}
 
 {% block bottom_js_contents %}

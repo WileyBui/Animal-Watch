@@ -19,6 +19,29 @@ def getActivityFeed(cur):
         ORDER BY A.ID DESC;
     """)
     return cur
+
+def getActivityFeedByQuery(cur, query):
+    cur.execute("""
+        SELECT * FROM (
+            SELECT
+                Animals.id,
+                Animals.species,
+                Animals.image_id,
+                array_to_string(array_agg(distinct "tag"),'; ') AS tag,
+                array_to_string(array_agg(distinct "tag_bootstrap_color"),'; ') AS tag_bootstrap_color
+            FROM Animals, HasTag, Tags
+            WHERE
+                Animals.id = HasTag.animal_id
+                AND HasTag.tag_id = Tags.id
+                AND tag = %s
+            GROUP BY
+                Animals.id,
+                Animals.species,
+				Animals.image_id
+        ) A
+        ORDER BY A.ID DESC;
+    """, [query])
+    return cur
     
 def getSharedContentsByAnimalId(cur, animal_id):
     # shared contents
