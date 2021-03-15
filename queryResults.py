@@ -33,14 +33,14 @@ def getActivityFeedByQuery(cur, query):
             WHERE
                 Animals.id = HasTag.animal_id
                 AND HasTag.tag_id = Tags.id
-                AND tag = %s
+                AND tag LIKE %s
             GROUP BY
                 Animals.id,
                 Animals.species,
 				Animals.image_id
         ) A
         ORDER BY A.ID DESC;
-    """, [query])
+    """, ["%" + str(query) + "%"])
     return cur
     
 def getSharedContentsByAnimalId(cur, animal_id):
