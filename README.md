@@ -48,30 +48,17 @@ Run pipenv install after a pull from main!!!!!!!!!!!************
 
 ### Welcome Page
 ![Welcome page](images/mock-up/WelcomeLoggedIn.jpg "Welcome page")
-The "Welcome" Page introduces our site's visitors to the web site they have entered. If the user does not currently have an account, they should navigate to the sign-up page, where it collects user information that will allow them an identity when interacting with the site. Users should create an account with our application because it will allow them to make new posts/comments. 
+The "Welcome" Page introduces our site's visitors to the web site they have entered. Users can have full access to the site by authenticating with their google user. This will allow them to post and comment.
 
 ### Add-an-Animal Page
 ![Add-an-animal](images/mock-up/AddAnimal.jpg "Add-an-animal")
-The "Add-an-animal" Page allows users (that have already created an account and are currently signed in) to upload endangered animal encounters. If approved, the encounter (and, if applicable, user photo) will be listed with the animal's other information when selected from the "Animal-list" Page.
+The "Add-an-animal" Page allows users currently signed in to upload endangered animal encounters. The encounter (and, if applicable, user photo) will be listed with the animal's other information when selected from the "Animal-Feed" Page.
 
 ### Animal-Feed Page
 ![Animal-Feed page](images/mock-up/Feed.jpg "Animal-feed page")
-This page is one of the core components of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, the current page redirects to another page with more detailed information about the animal (see screenshot below). A user may "favorite" the tile, if desired. These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
+This page is one of the core components of our web site: users will be presented with a grid of "Endangered Animal Tiles" with a photo of an endangered animal species and relevant tags beneath it (such as the animal type, location, and/or endangerment level). Upon clicking an animal tile, the current page redirects to another page with more detailed information about the animal (see screenshot below). These tiles will get more complex as more users add information/pictures for animal species because user information will get updated to each of the tiles to be seen by other users.
 
 ### Animal-Profile Page
 ![Animal-Profile page](images/mock-up/Sightings.jpg "Animal-list page")
 This page is also one of the core components of our web site: users can see more information about the animal -- its tags, species, range, classification, description, post information, recent sightings, and allow users to comment on the post. Authorized user may edit, delete, and add new info to the post.
 
-## External Dependencies
-
-**Document integrations with 3rd Party code or services here.
-Please do not document required libraries. or libraries that are mentioned in the product requirements**
-
-* Library or service name: description of use
-* ...
-
-**If there's anything else you would like to disclose about how your project
-relied on external code, expertise, or anything else, please disclose that
-here:**
-
-...
