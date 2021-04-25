@@ -1,0 +1,26 @@
+{% extends "parent.html" %}
+
+{% block title%}Feed{% endblock %}
+
+{% block css_and_js_contents%}
+  <link rel="stylesheet" href="static/page_feed.css">
+{% endblock %}
+
+{% block contents %}
+<br>
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for n in dataList %}
+      {% with animal_id=n[0], animal_species=n[1], animal_imageid=n[2], post_tags=n[3], post_tags_color=n[4]  %}
+        {% include "helper_html/animal_card.html" %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+</div>
+<br>
+<br>
+{% endblock %}
+
+{% block bottom_js_contents %}
+<script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script>
+{% endblock %}

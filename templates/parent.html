@@ -1,0 +1,63 @@
+﻿<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css"
+    integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="static/header.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/grids-responsive-min.css" />
+
+  {% block css_and_js_contents %}
+  {% endblock %}
+
+  <title>{% block title%}{% endblock %} | Animal Watch</title>
+</head>
+
+<body>
+  <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <!-- left side of header -->
+    <a class="pure-menu-heading" href="{{ url_for("page_landing") }}">Animal Watch</a>
+  
+    <!-- right side of header -->
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item link"><a href="{{ url_for("page_feed") }}" class="pure-menu-link">Animal List</a></li>
+      <li class="pure-menu-item link"><a href="{{ url_for("page_add_animal") }}" class="pure-menu-link">Add a New Animal</a></li>
+      {% if session['profile'] %}
+        <li class="pure-menu-item dropdown">
+          <button class="btn dropdown-toggle btn-sm" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ session['profile']['picture'] }}" width="25px" height="25px" /> 
+            {{ session['profile']['name'] }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a class="dropdown-item" href="{{ url_for("page_profile") }}">Profile</a></li>
+            <li><a class="dropdown-item" href="{{ url_for("logout") }}">Logout</a></li>
+          </ul>
+        </li>
+      {% else %}
+        <!-- <li class="pure-menu-item link"><a href="{{ url_for("page_signup") }}" class="pure-menu-link">Sign Up</a></li> -->
+        <li class="pure-menu-item link"><a href="{{ url_for("page_login") }}" class="pure-menu-link">Login</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
+  {% block contents %}
+  {% endblock%}
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{ moment.include_moment() }}
+
+{% block bottom_js_contents %}
+{% endblock %}
+</html>

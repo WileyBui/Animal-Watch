@@ -1,0 +1,29 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link rel="stylesheet" href="static/signup.css">
+{% endblock %}
+
+{% block title %}Sign up an Account{% endblock %}
+
+{% block contents %}
+  <div class="container-fluid">
+    <h1>Sign up an Account</h1>
+    <form name="signUpForm">
+      <p> Username*
+        <input type="text" id="username" name="username" required maxlength="30" placeholder="username" required>
+      </p>
+      <p> Password*
+        <input type="text" id="password" name="password" required maxlength="30" placeholder="password" required>
+      </p>
+      <p> I am interested in
+        <input type="text" id="interest" name="interest" required maxlength="30" placeholder="e.g. birds">
+      </p>
+      <p> Location
+        <input type="text" id="location" name="location" required maxlength="30" placeholder="e.g. Minneapolis, MN">
+      </p>
+      <input type="submit" value="signup" id="submit" onclick="processSignup()" />
+      </p>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+User:
+	* Search for specific animal tile on the web site
+	* Create posts about animal sightings
+		- Search for animal name in database
+		- Upload description about animal/sighting
+		- Upload an image to the post
+		- Add a location to the post
+	* Read posts by other users
+	* Delete posts made by themself
+	* Create comments on posts
+	* Read comments on posts
+	* Delete comments made by themself
+	* Flag inappropriate content (posts/comments)
+Admin:
+	* (Everything the user is authorized to do)
+	* Review flagged posts/comments
+	* Delete posts/comments made by anybody

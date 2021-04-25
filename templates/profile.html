@@ -1,0 +1,90 @@
+{% extends "parent.html" %}
+
+{% block title%}Profile{% endblock %}
+
+{% block css_and_js_contents%}
+<link rel="stylesheet" href="static/profile.css">
+{% endblock %}
+
+{% block contents %}
+<div class="py-4">
+  <div class="container big-container">
+    <h1>Animal Posts</h1>
+    <div class="overflow-auto">
+      <div class="row">
+        {% if animal_postings|length > 0 %}
+        {% for n in animal_postings %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <div style="text-align: center">
+                <img src="image/{{ n[3] }}" class="card-images">
+              </div>
+              <h5 class="card-title">{{ n[1] }}</h5>
+              <p class="card-text">{{ n[2] }}</p>
+              <button type="button" class="btn btn-sm btn-outline-secondary full-width"
+                onclick="location.href = '/animal/{{ n[0] }}';">View</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div>You have no animal posts...</div>
+        {% endif %}
+      </div>
+    </div>
+    <hr />
+
+    <h1>Postings on Existing Animals</h1>
+    <div class="overflow-auto">
+      <div class="row">
+        {% if postings_on_existing_animals|length > 0 %}
+        {% for n in postings_on_existing_animals %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <!-- <div style="text-align: center">
+                <img src="image/{{ n[3] }}" class="card-images">
+              </div> -->
+              <h5 class="card-title">{{ n[1] }}</h5>
+              <p class="card-text">{{ n[2] }}</p>
+              <button type="button" class="btn btn-sm btn-outline-secondary full-width"
+                onclick="location.href = '/animal/{{ n[0] }}';">View</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div>You have no posts on any existing animal...</div>
+        {% endif %}
+      </div>
+    </div>
+    <hr />
+
+    <h1>Comments on Existing Animals</h1>
+    <div class="overflow-auto">
+      <div class="row">
+        {% if comments_on_existing_animals|length > 0 %}
+        {% for n in comments_on_existing_animals %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ n[1] }}</h5>
+              <p class="card-text">{{ n[2] }}</p>
+              <button type="button" class="btn btn-sm btn-outline-secondary full-width"
+                onclick="location.href = '/animal/{{ n[0] }}';">View</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div>You have no comments on any existing animal...</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom_js_contents %}
+{% endblock %}

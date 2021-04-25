@@ -1,0 +1,90 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link href="/static/main.css" rel="stylesheet" type="text/css" />
+<script src="static/add_animal.js" defer></script>
+<style>
+  .big-container {
+    box-shadow: 0 0 3px #6783A9;
+    background: white;
+    /* background: #F2F2F5; */
+    padding: 2%;
+  }
+</style>
+{% endblock %}
+
+{% block title %}Add New Animal{% endblock %}
+
+{% block contents %}
+<br>
+<br>
+<br>
+
+<div class="container big-container">
+
+  <h1>Add an Animal</h1>
+  <form id="addAnimalForm" method="POST" enctype="multipart/form-data">
+    <div class="mb-3 row">
+      <div class="col-md-6">
+        <label for="aligned-species" class="form-label"><strong>*Animal Species</strong></label>
+        <input type="text" class="form-control" id="aligned-species" name="species" placeholder="e.g. Canis Lupis" required>
+      </div>
+      <!-- is-valid -->
+      <div class="col-md-6">
+        <label for="aligned-range" class="form-label"><strong>*Animal Range</strong></label>
+        <input type="text" class="form-control" id="aligned-range" placeholder="e.g. North America" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="aligned-tags" class="form-label"><strong>*Animal tags (separate with commas)</strong></label>
+      <input type="text" class="form-control" id="aligned-tags" placeholder="e.g. Snake, Poisonous, Reptile, ..." name="tags"
+        required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label"><strong>How threatened is this species?</strong></label>
+      <select class="form-select classification" name="classification">
+        <option value="0">Not Evaluated (NE)</option>
+        <option value="1">Data deficient (DD) </option>
+        <option value="2">Least concern (LC)</option>
+        <option value="3">Conservation Dependent (CD) </option>
+        <option value="4">Near threatened (NT) </option>
+        <option value="5">Vulnerable (VU) </option>
+        <option value="6">Endangered (EN) </option>
+        <option value="7">Critically endangered (CR) </option>
+        <option value="8">Extinct in the wild (EW) </option>
+        <option value="9">Extinct (EX) </option>
+        <option value="-1">I do no know.</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label"><strong>*Describe this animal</strong></label>
+      <textarea name="description" class="form-control" id="aligned-desc" rows="2" required></textarea>
+    </div>
+
+    <strong>*Upload Image</strong>
+    <div class="mb-12 form-check">
+      <div class="col-md-6 row">
+        <label for="image-upload-option-2" class="pure-radio">
+          <input type="radio" id="image-upload-option-2" name="imageType" value="File" checked="" class="form-check-input" /> File Upload</label>
+        <input class="form-control" id="aligned-image-file" type="file" accept="image/jpeg,image/png,image/jpg" name="imageFile">
+      </div>
+      <div class="col-md-6 row">
+        <label for="image-upload-option-1" class="pure-radio">
+          <input type="radio" id="image-upload-option-1" name="imageType" value="URL" class="form-check-input" /> URL</label>
+        <input class="form-control" type="text" id="aligned-image-URL" name="imageURL" placeholder="www.cuteturtlething.com/myTurtle.png" />
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary" style="width: 100% !important;">Submit</button>
+    </div>
+  </form>
+</div>
+
+<br />
+<br />
+
+{% endblock %}

@@ -1,0 +1,238 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+<link rel="stylesheet" href="../static/page_animal_look_up.css">
+<link rel="stylesheet" href="../static/header.css">
+<link rel="stylesheet" href="../static/animalposts.css">
+
+<script>
+  // In the following example, markers appear when the user clicks on the map.
+  // Each marker is labeled with a single alphabetical character.
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let labelIndex = 0;
+
+  var locations = [];
+
+  function initMap() {
+    var locations = {{ locations | tojson }};
+
+    var origin = {
+      lat: 44.97309439424677,
+      lng: -93.23537707328796
+    };
+
+    if (locations.length != 0) {
+      origin = {
+        lat: locations[0][1],
+        lng: locations[0][2]
+      }
+    }
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 8,
+      center: origin
+    });
+
+    for (let i = 0; i < locations.length; i++) {
+      addMarker({
+        lat: locations[i][1],
+        lng: locations[i][2]
+      }, map);
+    }
+
+    // This event listener calls addMarker() when the map is clicked.
+    google.maps.event.addListener(map, "click", (event) => {
+      // modals pop up & ask for confirmation
+      $('#location-latitude').val(event.latLng.lat());
+      $('#location-longitude').val(event.latLng.lng());
+      $('#addNewLocationModal').modal('show')
+    });
+  }
+
+  // Adds a marker to the map.
+  function addMarker(location, map) {
+    // Add the marker at the clicked location, and add the next-available label
+    // from the array of alphabetical characters.
+    new google.maps.Marker({
+      position: location,
+      label: labels[labelIndex++ % labels.length],
+      map: map
+    });
+  }
+</script>
+{% endblock %}
+
+{% block title %}{{ shared_contents[0] }}{% endblock %}
+
+{% block contents %}
+<div id="ignore-header-nav"></div>
+<div class="py-5">
+  <div class="container" id="big-container">
+    <div class="padding-bottom">
+      <h1>{{ shared_contents[0] }}</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-5 order-md-1">
+        {% with image=shared_contents[3] %}
+          {% include "helper_html/animal_look_up_carousel.html" %}
+        {% endwith %}
+      </div>
+      <div class="col-md-7 order-md-2 d-flex flex-column justify-content-center align-items-center">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <th scope="row">Tags</th>
+              <td>
+                {% for i in range(shared_contents[1].split("; ")|length) %}
+                <!-- <span
+                  class="badge bg-primary text-white" style="padding-left: 9px !important">{{ shared_contents[1].split("; ")[i] }}</span> -->
+
+                  <button type="button" class="btn btn-sm badge bg-primary text-white" onclick="location.href = '{{ url_for("page_feed", query=shared_contents[1].split("; ")[i]) }}';" style="padding-left: 9px !important">
+                    {{ shared_contents[1].split("; ")[i] }}
+                  </button>
+                {% endfor %}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Species</th>
+              <td>{{ shared_contents[0] }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Range</th>
+              <td>{{ shared_contents[5] }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Classification</th>
+              <!--
+              <td id="Endangerment-Level">{{ shared_contents[4] }}</td>
+              -->
+              <td id="Endangerment-Level">{{ dClassification }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{{ shared_contents[6] }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- <div class="btn-group modify-btn">
+          <button type="button" class="btn btn-sm btn-outline-primary modify-btn">Edit</button>
+          <button type="button" class="btn btn-sm btn-outline-primary modify-btn" data-toggle="modal" data-target="#exampleModalCenter">Delete</button>
+        </div> -->
+      </div>
+    </div>
+
+    <hr>
+    <div class="container mt-5">
+      <div class="center-contents">
+        <img src="../static/images/animal_post.svg" width="20%" />
+        <h3 id="recent-sightings">Animal Sighting Posts ({{postList|count}})</h3>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+          {% for n in postList %}
+            {% with username=n[0], user_description=n[1], user_avatar=n[4], post_time=n[3], post_id=n[7], post_user=n[8], users_id=users_id %}
+              {% include "helper_html/animal_post.html" %}
+            {% endwith %}
+          {% endfor %}
+        </div>
+      </div>
+
+    <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+        data-bs-target="#addNewLocationModal" id = "addAPostButton" style="width: 100%; margin-top: 15px;">Add a post to this animal</button>
+
+      {% include "helper_html/animal_add_a_post_modal.html" %}
+
+    </div>
+
+
+    <hr>
+
+    <div class="container">
+      <div class="center-contents">
+        <img src="../static/images/searching.svg" width="20%" />
+        <h3 id="recent-sightings">Recent Sightings ({{locations|count}})</h3>
+        <br />
+        <!-- <img src="../static/images/recent_sightings.png" width="50%" /> -->
+
+        <div style="width: 100%; height: 70vh">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5" data-autohide="false">
+      <div id="instructionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <img src="/static/images/instruction-icon.png" class="rounded me-2" width="30px" height="30px">
+          <strong class="me-auto">Add a location</strong>
+          <small>now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">Click on the map to retrieve the latitude and longitude.</div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="container mt-5">
+      <div class="center-contents">
+        <img src="../static/images/QandA.svg" width="25%" />
+        <h3 id="recent-sightings">Questions / Comments / Concerns ({{commentList|count}})</h3>
+      </div>
+      <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            {% for n in commentList %}
+              {% with username=n[0], user_text=n[1], comment_time=n[2], user_avatar=n[3], comment_id=n[4], comment_user=n[5], users_id=users_id %}
+                {% include "helper_html/animal_look_up_q_and_a.html" %}
+              {% endwith %}
+            {% endfor %}
+          </div>
+      </div>
+
+      <button type="button" class="pure-button pure-button-primary" data-bs-toggle="modal"
+      data-bs-target="#addNewCommentModal" style="width: 100%; margin-top: 15px;">Make a new question, comment, or concern</button>
+
+      <div class="modal fade" id="addNewCommentModal" tabindex="-1" aria-labelledby="addNewCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addNewCommentModalLabel">New Comment</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="{{ url_for('post_comment', animal_id=animal_id) }}" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="comment-message-text" class="col-form-label">Description</label>
+                  <textarea class="form-control" id="comment-message-text" required name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi5zcLYUtS8z0UaynGtI5Myfn2erWkASE&callback=initMap&libraries=&v=weekly"
+  async></script>
+{% endblock %}
+
+{% block bottom_js_contents %}
+<!-- <script src="https://kit.fontawesome.com/90c7863ad5.js" crossorigin="anonymous"></script> -->
+<script src="/static/geoLocation.js"></script>
+<script>
+  $("#retrieve-maps-btn").click(function(){
+    $("#addNewLocationModal").modal("toggle");
+    $('html, body').animate({
+      scrollTop: $("#recent-sightings").offset().top
+    }, 200);
+    $('#instructionToast').toast('show');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,34 @@
+<div id="carouselIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"></button>
+        {% set count = namespace(value=1) %}
+        {% for n in postList %}
+            {% if n[2] is not none %}
+                <button type="button" data-bs-target="#carouselIndicators" data-bs-slide-to="{{ count.value }}"></button>
+                {% set count.value = count.value + 1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src={{ url_for("view_image", img_id=image) }} class="d-block w-100" alt="...">
+        </div>
+        {% for n in postList %}
+            {% if n[2] is not none %}
+                {% with image_id = n[2] %}
+                    <div class="carousel-item">
+                        <img src={{ url_for("view_image", img_id=image_id) }} class="d-block w-100" alt="...">
+                    </div>
+                {% endwith %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators"  data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators"  data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>

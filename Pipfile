@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+gunicorn = "*"
+flask = "*"
+psycopg2 = "*"
+python-dotenv = "*"
+requests = "*"
+authlib = "*"
+six = "*"
+auth0-python = "*"
+flask-auth0 = "*"
+oauth = "*"
+pillow = "*"
+flask-mail = "*"
+flask-moment = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"

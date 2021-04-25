@@ -1,0 +1,35 @@
+{% extends "parent.html" %}
+
+{% block css_and_js_contents %}
+  <link rel="stylesheet" href="static/main.css">
+  <script src="static/main.js"></script>
+{% endblock %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block contents %}
+  <div class="margin-top-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-7 order-md-1">
+          <img src="../static/images/background_hiking.svg" width="100%" />
+        </div>
+        <div class="col-md-5 order-md-2 d-flex flex-column justify-content-center">
+          {% if session['profile'] %}
+            <h1>Welcome to Animal Watch, {{ session['profile']['name'] }}</h1>
+          {% else %}
+            <h1>Welcome to Animal Watch...</h1>
+          {% endif %}
+          
+          <p>Animal watch is a hub of information about endangered animals, populated by enthusiasts who track sightings of them around the globe. Our mission is to make information accessible and collaborative in order to help people understand—and do something about—the plights of threatened species.
+            Users can contribute by monitoring and posting about species that they see in the wild, as well as adding endangered animals to our registry if they are not yet included.</p>
+          
+          {% if not session['profile'] %}
+            <div class="btn-group">
+                <button type="button" id="loginButton" class="btn btn-sm btn-outline-primary" onclick="location.href = '{{ url_for("page_login") }}';">Login</button>
+            </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
